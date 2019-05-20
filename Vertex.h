@@ -27,11 +27,28 @@ class Vertex {
 	Vertex<T> *path = nullptr;
 	int queueIndex = 0; 		// required by MutablePriorityQueue
 
+	double X;
+	double Y;
+	unsigned id;
+	string amenity;
+
 	void addEdge(Vertex<T> *dest, double w);
 
 
 public:
+	Vertex(unsigned id, double x, double y, T in);
+
+	double getX() const;
+	double getY() const;
+
+	string getAmenity() const;
+	void setAmenity(string amenity);
+
+
+	/*** Class functions ***/
+
 	Vertex(T in);
+
 	bool operator<(Vertex<T> & vertex) const; // // required by MutablePriorityQueue
 	T getInfo() const;
 	double getDist() const;
@@ -40,6 +57,33 @@ public:
 	friend class MutablePriorityQueue<Vertex<T>>;
 };
 
+template <class T>
+Vertex<T>::Vertex(unsigned id, double x, double y, T in): id(id), X(x), Y(x), info(in) {
+	amenity = "";
+}
+
+template <class T>
+double Vertex<T>::getX() const {
+	return X;
+}
+
+template <class T>
+double Vertex<T>::getY() const {
+	return Y;
+}
+
+template <class T>
+string Vertex<T>::getAmenity() const {
+	return amenity;
+}
+
+template <class T>
+void Vertex<T>::setAmenity(string amenity) {
+	this->amenity = amenity;
+}
+
+
+/*** class functions ***/
 
 template <class T>
 Vertex<T>::Vertex(T in): info(in) {}

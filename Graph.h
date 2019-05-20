@@ -9,7 +9,11 @@
 #include <limits>
 #include <algorithm>
 #include <unordered_set>
+#include <map>
+#include <fstream>
+#include <math.h>
 #include "Edge.h"
+
 
 using namespace std;
 
@@ -35,6 +39,17 @@ class Graph {
 
 
 public:
+	//Constructor
+	Graph(string nodes_filename, string edges_filename, string tags_filename);
+
+	//Useful
+	void addVertex(double x, double y, T in);
+	bool addEdge(unsigned first_id, unsigned sec_id, const double &weight);
+	unsigned getVertexIndex(unsigned id);
+
+
+	/*** Class Functions ***/
+
 	Vertex<T> *findVertex(const T &in) const;
 	bool addVertex(const T &in);
 	bool addEdge(const T &sourc, const T &dest, double w);

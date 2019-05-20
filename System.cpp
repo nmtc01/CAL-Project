@@ -5,31 +5,38 @@
  *      Author: Estudio
  */
 
-include "System.h"
+#include "System.h"
 using namespace std;
 
-Vertex<T> getSchool(){
+template<class T>
+Vertex<T> System<T>::getSchool(){
 	return school;
 }
-Vertex<T> getGarage(){
+
+template<class T>
+Vertex<T> System<T>::getGarage(){
 	return garage;
 }
 
-void setSchool(T address){
+template<class T>
+void System<T>::setSchool(T address){
 	school = map.findVertex(address);
 }
 
-void setGarage(T address){
+template<class T>
+void System<T>::setGarage(T address){
 	garage = map.findVertex(address);
 }
 
-void insertAdress(T address){
+template<class T>
+void System<T>::insertAdress(T address){
 	childrenVertices.push_back(map.findVertex(address));
 }
 
-void removeAddress(T address){
+template<class T>
+void System<T>::removeAddress(T address){
 	vector<Vertex<T>*> newVector = {};
-	for (size_t = 0; i < childrenVertices.size(); i++){
+	for (size_t i = 0; i < childrenVertices.size(); i++){
 		if (childrenVertices[i]->getInfo() != address){
 			newVector.push_back(childrenVertices[i]);
 		}
@@ -37,3 +44,4 @@ void removeAddress(T address){
 	}
 	childrenVertices = newVector;
 }
+

@@ -1,9 +1,19 @@
 #include <cstdio>
-#include "graph.h"
+#include "Graph.h"
 #include "graphviewer.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
+
+#ifdef __linux__
+	void sleep_func() {
+		sleep(1);
+	}
+#else
+	void sleep_func() {
+		Sleep(100);
+	}
+#endif
 
 void exercicio1();
 void exercicio2();
@@ -26,7 +36,7 @@ void exercicio1()
 	gv->addNode(1);
 	gv->addEdge(0, 0, 1, EdgeType::UNDIRECTED);
 
-	Sleep(100); // use sleep(1) in linux ; Sleep(100) on Windows
+	sleep_func(); // use sleep(1) in linux ; Sleep(100) on Windows
 
 	gv->removeEdge(0);
 	gv->removeNode(1);
@@ -34,7 +44,7 @@ void exercicio1()
 
 	gv->rearrange();
 
-	Sleep(100);
+	sleep_func();
 
 	gv->addEdge(1, 0, 2, EdgeType::UNDIRECTED);
 
@@ -103,7 +113,7 @@ void exercicio2()
 
 	while(1)
 	{
-		Sleep(100);
+		sleep(1);
 		if (first)
 		{
 		  gv->removeNode(12);
@@ -121,7 +131,7 @@ void exercicio2()
 		gv->addEdge(15, 11, 15, EdgeType::UNDIRECTED);
 		gv->rearrange();
 
-		Sleep(100);
+		sleep_func();
 		gv->removeNode(14);
 		gv->removeNode(15);
 		gv->addNode(16,300,550);
@@ -129,7 +139,7 @@ void exercicio2()
 		gv->addEdge(16, 11, 16, EdgeType::UNDIRECTED);
 		gv->addEdge(17, 11, 17, EdgeType::UNDIRECTED);
 		gv->rearrange();
-		Sleep(100);
+		sleep_func();
 
 		gv->removeNode(16);
 		gv->removeNode(17);
@@ -138,7 +148,7 @@ void exercicio2()
 		gv->addEdge(18, 11, 18, EdgeType::UNDIRECTED);
 		gv->addEdge(19, 11, 19, EdgeType::UNDIRECTED);
 		gv->rearrange();
-		Sleep(100);
+		sleep_func();
 
 		gv->removeNode(18);
 		gv->removeNode(19);

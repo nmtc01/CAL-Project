@@ -28,8 +28,8 @@ public:
 	Vertex<T> getGarage();
 	void setGarage(T address);
 	vector<Vertex<T> *>	getChildrenVertices();
-	void insertAdress(T address);
-	void removeAdress(T address);
+	void insertAddress(T address);
+	void removeAddress(T address);
 	unsigned int getNumberOfBus();
 	void setNumberOfBus();
 

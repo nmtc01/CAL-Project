@@ -35,5 +35,5 @@ void removeAddress(T address){
 		}
 		else break;
 	}
-	
+	childrenVertices = newVector;
 }

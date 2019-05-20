@@ -29,7 +29,7 @@ void System<T>::setGarage(T address){
 }
 
 template<class T>
-void System<T>::insertAdress(T address){
+void System<T>::insertAddress(T address){
 	childrenVertices.push_back(map.findVertex(address));
 }
 

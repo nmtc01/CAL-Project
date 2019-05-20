@@ -6,12 +6,9 @@
 
 #include <stdlib.h>
 #include <iostream>
-#include <vector>
-#include <queue>
 #include <limits>
 #include <algorithm>
 #include <unordered_set>
-#include "MutablePriorityQueue.h"
 #include "Edge.h"
 
 using namespace std;

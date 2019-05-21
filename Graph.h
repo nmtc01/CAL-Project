@@ -117,10 +117,10 @@ Graph<T>::Graph(string nodes_filename, string edges_filename, string tags_filena
 	getline(edges, line);
 
 	while(!edges.eof()) {
-		getline(nodes, line);
+		getline(edges, line);
 
 		long unsigned giant_id_src = stoul(line.substr(1, line.find_first_of(",")));
-		line = line.substr(line.find_first_of(","));
+		line = line.substr(line.find_first_of(",") + 1);
 
 		long unsigned giant_id_dest = stoul(line.substr(0, line.size()-1));
 

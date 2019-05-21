@@ -113,7 +113,7 @@ void exercicio2()
 
 	while(1)
 	{
-		Sleep(100);
+		sleep_func();
 		if (first)
 		{
 		  gv->removeNode(12);
@@ -246,9 +246,9 @@ void testing() {
 	gv->defineEdgeColor("blue");
 	gv->defineVertexColor("yellow");
 
-	string nodes_file = "Maps/Fafe/T05_nodes_X_Y_Fafe.txt";
-	string edges_file = "Maps/Fafe/T05_edges_Fafe.txt";
-	string tags_file = "Maps/Fafe/T05_edges_Fafe.txt";
+	string nodes_file = "/home/mike/eclipse-workspace/CAL_Proj/src/Maps/Fafe/T05_nodes_X_Y_Fafe.txt";
+	string edges_file = "/home/mike/eclipse-workspace/CAL_Proj/src/Maps/Fafe/T05_edges_Fafe.txt";
+	string tags_file = "/home/mike/eclipse-workspace/CAL_Proj/src/Maps/Fafe/T05_tags_Fafe.txt";
 
 	Graph<string> graph(nodes_file, edges_file, tags_file);
 
@@ -266,14 +266,18 @@ void testing() {
 		}
 	}
 
+	cout << graph.getVertexSet().size() << "\t" << idEdge << endl;
+
 	gv->rearrange();
 }
 
 int main() {
 	printf("AAAAAAAAAAAAA");
+	printf("\n");
 	//exercicio1();
 	//exercicio2();
-	exercicio3();
+	//exercicio3();
+	testing();
 	getchar();
 	return 0;
 }

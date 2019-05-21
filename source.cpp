@@ -113,7 +113,7 @@ void exercicio2()
 
 	while(1)
 	{
-		sleep(1);
+		Sleep(100);
 		if (first)
 		{
 		  gv->removeNode(12);
@@ -250,7 +250,7 @@ void testing() {
 	string edges_file = "Maps/Fafe/T05_edges_Fafe.txt";
 	string tags_file = "Maps/Fafe/T05_edges_Fafe.txt";
 
-	Graph<string> graph = Graph(nodes_file, edges_file, tags_file);
+	Graph<string> graph(nodes_file, edges_file, tags_file);
 
 	vector<Vertex<string>*> nodes = graph.getVertexSet();
 	for(auto node : nodes)

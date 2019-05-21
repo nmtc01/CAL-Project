@@ -40,7 +40,8 @@ Graph<T>::Graph(string nodes_filename, string edges_filename, string tags_filena
 		ids.insert(make_pair(giant_id, current_id));
 		current_id++;
 
-		addVertex(x, y, "");
+		//addVertex(x, y, "");
+		addVertex(x, y);
 	}
 	nodes.close();
 
@@ -97,6 +98,14 @@ void Graph<T>::addVertex(double x, double y, T in) {
 	unsigned new_id = vertexSet.size();
 
 	vertexSet.push_back(new Vertex<T>(new_id, x, y, in) );
+}
+
+//probably temporary
+template <class T>
+void Graph<T>::addVertex(double x, double y) {
+	unsigned new_id = vertexSet.size();
+
+	vertexSet.push_back(new Vertex<T>(new_id, x, y) );
 }
 
 template <class T>

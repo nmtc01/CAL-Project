@@ -236,11 +236,44 @@ void exercicio3()
 	gv->rearrange();
 }
 
+
+
+/*** TESTING MAP FILES AND IMPORT ***/
+
+void testing() {
+	GraphViewer *gv = new GraphViewer(1000, 1000, false);
+	gv->createWindow(1000, 1000);
+	gv->defineEdgeColor("blue");
+	gv->defineVertexColor("yellow");
+
+	string nodes_file = "Maps/Fafe/T05_nodes_X_Y_Fafe.txt";
+	string edges_file = "Maps/Fafe/T05_edges_Fafe.txt";
+	string tags_file = "Maps/Fafe/T05_edges_Fafe.txt";
+
+	Graph<string> graph = Graph(nodes_file, edges_file, tags_file);
+
+	vector<Vertex<string>*> nodes = graph.getVertexSet();
+	for(auto node : nodes)
+		gv->addNode(node->getId(), node->getX(), node->getY());
+
+	int idEdge = 0;
+	for(auto node : nodes) {
+		vector<Edge<string>> edges = node->getOutEdges();
+
+		for(auto edge : edges){
+			gv->addEdge(idEdge, node->getId(), edge.getDest()->getId(), EdgeType::DIRECTED);
+			idEdge++;
+		}
+	}
+
+	gv->rearrange();
+}
+
 int main() {
 	printf("AAAAAAAAAAAAA");
-	exercicio1();
+	//exercicio1();
 	//exercicio2();
-	//exercicio3();
+	exercicio3();
 	getchar();
 	return 0;
 }

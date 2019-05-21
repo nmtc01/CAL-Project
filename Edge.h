@@ -21,6 +21,11 @@ class Edge {
 	bool selected; // Fp07
 
 public:
+
+	Vertex<T>* getDest() const;
+
+	/*** Class functions ***/
+
 	Edge(Vertex<T> *o, Vertex<T> *d, double w);
 	friend class Graph<T>;
 	friend class Vertex<T>;
@@ -28,6 +33,13 @@ public:
 	// Fp07
 	double getWeight() const;
 };
+
+template <class T>
+Vertex<T>* Edge<T>::getDest() const {
+	return dest;
+}
+
+/*** Class Functions ***/
 
 template <class T>
 Edge<T>::Edge(Vertex<T> *o, Vertex<T> *d, double w): orig(o), dest(d), weight(w) {}

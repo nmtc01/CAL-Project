@@ -37,12 +37,17 @@ class Vertex {
 
 public:
 	Vertex(unsigned id, double x, double y, T in);
+	Vertex(unsigned id, double x, double y);			// ----> probably temporary
+
+	int getId() const;
 
 	double getX() const;
 	double getY() const;
 
 	string getAmenity() const;
 	void setAmenity(string amenity);
+
+	vector<Edge<T> > getOutEdges() const;
 
 
 	/*** Class functions ***/
@@ -63,6 +68,16 @@ Vertex<T>::Vertex(unsigned id, double x, double y, T in): id(id), X(x), Y(x), in
 }
 
 template <class T>
+Vertex<T>::Vertex(unsigned id, double x, double y): id(id), X(x), Y(x) {
+	amenity = "";
+}
+
+template <class T>
+int Vertex<T>::getId() const {
+	return id;
+}
+
+template <class T>
 double Vertex<T>::getX() const {
 	return X;
 }
@@ -75,6 +90,11 @@ double Vertex<T>::getY() const {
 template <class T>
 string Vertex<T>::getAmenity() const {
 	return amenity;
+}
+
+template<class T>
+vector<Edge<T> > Vertex<T>::getOutEdges() const {
+	return adj;
 }
 
 template <class T>

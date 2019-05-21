@@ -44,6 +44,7 @@ public:
 
 	//Useful
 	void addVertex(double x, double y, T in);
+	void addVertex(double x, double y); 	// ---> probably temporary
 	bool addEdge(unsigned first_id, unsigned sec_id, const double &weight);
 	unsigned getVertexIndex(unsigned id);
 

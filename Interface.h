@@ -18,8 +18,7 @@
 
 
 //Input functions
-template <class T>
-void input_receiver(T &input) {
+void input_receiver(unsigned &input) {
 	while(true) {
 
 		cout << "Input: ";
@@ -27,7 +26,7 @@ void input_receiver(T &input) {
 		cin >> value_str;
 
 		istringstream ss(value_str);
-		T value;
+                unsigned value;
 		ss >> value;
 
 		cin.ignore(1000, '\n');
@@ -56,7 +55,7 @@ void welcome_menu_interface();
 
 //Graph menu
 void print_graph_menu();
-void graph_menu_interface(Graph<string> &graph);
+void graph_menu_interface(Graph &graph);
 
 
 #endif /* INTERFACE_H_ */

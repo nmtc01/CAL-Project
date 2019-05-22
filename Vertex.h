@@ -11,20 +11,21 @@
 #include <vector>
 #include <queue>
 #include "MutablePriorityQueue.h"
+#include <limits>
+#include "Edge.h"
 
-template <class T> class Edge;
-template <class T> class Vertex;
-template <class T> class Graph;
+#define INF std::numeric_limits<double>::max()
+
+class Graph;
 
 /************************* Vertex  **************************/
 
-template <class T>
 class Vertex {
-	T info;                // contents
-	vector<Edge<T> > adj;  // outgoing edges
+	//unsigned info;                // contents
+	vector<Edge> adj;  // outgoing edges
 	bool visited;          // auxiliary field
 	double dist = 0;
-	Vertex<T> *path = nullptr;
+	Vertex *path = nullptr;
 	int queueIndex = 0; 		// required by MutablePriorityQueue
 
 	double X;
@@ -32,12 +33,11 @@ class Vertex {
 	unsigned id;
 	string amenity;
 
-	void addEdge(Vertex<T> *dest, double w);
+	void addEdge(Vertex *dest, double w);
 
 
 public:
-	Vertex(unsigned id, double x, double y, T in);
-	Vertex(unsigned id, double x, double y);			// ----> probably temporary
+	Vertex(unsigned id, double x, double y);
 
 	int getId() const;
 
@@ -47,94 +47,90 @@ public:
 	string getAmenity() const;
 	void setAmenity(string amenity);
 
-	vector<Edge<T> > getOutEdges() const;
+	vector<Edge> getOutEdges() const;
 
 
 	/*** Class functions ***/
 
-	Vertex(T in);
+	Vertex(unsigned id);
 
-	bool operator<(Vertex<T> & vertex) const; // // required by MutablePriorityQueue
-	T getInfo() const;
+	bool operator<(Vertex & vertex) const; // // required by MutablePriorityQueue
+	unsigned getInfo() const;
 	double getDist() const;
 	Vertex *getPath() const;
-	friend class Graph<T>;
-	friend class MutablePriorityQueue<Vertex<T>>;
+
+	//Vertex nearestVertexNotVisited();
+
+	friend class Graph;
+	friend class MutablePriorityQueue<Vertex>;
 };
 
-template <class T>
-Vertex<T>::Vertex(unsigned id, double x, double y, T in): id(id), X(x), Y(x), info(in) {
+Vertex::Vertex(unsigned id, double x, double y): id(id), X(x), Y(x) {
 	amenity = "";
+	visited = false;
 }
 
-template <class T>
-Vertex<T>::Vertex(unsigned id, double x, double y): id(id), X(x), Y(x) {
-	amenity = "";
-}
-
-template <class T>
-int Vertex<T>::getId() const {
+int Vertex::getId() const {
 	return id;
 }
 
-template <class T>
-double Vertex<T>::getX() const {
+double Vertex::getX() const {
 	return X;
 }
 
-template <class T>
-double Vertex<T>::getY() const {
+double Vertex::getY() const {
 	return Y;
 }
 
-template <class T>
-string Vertex<T>::getAmenity() const {
+string Vertex::getAmenity() const {
 	return amenity;
 }
 
-template<class T>
-vector<Edge<T> > Vertex<T>::getOutEdges() const {
+vector<Edge> Vertex::getOutEdges() const {
 	return adj;
 }
 
-template <class T>
-void Vertex<T>::setAmenity(string amenity) {
+void Vertex::setAmenity(string amenity) {
 	this->amenity = amenity;
 }
 
 
 /*** class functions ***/
 
-template <class T>
-Vertex<T>::Vertex(T in): info(in) {}
+Vertex::Vertex(unsigned id): id(id) {
+	X=0;
+	Y=0;
+	amenity = "";
+	visited=false;
+
+}
 
 /*
  * Auxiliary function to add an outgoing edge to a vertex (this),
  * with a given destination vertex (d) and edge weight (w).
  */
-template <class T>
-void Vertex<T>::addEdge(Vertex<T> *d, double w) {
-	adj.push_back(Edge<T>(this, d, w));
+void Vertex::addEdge(Vertex *d, double w) {
+	adj.push_back(Edge(this, d, w));
 }
 
-template <class T>
-bool Vertex<T>::operator<(Vertex<T> & vertex) const {
+bool Vertex::operator<(Vertex & vertex) const {
 	return this->dist < vertex.dist;
 }
 
-template <class T>
-T Vertex<T>::getInfo() const {
-	return this->info;
-}
-
-template <class T>
-double Vertex<T>::getDist() const {
+double Vertex::getDist() const {
 	return this->dist;
 }
 
-template <class T>
-Vertex<T> *Vertex<T>::getPath() const {
+Vertex *Vertex::getPath() const {
 	return this->path;
 }
+/*
+Vertex Vertex::nearestVertexNotVisited(){
+	double d = INF;
+	for (size_t i = 0; i < adj.size(); i++) {
+		if (adj[i].weight < d && !adj[i].dest.visited) d = adj[i].weight;
+	}
+
+}*/
 
 #endif /* SRC_VERTEX_H_ */

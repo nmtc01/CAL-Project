@@ -8,34 +8,34 @@
 #include "System.h"
 using namespace std;
 
-template<class T>
-Vertex<T> System<T>::getSchool(){
+
+Vertex* System::getSchool(){
 	return school;
 }
 
-template<class T>
-Vertex<T> System<T>::getGarage(){
+
+Vertex* System::getGarage(){
 	return garage;
 }
 
-template<class T>
-void System<T>::setSchool(T address){
+
+void System::setSchool(unsigned address){
 	school = map.findVertex(address);
 }
 
-template<class T>
-void System<T>::setGarage(T address){
+
+void System::setGarage(unsigned address){
 	garage = map.findVertex(address);
 }
 
-template<class T>
-void System<T>::insertAddress(T address){
+
+void System::insertAddress(unsigned address){
 	childrenVertices.push_back(map.findVertex(address));
 }
 
-template<class T>
-void System<T>::removeAddress(T address){
-	vector<Vertex<T>*> newVector = {};
+
+void System::removeAddress(unsigned address){
+	vector<Vertex*> newVector = {};
 	for (size_t i = 0; i < childrenVertices.size(); i++){
 		if (childrenVertices[i]->getInfo() != address){
 			newVector.push_back(childrenVertices[i]);
@@ -44,4 +44,13 @@ void System<T>::removeAddress(T address){
 	}
 	childrenVertices = newVector;
 }
+/*
 
+vector System::nearestNeighbour() {
+	vector answer;
+
+	school
+
+
+	return answer;
+}*/

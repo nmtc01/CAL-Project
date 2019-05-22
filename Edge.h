@@ -8,44 +8,45 @@
 #ifndef SRC_EDGE_H_
 #define SRC_EDGE_H_
 
-#include "Vertex.h"
+class Vertex;
 
 /********************** Edge  ****************************/
 
-template <class T>
 class Edge {
-	Vertex<T> *orig; 	// Fp07
-	Vertex<T> * dest;      // destination vertex
+	Vertex *orig; 	// Fp07
+	Vertex *dest;      // destination vertex
 	double weight;         // edge weight
 
 	bool selected; // Fp07
 
 public:
 
-	Vertex<T>* getDest() const;
+	Vertex* getDest() const;
 
 	/*** Class functions ***/
 
-	Edge(Vertex<T> *o, Vertex<T> *d, double w);
-	friend class Graph<T>;
-	friend class Vertex<T>;
+	Edge(Vertex *o, Vertex *d, double w);
+	friend class Graph;
+	friend class Vertex;
 
 	// Fp07
 	double getWeight() const;
 };
 
-template <class T>
-Vertex<T>* Edge<T>::getDest() const {
+
+Vertex* Edge::getDest() const {
 	return dest;
 }
 
 /*** Class Functions ***/
 
-template <class T>
-Edge<T>::Edge(Vertex<T> *o, Vertex<T> *d, double w): orig(o), dest(d), weight(w) {}
 
-template <class T>
-double Edge<T>::getWeight() const {
+Edge::Edge(Vertex *o, Vertex *d, double w): orig(o), dest(d), weight(w) {
+	selected = false;
+}
+
+
+double Edge::getWeight() const {
 	return weight;
 }
 

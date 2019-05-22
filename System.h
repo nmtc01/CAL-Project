@@ -7,30 +7,32 @@
 
 #include <vector>
 #include <string>
+#include "Graph.h"
+#include "Vertex.h"
+#include "Edge.h"
 using namespace std;
 
-template <class T> class Vertex;
-template <class T> class Graph;
 
-template <class T>
+
+
+
 class System {
 
-	Graph<T> map;
-	//vector<string> childrenAdresses;
-	Vertex<T> school;
-	Vertex<T> garage;
-	vector<Vertex<T> *> childrenVertices;    // vertex set
+	Graph map;
+	Vertex *school;
+	Vertex *garage;
+	vector<Vertex *> childrenVertices;    // vertex set
 	unsigned int numberOfBus;
 
 public:
 	void loadMap(string fileName);
-	Vertex<T> getSchool();
-	void setSchool(T address);
-	Vertex<T> getGarage();
-	void setGarage(T address);
-	vector<Vertex<T> *>	getChildrenVertices();
-	void insertAddress(T address);
-	void removeAddress(T address);
+	Vertex* getSchool();
+	void setSchool(unsigned address);
+	Vertex* getGarage();
+	void setGarage(unsigned address);
+	vector<Vertex *>	getChildrenVertices();
+	void insertAddress(unsigned address);
+	void removeAddress(unsigned address);
 	unsigned int getNumberOfBus();
 	void setNumberOfBus();
 

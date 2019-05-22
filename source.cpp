@@ -13,7 +13,7 @@
 		Sleep(100);
 	}
 #endif
-
+/*
 void exercicio1();
 void exercicio2();
 void exercicio3();
@@ -238,7 +238,7 @@ void exercicio3()
 
 
 /*** TESTING MAP FILES AND IMPORT ***/
-
+/*
 void testing() {
 	GraphViewer *gv = new GraphViewer(1000, 1000, false);
 	gv->createWindow(1000, 1000);
@@ -268,7 +268,7 @@ void testing() {
 	cout << graph.getVertexSet().size() << "\t" << idEdge << endl;
 
 	gv->rearrange();
-}
+}*/
 
 int main() {
 	//printf("AAAAAAAAAAAAA");

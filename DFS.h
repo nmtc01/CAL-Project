@@ -17,9 +17,18 @@ class DFS {
 	Graph graph;
 
 public:
+	//Constructor
 	DFS(Graph &graph);
-	void perform(const unsigned &originId);
-	void visitVertex(const unsigned &vertexId);
-	void isPossible(const unsigned &originId, const unsigned &destinyId);
 
+	//Explores all reachable vertexes from origin
+	VertexHashTable perform(const unsigned &originId);
+
+	//Helpful function for perform
+	void visitVertex(const unsigned &vertexId);
+
+	//Checks if a path between two vertexes if possible
+	bool isPossible(const unsigned &originId, const unsigned &destinyId);
+
+	//Checks if a path multiple vertexes, starting from an origin vertex is possible (returns the unreachable vertexes' ids)
+	vector<int> isPossible(const unsigned &originId, const vector<int> &destinyIds);
 };

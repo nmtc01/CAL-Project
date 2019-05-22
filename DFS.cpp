@@ -11,20 +11,53 @@ DFS::DFS(Graph &graph) {
 	this->graph = graph;
 }
 
-void DFS::perform(const unsigned &originId) {
+VertexHashTable DFS::perform(const unsigned &originId) {
 	visitedVertexes.clear();
 
-	visitedVertexes.insert( graph.getVertex(originId) );
 	visitVertex(originId);
+
+	return visitedVertexes;
 }
 
 void DFS::visitVertex(const unsigned &vertexId) {
 
+	Vertex current = graph.getVertex(vertexId);
+
+	if(visitedVertexes.find(current) == visitedVertexes.end())
+		visitedVertexes.insert( graph.getVertex(vertexId) );
+
+	for(Edge edge : current.getEdges())
+		visitVertex(edge.getDestinyId());
 }
 
-void DFS::isPossible(const unsigned &originId, const unsigned &vertexId) {
+bool DFS::isPossible(const unsigned &originId, const unsigned &destinyId) {
 
+	VertexHashTable reachable = perform(originId);
+
+	Vertex destiny = graph.getVertex(destinyId);
+
+	if(reachable.find(destiny) != reachable.end())
+		return true;
+
+	return false;
 }
+
+vector<int> DFS::isPossible(const unsigned &originId, const vector<int> &destinyIds) {
+
+	VertexHashTable reachable = perform(originId);
+
+	vector<int> unreachable;
+
+	for(int destinyId : destinyIds) {
+		Vertex destiny = graph.getVertex(destinyId);
+
+		if(reachable.find(destiny) == reachable.end())
+			unreachable.push_back(destinyId);
+	}
+
+	return unreachable;
+}
+
 
 
 

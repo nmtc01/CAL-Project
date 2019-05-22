@@ -57,10 +57,10 @@ int prompt_menu(int lower_bound, int upper_bound) {
 //Functions for the welcome menu
 void print_welcome_menu() {
 	cout << "Would you like to: " << endl << endl;
-	cout << "\t1: Load a small map (Fafe)" << endl;
-	cout << "\t2: Load a medium map (Gondomar)" << endl;
-	cout << "\t3: Load a big map (Porto)" << endl;
-	cout << "\t4: Leave the program" << endl << endl;
+	cout << "\t[1]: Load a small map (Fafe)" << endl;
+	cout << "\t[2]: Load a medium map (Gondomar)" << endl;
+	cout << "\t[3]: Load a big map (Porto)" << endl;
+	cout << "\t[4]: Leave the program" << endl << endl;
 }
 
 void welcome_menu_interface() {
@@ -126,12 +126,12 @@ void welcome_menu_interface() {
 //Functions for the graph menu
 void print_graph_menu() {
 	cout << "Would you like to: " << endl << endl;
-	cout << "\t1: See the graph" << endl;
-	cout << "\t2: Add a student house" << endl;
-	cout << "\t3: Add a school" << endl;
-	cout << "\t4: Calculate a path" << endl;
-	cout << "\t5: See some graph stats (just for testing)" << endl;
-	cout << "\t6: Go back to the graph loading menu" << endl << endl;
+	cout << "\t[1]: See the graph" << endl;
+	cout << "\t[2]: Add a student house" << endl;
+	cout << "\t[3]: Add a school" << endl;
+	cout << "\t[4]: Calculate a path" << endl;
+	cout << "\t[5]: See some graph stats (just for testing)" << endl;
+	cout << "\t[6]: Go back to the graph loading menu" << endl << endl;
 }
 
 void graph_menu_interface(Graph<string> &graph) {

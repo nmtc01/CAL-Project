@@ -8,14 +8,17 @@
 #pragma once
 
 #include <unordered_set>
-#include "Vertex.h"
+#include "Graph.h"
 
 using namespace std;
 
 class DFS {
 	VertexHashTable possibleVertexes;
+	Graph graph;
 
 public:
-	DFS();
+	DFS(Graph &graph);
+	void perform(Vertex origin);
+	void visitNodes(Vertex origin);
 
 };

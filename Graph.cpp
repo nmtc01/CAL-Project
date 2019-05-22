@@ -110,11 +110,15 @@ bool Graph::addEdge(unsigned first_id, unsigned sec_id, const double &weight) {
 	return true;
 }
 
-unsigned Graph::getVertexIndex(unsigned id) {
+unsigned Graph::getVertexIndex(unsigned id) const {
 	for (unsigned i = 0; i < vertexSet.size(); i++)
 		if (vertexSet[i].id == id)
 			return i;
 	return -1;
+}
+
+Vertex Graph::getVertex(unsigned id) const {
+	return vertexSet.at(id);
 }
 
 

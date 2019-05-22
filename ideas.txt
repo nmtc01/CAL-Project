@@ -1,0 +1,2 @@
+	No import, o primeiro vértice fica com X = 0 e Y = 0 (guarda-se também os valores reais do x e y).
+	De seguida, todos os outros vértices ficam com a distância relativa ao primeiro vértice.

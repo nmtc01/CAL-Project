@@ -1,38 +1,28 @@
 /*
  * Edge.h
  *
- *  Created on: 20/05/2019
- *      Author: Nuno Cardoso
  */
 
-#ifndef SRC_EDGE_H_
-#define SRC_EDGE_H_
+#pragma once
 
-class Vertex;
-
-/********************** Edge  ****************************/
 
 class Edge {
-	Vertex *orig; 	// Fp07
-	Vertex *dest;      // destination vertex
-	double weight;         // edge weight
+	unsigned sourceId;
+	unsigned destinyId;
+	double weight;
 
-	bool selected; // Fp07
+	bool selected;	//?
 
 public:
+	//Constructor
+	Edge(unsigned sourceId, unsigned destinyId, double weight);
 
-	Vertex* getDest() const;
+	//Get methods
+	unsigned getSourceId() const;
+	unsigned getDestinyId() const;
+	double getWeight() const;
 
-	/*** Class functions ***/
-
-	Edge(Vertex *o, Vertex *d, double w);
+	//Friend classes
 	friend class Graph;
 	friend class Vertex;
-
-	// Fp07
-	double getWeight() const;
 };
-
-
-
-#endif /* SRC_EDGE_H_ */

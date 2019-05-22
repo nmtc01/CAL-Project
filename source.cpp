@@ -1,9 +1,14 @@
+/*
+ * source.cpp
+ *
+ */
+
+
 #include <cstdio>
 #include <fstream>
 #include <iostream>
 
 #include "Interface.h"
-using namespace std;
 
 #ifdef __linux__
 	void sleep_func() {
@@ -14,7 +19,7 @@ using namespace std;
 		Sleep(100);
 	}
 #endif
-/*
+
 void exercicio1();
 void exercicio2();
 void exercicio3();
@@ -239,7 +244,7 @@ void exercicio3()
 
 
 /*** TESTING MAP FILES AND IMPORT ***/
-/*
+
 void testing() {
 	GraphViewer *gv = new GraphViewer(1000, 1000, false);
 	gv->createWindow(1000, 1000);
@@ -250,18 +255,18 @@ void testing() {
 	string edges_file = "src/Maps/Fafe/T05_edges_Fafe.txt";
 	string tags_file = "src/Maps/Fafe/T05_tags_Fafe.txt";
 
-	Graph<string> graph(nodes_file, edges_file, tags_file);
+	Graph graph(nodes_file, edges_file, tags_file);
 
-	vector<Vertex<string>*> nodes = graph.getVertexSet();
+	vector<Vertex> nodes = graph.getVertexSet();
 	for(auto node : nodes)
-		gv->addNode(node->getId(), node->getX(), node->getY());
+		gv->addNode(node.getId(), node.getX(), node.getY());
 
 	int idEdge = 0;
 	for(auto node : nodes) {
-		vector<Edge<string>> edges = node->getOutEdges();
+		vector<Edge> edges = node.getEdges();
 
 		for(auto edge : edges){
-			gv->addEdge(idEdge, node->getId(), edge.getDest()->getId(), EdgeType::DIRECTED);
+			gv->addEdge(idEdge, node.getId(), edge.getDestinyId(), EdgeType::DIRECTED);
 			idEdge++;
 		}
 	}
@@ -269,7 +274,7 @@ void testing() {
 	cout << graph.getVertexSet().size() << "\t" << idEdge << endl;
 
 	gv->rearrange();
-}*/
+}
 
 int main() {
 	//printf("AAAAAAAAAAAAA");

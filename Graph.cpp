@@ -1,15 +1,15 @@
 /*
  * Graph.cpp
  *
- *  Created on: 22 de mai de 2019
- *      Author: Estudio
  */
 
 #include "Graph.h"
-using namespace std;
 
+//Constructors
 
-
+Graph::Graph() {
+	vertexSet = {};
+}
 
 Graph::Graph(string nodes_filename, string edges_filename, string tags_filename) {
 
@@ -41,7 +41,6 @@ Graph::Graph(string nodes_filename, string edges_filename, string tags_filename)
 		ids.insert(make_pair(giant_id, current_id));
 		current_id++;
 
-		//addVertex(x, y, "");
 		addVertex(x, y);
 	}
 	nodes.close();
@@ -64,7 +63,7 @@ Graph::Graph(string nodes_filename, string edges_filename, string tags_filename)
 		unsigned id_src = ids.at(giant_id_src);
 		unsigned id_dest = ids.at(giant_id_dest);
 
-		double weight = sqrt( pow(vertexSet.at(id_dest)->getX() - vertexSet.at(id_src)->getX(), 2) + pow(vertexSet.at(id_dest)->getY() - vertexSet.at(id_src)->getY(), 2) );
+		double weight = sqrt( pow(vertexSet.at(id_dest).getX() - vertexSet.at(id_src).getX(), 2) + pow(vertexSet.at(id_dest).getY() - vertexSet.at(id_src).getY(), 2) );
 
 		addEdge(id_src, id_dest, weight);
 	}
@@ -88,104 +87,41 @@ Graph::Graph(string nodes_filename, string edges_filename, string tags_filename)
 			getline(tags, line);
 			unsigned id_tag = ids.at(stoul(line));
 
-			vertexSet.at(id_tag)->setAmenity(amenity);
+			vertexSet.at(id_tag).setAmenity(amenity);
 		}
 	}
 	tags.close();
 }
 
 
+//Useful methods
 void Graph::addVertex(double x, double y) {
 	unsigned new_id = vertexSet.size();
 
-	vertexSet.push_back(new Vertex(new_id, x, y) );
+	vertexSet.push_back(Vertex(new_id, x, y) );
 }
 
-//probably temporary
-/*
-void Graph::addVertex(double x, double y) {
-	unsigned new_id = vertexSet.size();
-
-	vertexSet.push_back(new Vertex(new_id, x, y) );
-}*/
-
-/*
 bool Graph::addEdge(unsigned first_id, unsigned sec_id, const double &weight) {
 	if(first_id == sec_id || first_id > vertexSet.size() || sec_id > vertexSet.size())
 		return false;
 
-	Vertex* v1 = vertexSet.at(first_id);
-	Vertex* v2 = vertexSet.at(sec_id);
-
-	v1->addEdge(v2, weight);
+	vertexSet.at(first_id).addEdge(sec_id, weight);
 
 	return true;
-}*/
-
-
-
-int Graph::getNumVertex() const {
-	return vertexSet.size();
 }
 
-
-vector<Vertex *> Graph::getVertexSet() const {
-	return vertexSet;
-}
-
-/*
- * Auxiliary function to find a vertex with a given content.
- */
-
-Vertex * Graph::findVertex(const unsigned id) const {
-	for (auto v : vertexSet)
-		if (v->id == id)
-			return v;
-	return nullptr;
-}
-
-/*
- * Finds the index of the vertex with a given content.
- */
-
-int Graph::findVertexIdx(const unsigned id) const {
+unsigned Graph::getVertexIndex(unsigned id) {
 	for (unsigned i = 0; i < vertexSet.size(); i++)
-		if (vertexSet[i]->id == id)
+		if (vertexSet[i].id == id)
 			return i;
 	return -1;
 }
 
-/*
- *  Adds a vertex with a given content or id (in) to a graph (this).
- *  Returns true if successful, and false if a vertex with that content already exists.
- */
-/*
-bool Graph::addVertex(const unsigned id) {
-	if (findVertex(id) != nullptr)
-		return false;
-	vertexSet.push_back(new Vertex(id));
-	return true;
-}*/
 
-/*
- * Adds an edge to a graph (this), given the contents of the source and
- * destination vertices and the edge weight (w).
- * Returns true if successful, and false if the source or destination vertex does not exist.
- */
-bool Graph::addEdge(const unsigned sourc, const unsigned dest, double w) {
-	auto v1 = findVertex(sourc);
-	auto v2 = findVertex(dest);
-	if (v1 == nullptr || v2 == nullptr)
-		return false;
-	v1->addEdge(v2, w);
-	return true;
+//Get methods
+vector<Vertex> Graph::getVertexSet() {
+	return vertexSet;
 }
 
 
 
-
-void Graph::setVerticesNotVisited(){
-	for (size_t i=0; i<vertexSet.size(); i++){
-		vertexSet[i]->visited=false;
-	}
-}

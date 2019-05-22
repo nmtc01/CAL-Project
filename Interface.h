@@ -1,24 +1,22 @@
 /*
  * Interface.h
  *
- *  Created on: 22/05/2019
- *      Author: mike
  */
 
-#ifndef INTERFACE_H_
-#define INTERFACE_H_
+#pragma once
 
 #include <sstream>
 
-#include "System.h"
-#include "graphviewer.h"
+#include "Graphviewer/graphviewer.h"
+#include "Network.h"
 
 #define HEADER_SIZE_BIG 50
 #define HEADER_SIZE_SMALL 30
 
 
 //Input functions
-void input_receiver(unsigned &input) {
+template <class T>
+void input_receiver(T &input) {
 	while(true) {
 
 		cout << "Input: ";
@@ -26,7 +24,7 @@ void input_receiver(unsigned &input) {
 		cin >> value_str;
 
 		istringstream ss(value_str);
-                unsigned value;
+		T value;
 		ss >> value;
 
 		cin.ignore(1000, '\n');
@@ -55,7 +53,6 @@ void welcome_menu_interface();
 
 //Graph menu
 void print_graph_menu();
-void graph_menu_interface(Graph &graph);
+void graph_menu_interface();
 
 
-#endif /* INTERFACE_H_ */

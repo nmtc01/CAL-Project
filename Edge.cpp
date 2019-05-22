@@ -1,26 +1,21 @@
 /*
  * Edge.cpp
  *
- *  Created on: 22 de mai de 2019
- *      Author: Estudio
  */
 
 #include "Edge.h"
-using namespace std;
 
-
-
-Vertex* Edge::getDest() const {
-	return dest;
-}
-
-/*** Class Functions ***/
-
-
-Edge::Edge(Vertex *o, Vertex *d, double w): orig(o), dest(d), weight(w) {
+Edge::Edge(unsigned sourceId, unsigned destinyId, double weight) : sourceId(sourceId), destinyId(destinyId), weight(weight) {
 	selected = false;
 }
 
+unsigned Edge::getSourceId() const {
+	return sourceId;
+}
+
+unsigned Edge::getDestinyId() const {
+	return destinyId;
+}
 
 double Edge::getWeight() const {
 	return weight;

@@ -1,70 +1,55 @@
 /*
  * Vertex.h
  *
- *  Created on: 20/05/2019
- *      Author: Nuno Cardoso
  */
 
-#ifndef SRC_VERTEX_H_
-#define SRC_VERTEX_H_
+#pragma once
 
 #include <vector>
-#include <string>
 #include <queue>
-#include "MutablePriorityQueue.h"
-#include <limits>
+#include <string>
+
 #include "Edge.h"
+//#include "MutablePriorityQueue.h"
 
-#define INF std::numeric_limits<double>::max()
-
-class Graph;
-
-/************************* Vertex  **************************/
+using namespace std;
 
 class Vertex {
-	//unsigned info;                // contents
-	vector<Edge> adj;  // outgoing edges
-	bool visited;          // auxiliary field
-	double dist = 0;
-	Vertex *path = nullptr;
-	int queueIndex = 0; 		// required by MutablePriorityQueue
-
-	double X;
-	double Y;
 	unsigned id;
+	double x;
+	double y;
 	string amenity;
+	vector<Edge> edges;
 
-	void addEdge(Vertex *dest, double w);
+	void addEdge(unsigned destinyId, double weight);
 
+	//?
+	bool visited;			//auxiliary field
+	double dist = 0;
+	unsigned path = -1;
+	int queue_index = 0;	//required for MutablePriorityQueue
 
 public:
+	//Constructors
+	Vertex();
 	Vertex(unsigned id, double x, double y);
 
+	//Get methods
 	int getId() const;
-
 	double getX() const;
 	double getY() const;
-
 	string getAmenity() const;
+	vector<Edge> getEdges() const;
+
+	//Set methods
 	void setAmenity(string amenity);
 
-	vector<Edge> getOutEdges() const;
-
-
-	/*** Class functions ***/
-
-	Vertex(unsigned id);
-
-	bool operator<(Vertex & vertex) const; // // required by MutablePriorityQueue
-	unsigned getInfo() const;
+	//Class functions
+	bool operator<(Vertex &v2) const;
+	unsigned getPath() const;
 	double getDist() const;
-	Vertex *getPath() const;
 
-	//Vertex nearestVertexNotVisited();
-
+	//Friend classes
 	friend class Graph;
-	friend class MutablePriorityQueue<Vertex>;
+		//friend class MutablePriotiyQueue<Vertex>;
 };
-
-
-#endif /* SRC_VERTEX_H_ */

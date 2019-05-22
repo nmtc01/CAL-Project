@@ -7,9 +7,8 @@
 
 #include <vector>
 #include <string>
+
 #include "Graph.h"
-#include "Vertex.h"
-#include "Edge.h"
 using namespace std;
 
 

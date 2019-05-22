@@ -10,7 +10,7 @@
 
 #include <sstream>
 
-#include "Graph.h"
+#include "System.h"
 #include "graphviewer.h"
 
 #define HEADER_SIZE_BIG 50

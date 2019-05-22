@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "Interface.h"
+using namespace std;
 
 #ifdef __linux__
 	void sleep_func() {

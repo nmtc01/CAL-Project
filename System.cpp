@@ -37,7 +37,7 @@ void System::insertAddress(unsigned address){
 void System::removeAddress(unsigned address){
 	vector<Vertex*> newVector = {};
 	for (size_t i = 0; i < childrenVertices.size(); i++){
-		if (childrenVertices[i]->getInfo() != address){
+		if (childrenVertices[i]->getId() != address){
 			newVector.push_back(childrenVertices[i]);
 		}
 		else break;

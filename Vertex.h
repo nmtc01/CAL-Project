@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include <unordered_set>
 #include <vector>
 #include <queue>
 #include <string>
@@ -53,3 +54,21 @@ public:
 	friend class Graph;
 		//friend class MutablePriotiyQueue<Vertex>;
 };
+
+
+//Auxiliary structs for the vertex hash table
+struct VertexHash {
+	int operator() (const Vertex & v) {
+		return v.getId();
+	}
+
+	bool operator() (const Vertex & v1, const Vertex & v2) {
+		return v1.getId() == v2.getId();
+	}
+};
+
+//Vertex hash table
+typedef unordered_set<Vertex, VertexHash> VertexHashTable;
+
+
+

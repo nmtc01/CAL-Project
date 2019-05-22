@@ -23,7 +23,6 @@ class Vertex {
 
 	void addEdge(unsigned destinyId, double weight);
 
-	//?
 	bool visited;			//auxiliary field
 	double dist = 0;
 	unsigned path = -1;

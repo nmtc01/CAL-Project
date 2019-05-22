@@ -57,17 +57,17 @@ public:
 
 //Auxiliary structs for the vertex hash table
 struct VertexHash {
-	int operator() (const Vertex & v) {
+	int operator() (const Vertex & v) const {
 		return v.getId();
 	}
 
-	bool operator() (const Vertex & v1, const Vertex & v2) {
+	bool operator() (const Vertex & v1, const Vertex & v2) const {
 		return v1.getId() == v2.getId();
 	}
 };
 
 //Vertex hash table
-typedef unordered_set<Vertex, VertexHash> VertexHashTable;
+typedef unordered_set<Vertex, VertexHash, VertexHash> VertexHashTable;
 
 
 

@@ -11,11 +11,18 @@ DFS::DFS(Graph &graph) {
 	this->graph = graph;
 }
 
-void perform(Vertex origin) {
+void DFS::perform(const unsigned &originId) {
+	visitedVertexes.clear();
+
+	visitedVertexes.insert( graph.getVertex(originId) );
+	visitVertex(originId);
+}
+
+void DFS::visitVertex(const unsigned &vertexId) {
 
 }
 
-void visitNodes(Vertex origin) {
+void DFS::isPossible(const unsigned &originId, const unsigned &vertexId) {
 
 }
 

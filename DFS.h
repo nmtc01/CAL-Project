@@ -13,12 +13,13 @@
 using namespace std;
 
 class DFS {
-	VertexHashTable possibleVertexes;
+	VertexHashTable visitedVertexes;
 	Graph graph;
 
 public:
 	DFS(Graph &graph);
-	void perform(Vertex origin);
-	void visitNodes(Vertex origin);
+	void perform(const unsigned &originId);
+	void visitVertex(const unsigned &vertexId);
+	void isPossible(const unsigned &originId, const unsigned &destinyId);
 
 };

@@ -29,8 +29,9 @@ public:
 	//Useful methods
 	void addVertex(double x, double y);
 	bool addEdge(unsigned first_id, unsigned sec_id, const double &weight);
-	unsigned getVertexIndex(unsigned id);
+	unsigned getVertexIndex(unsigned id) const;
 	int getNumVertex() const;
+	Vertex getVertex(unsigned id) const;
 
 	//Get methods
 	vector<Vertex> getVertexSet();

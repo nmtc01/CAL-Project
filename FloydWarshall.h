@@ -24,6 +24,7 @@ public:
 
 	//Show the path between two points
 	vector<unsigned> getPath(unsigned sourceId, unsigned destinyId) const;
+	double getDistance(unsigned sourceId, unsigned destinyId) const;
 };
 
 

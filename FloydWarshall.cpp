@@ -72,4 +72,14 @@ vector<unsigned> FloydWarshall::getPath(unsigned sourceId, unsigned destinyId) c
 	return path;
 }
 
+double FloydWarshall::getDistance(unsigned sourceId, unsigned destinyId) const {
+	unsigned i = sourceId;
+	unsigned j = destinyId;
+
+	if(i == -1 || j == -1 || distances[i][j] == INF || !performed)
+		return INF;
+	else return distances[i][j];
+
+}
+
 

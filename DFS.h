@@ -24,7 +24,7 @@ public:
 	//Helpful function for perform
 	void visitVertex(const unsigned &vertexId);
 
-	//Checks if a path between two vertexes if possible
+	//Checks if a path between two vertexes is possible
 	bool isPossible(const unsigned &originId, const unsigned &destinyId);
 
 	//Checks if a path between multiple vertexes, starting from an origin vertex, is possible (returns the unreachable vertexes' ids)

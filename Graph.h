@@ -21,6 +21,7 @@
 
 class Graph {
 	vector<Vertex> vertexSet;
+	unsigned numEdges;
 
 public:
 	//Constructors
@@ -32,8 +33,10 @@ public:
 	bool addEdge(unsigned first_id, unsigned sec_id, const double &weight);
 	unsigned getVertexIndex(unsigned id) const;
 	unsigned getNumVertex() const;
+	unsigned getNumEdges() const;
 	Vertex getVertex(unsigned id) const;
 
 	//Get methods
 	vector<Vertex> getVertexSet();
 };
+

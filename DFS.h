@@ -1,8 +1,6 @@
 /*
  * DFS.h
  *
- *  Created on: 22/05/2019
- *      Author: Nuno Cardoso
  */
 
 #pragma once
@@ -13,8 +11,8 @@
 using namespace std;
 
 class DFS {
-	VertexHashTable visitedVertexes;
 	Graph graph;
+	VertexHashTable visitedVertexes;
 
 public:
 	//Constructor
@@ -29,6 +27,6 @@ public:
 	//Checks if a path between two vertexes is possible
 	bool isPossible(const unsigned &originId, const unsigned &destinyId);
 
-	//Checks if a path multiple vertexes, starting from an origin vertex is possible (returns the unreachable vertexes' ids)
+	//Checks if a path between multiple vertexes, starting from an origin vertex, is possible (returns the unreachable vertexes' ids)
 	vector<int> isPossible(const unsigned &originId, const vector<int> &destinyIds);
 };

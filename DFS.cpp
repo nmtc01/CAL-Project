@@ -1,8 +1,6 @@
 /*
  * DFS.cpp
  *
- *  Created on: 22/05/2019
- *      Author: Nuno Cardoso
  */
 
 #include "DFS.h"

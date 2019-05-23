@@ -35,7 +35,7 @@ public:
 	Vertex(unsigned id, double x, double y);
 
 	//Get methods
-	int getId() const;
+	unsigned getId() const;
 	double getX() const;
 	double getY() const;
 	string getAmenity() const;

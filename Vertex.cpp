@@ -27,7 +27,7 @@ void Vertex::addEdge(unsigned destinyId, double weight) {
 }
 
 //Get methods
-int Vertex::getId() const {
+unsigned Vertex::getId() const {
 	return id;
 }
 

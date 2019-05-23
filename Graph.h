@@ -16,6 +16,7 @@
 #include "Vertex.h"
 
 #define INF std::numeric_limits<double>::max()
+#define NOT_FOUND std::numeric_limites<unsigned>::max()
 
 
 class Graph {

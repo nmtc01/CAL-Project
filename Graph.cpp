@@ -14,6 +14,7 @@ Graph::Graph() {
 Graph::Graph(string nodes_filename, string edges_filename, string tags_filename) {
 
 	string line;
+	numEdges = 0;
 
 
 	/*** VERTEX READING ***/
@@ -106,7 +107,7 @@ bool Graph::addEdge(unsigned first_id, unsigned sec_id, const double &weight) {
 		return false;
 
 	vertexSet.at(first_id).addEdge(sec_id, weight);
-
+	numEdges += 1;
 	return true;
 }
 
@@ -119,6 +120,9 @@ unsigned Graph::getVertexIndex(unsigned id) const {
 
 unsigned Graph::getNumVertex() const {
 	return vertexSet.size();
+}
+unsigned Graph::getNumEdges() const {
+	return numEdges;
 }
 
 Vertex Graph::getVertex(unsigned id) const {

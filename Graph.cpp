@@ -117,6 +117,10 @@ unsigned Graph::getVertexIndex(unsigned id) const {
 	return -1;
 }
 
+unsigned Graph::getNumVertex() const {
+	return vertexSet.size();
+}
+
 Vertex Graph::getVertex(unsigned id) const {
 	return vertexSet.at(id);
 }

@@ -163,8 +163,8 @@ void graph_menu_interface() {
 
 			case 1:
 			{
-				cout << endl << "NOT YET IMPLEMENTED" << endl << endl;
-
+				cout << endl << "Loading Map..." << endl << endl;
+				graphviewer_option();
 				break;
 			}
 			case 2:
@@ -227,6 +227,40 @@ void graph_menu_interface() {
 	}
 }
 
+void graphviewer_option() {
+	GraphViewer *gv = new GraphViewer(1000, 1000, false);
+
+	gv->setBackground("background.jpg");
+
+	gv->createWindow(1000, 1000);
+	gv->defineEdgeColor("blue");
+	gv->defineVertexColor("yellow");
+
+	Graph graph = network->getMap();
+
+	vector<Vertex> nodes = graph.getVertexSet();
+	double xmin = nodes.at(0).getX();
+	double ymin = nodes.at(0).getY();
+	for(Vertex node : nodes) {
+		if (node.getX() < xmin)
+			xmin = node.getX();
+		if (node.getY() < ymin)
+			ymin = node.getY();
+	}
+
+	for(Vertex node : nodes)
+		gv->addNode(node.getId(), node.getX()-xmin, node.getY()-ymin);
+
+	int idEdge = 0;
+	for(Vertex node : nodes) {
+		vector<Edge> edges = node.getEdges();
+
+		for(Edge edge : edges){
+			gv->addEdge(idEdge, node.getId(), edge.getDestinyId(), EdgeType::DIRECTED);
+			idEdge++;
+		}
+	}
+}
 
 
 

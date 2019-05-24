@@ -55,6 +55,16 @@ void NearestNeighbour::perform(){
 
 }
 
+vector<unsigned> NearestNeighbour::getPath(){
+	return path;
+}
+
+void NearestNeighbour::printPath(){
+	for (size_t i=0; i < path.size(); i++){
+		cout << path[i] << " ";
+	}
+}
+
 NearestNeighbour::~NearestNeighbour() {
 	// TODO Auto-generated destructor stub
 }

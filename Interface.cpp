@@ -148,11 +148,12 @@ void print_graph_menu() {
 	cout << "\t[1]: See the graph" << endl;
 	cout << "\t[2]: Add a student house" << endl;
 	cout << "\t[3]: Add a school" << endl;
-	cout << "\t[4]: Calculate a path" << endl;
-	cout << "\t[5]: See some graph stats (just for testing)" << endl;
-	cout << "\t[6]: See the schools' list" << endl;
-	cout << "\t[7]: Test something" << endl;
-	cout << "\t[8]: Go back to the graph loading menu" << endl << endl;
+	cout << "\t[4]: Set the garage" << endl;
+	cout << "\t[5]: Calculate with nearest neighbour" << endl;
+	cout << "\t[6]: See some graph stats (just for testing)" << endl;
+	cout << "\t[7]: See the schools' list" << endl;
+	cout << "\t[8]: Test something" << endl;
+	cout << "\t[9]: Go back to the graph loading menu" << endl << endl;
 }
 
 void graph_menu_interface() {
@@ -160,7 +161,7 @@ void graph_menu_interface() {
 		big_header("Graph Menu");
 		print_graph_menu();
 
-		switch(prompt_menu(1, 8)) {
+		switch(prompt_menu(1, 9)) {
 
 			case 1:
 			{
@@ -170,23 +171,41 @@ void graph_menu_interface() {
 			}
 			case 2:
 			{
-				cout << endl << "NOT YET IMPLEMENTED" << endl << endl;
-
+				cout << endl << endl << "Insert the id of the vertex for the students' house" << endl;
+				unsigned id = NOT_FOUND;
+				input_receiver(id);
+				network->insertAddress(id);
+				cout << "Successfuly inserted address " << id << endl;
 				break;
 			}
 			case 3:
 			{
-				cout << endl << "NOT YET IMPLEMENTED" << endl << endl;
-
+				cout << endl << endl << "Insert the id of the vertex for the school" << endl;
+				unsigned id = NOT_FOUND;
+				input_receiver(id);
+				network->setSchool(id);
+				cout << "Successfuly set school at address " << id << endl;
 				break;
 			}
 			case 4:
 			{
-				cout << endl << "NOT YET IMPLEMENTED" << endl << endl;
-
+				cout << endl << endl << "Insert the id of the vertex for the garage" << endl;
+				unsigned id = NOT_FOUND;
+				input_receiver(id);
+				network->setGarage(id);
+				cout << "Set garage at address " << id << endl;
 				break;
 			}
 			case 5:
+			{
+				cout << endl << endl << "Calculating with nearest neighbour algorithm" << endl;
+				NearestNeighbour NN(*network);
+				NN.perform();
+				cout << "Path found: " << endl;
+				NN.printPath();
+				break;
+			}
+			case 6:
 			{
 				small_header("Statistics");
 				Graph graph = network->getMap();
@@ -205,7 +224,7 @@ void graph_menu_interface() {
 
 				break;
 			}
-			case 6:
+			case 7:
 			{
 				small_header("Schools");
 
@@ -219,12 +238,12 @@ void graph_menu_interface() {
 				cout << endl << endl;
 				break;
 			}
-			case 7:
+			case 8:
 			{
 				network->calculatePathMatrix();
 				break;
 			}
-			case 8:
+			case 9:
 			{
 				return;
 			}

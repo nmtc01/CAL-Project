@@ -9,5 +9,6 @@
 
 class Djikstra {
 	Graph graph;
+	VertexHashTable visitedVertices;
 
 };

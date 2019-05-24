@@ -68,6 +68,7 @@ Graph::Graph(string nodes_filename, string edges_filename, string tags_filename)
 		double weight = sqrt( pow(vertexSet.at(id_dest).getX() - vertexSet.at(id_src).getX(), 2) + pow(vertexSet.at(id_dest).getY() - vertexSet.at(id_src).getY(), 2) );
 
 		addEdge(id_src, id_dest, weight);
+		addEdge(id_dest, id_src, weight);
 	}
 	edges.close();
 

@@ -8,7 +8,7 @@
 #include "BranchAndBound.h"
 
 BranchAndBound::BranchAndBound(Graph graph, vector<unsigned> initialPath, double initialDistance) {
-	// adicionar rota inicial e distância inicial ao construtor
+	//adicionar rota inicial e distância inicial ao construtor
 	this->graph = graph;
 	fw = FloydWarshall(graph);
 	performed = false;
@@ -32,7 +32,7 @@ BranchAndBound::BranchAndBound(Graph graph, vector<unsigned> initialPath, double
 
 
 
-void BranchAndBound::perform(){
+/*void BranchAndBound::perform(){
 
 	performed = true;
 }
@@ -40,5 +40,5 @@ void BranchAndBound::perform(){
 
 BranchAndBound::~BranchAndBound() {
 	// TODO Auto-generated destructor stub
-}
+}*/
 

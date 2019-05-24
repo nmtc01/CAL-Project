@@ -22,6 +22,6 @@ class BranchAndBound {
 public:
 
 	BranchAndBound(Graph graph, vector<unsigned> initialPath, double initialDistance);
-	virtual ~BranchAndBound();
-	void perform();
+	/*virtual ~BranchAndBound();
+	void perform();*/
 };

@@ -15,8 +15,16 @@ Network::Network() {
 //Loads a map
 void Network::loadMap(const Graph& newMap) {
 	map = newMap;
+
+	initializeSchools();
 }
 
+void Network::initializeSchools() {
+	for (unsigned int i = 0; i < map.getVertexSet().size(); i++) {
+		if(map.getVertexSet()[i].getAmenity() != "")
+			schools.push_back(map.getVertexSet()[i]);
+	}
+}
 
 //Get methods
 Graph Network::getMap() {

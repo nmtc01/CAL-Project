@@ -17,6 +17,7 @@ class FloydWarshall {
 
 public:
 	//Constructor
+	FloydWarshall();
 	FloydWarshall(const Graph &graph);
 
 	//Calcules distances between all points

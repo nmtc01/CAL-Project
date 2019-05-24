@@ -72,7 +72,7 @@ void Network::calculatePathMatrix(){
 	unsigned e = map.getNumEdges();
 	distances = {};
 	paths = {};
-	if ((v+e)*log2((double)v)*childrenVertices.size() > pow(v, 3)){
+	if ((v+e)*log2((double)v)*childrenVertices.size() > pow(v, 3) || true){ //o true é só para testar
 		//Neste caso calcular FloydWarshall
 		FloydWarshall FW = FloydWarshall(map);
 		FW.perform();

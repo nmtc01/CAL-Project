@@ -151,7 +151,8 @@ void print_graph_menu() {
 	cout << "\t[4]: Calculate a path" << endl;
 	cout << "\t[5]: See some graph stats (just for testing)" << endl;
 	cout << "\t[6]: See the schools' list" << endl;
-	cout << "\t[7]: Go back to the graph loading menu" << endl << endl;
+	cout << "\t[7]: Test something" << endl;
+	cout << "\t[8]: Go back to the graph loading menu" << endl << endl;
 }
 
 void graph_menu_interface() {
@@ -159,7 +160,7 @@ void graph_menu_interface() {
 		big_header("Graph Menu");
 		print_graph_menu();
 
-		switch(prompt_menu(1, 7)) {
+		switch(prompt_menu(1, 8)) {
 
 			case 1:
 			{
@@ -219,6 +220,11 @@ void graph_menu_interface() {
 				break;
 			}
 			case 7:
+			{
+				network->calculatePathMatrix();
+				break;
+			}
+			case 8:
 			{
 				return;
 			}

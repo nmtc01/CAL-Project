@@ -10,8 +10,7 @@
 BranchAndBound::BranchAndBound(Graph graph, vector<unsigned> initialPath, double initialDistance) {
 	// adicionar rota inicial e distância inicial ao construtor
 	this->graph = graph;
-	//FloydWarshall* floyd(graph);
-	//fw = floyd;
+	fw = FloydWarshall(graph);
 	performed = false;
 	path = initialPath;
 	distance = initialDistance;

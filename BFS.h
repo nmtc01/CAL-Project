@@ -13,7 +13,7 @@
 using namespace std;
 
 class BFS {
-	VertexHashTable visitedVertexes;
+	VertexHashTable visitedVertices;
 	Graph graph;
 
 public:

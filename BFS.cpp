@@ -12,11 +12,11 @@ BFS::BFS(Graph &graph) {
 }
 
 VertexHashTable BFS::perform(const unsigned &originId) {
-	visitedVertexes.clear();
+	visitedVertices.clear();
 
 	visitVertex(originId);
 
-	return visitedVertexes;
+	return visitedVertices;
 }
 
 void BFS::visitVertex(const unsigned &vertexId) {
@@ -25,17 +25,17 @@ void BFS::visitVertex(const unsigned &vertexId) {
 
 	Q.push(s);
 
-	if(visitedVertexes.find(s) == visitedVertexes.end())
-		visitedVertexes.insert(graph.getVertex(vertexId));
+	if(visitedVertices.find(s) == visitedVertices.end())
+		visitedVertices.insert(graph.getVertex(vertexId));
 
 	while(!Q.empty()) {
 		Vertex v = Q.front();
 		Q.pop();
 		for(unsigned int i = 0; i < v.getEdges().size(); i++) {
 			Vertex w = graph.getVertex(v.getEdges()[i].getDestinyId());
-			if (visitedVertexes.find(w) == visitedVertexes.end()) {
+			if (visitedVertices.find(w) == visitedVertices.end()) {
 				Q.push(w);
-				visitedVertexes.insert(w);
+				visitedVertices.insert(w);
 			}
 		}
 	}

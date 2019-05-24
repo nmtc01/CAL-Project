@@ -1,5 +1,5 @@
 /*
- * Djikstra.h
+ * Dijkstra.h
  *
  */
 

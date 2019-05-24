@@ -54,5 +54,6 @@ void welcome_menu_interface();
 //Graph menu
 void print_graph_menu();
 void graph_menu_interface();
+void graphviewer_option();
 
 

@@ -26,6 +26,7 @@ void NearestNeighbour::perform(){
 			dist = network.getDistancesFromSchool()[i];
 		}
 	}
+	visited[k]=true;
 	distance += distance;
 	path.push_back(network.getChildrenVertices()[k].getId());
 
@@ -33,12 +34,13 @@ void NearestNeighbour::perform(){
 	for (size_t i = 0; i < network.getDistances().size(); i++) {
 		dist = INF;
 		for (size_t j = 0; j < network.getDistances()[k].size(); j++){
-			if (dist > network.getDistances()[k][j]){
+			if (dist > network.getDistances()[k][j] && !visited[j]){
 				k2 = j;
 				dist = network.getDistances()[k][j];
 			}
 		}
 		k=k2;
+		visited[k]=true;
 		distance += dist;
 		path.push_back(network.getChildrenVertices()[k].getId());
 

@@ -10,19 +10,19 @@ DFS::DFS(Graph &graph) {
 }
 
 VertexHashTable DFS::perform(const unsigned &originId) {
-	visitedVertexes.clear();
+	visitedVertices.clear();
 
 	visitVertex(originId);
 
-	return visitedVertexes;
+	return visitedVertices;
 }
 
 void DFS::visitVertex(const unsigned &vertexId) {
 
 	Vertex current = graph.getVertex(vertexId);
 
-	if(visitedVertexes.find(current) == visitedVertexes.end())
-		visitedVertexes.insert( graph.getVertex(vertexId) );
+	if(visitedVertices.find(current) == visitedVertices.end())
+		visitedVertices.insert( graph.getVertex(vertexId) );
 
 	for(Edge edge : current.getEdges())
 		visitVertex(edge.getDestinyId());

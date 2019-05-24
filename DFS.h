@@ -12,7 +12,7 @@ using namespace std;
 
 class DFS {
 	Graph graph;
-	VertexHashTable visitedVertexes;
+	VertexHashTable visitedVertices;
 
 public:
 	//Constructor

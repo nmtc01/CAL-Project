@@ -5,6 +5,10 @@
 
 #include "FloydWarshall.h"
 
+FloydWarshall::FloydWarshall() {
+	performed = false;
+}
+
 FloydWarshall::FloydWarshall(const Graph &graph) : graph(graph) {
 	performed = false;
 }

@@ -7,16 +7,18 @@
 
 #include "BranchAndBound.h"
 
-BranchAndBound::BranchAndBound(Network nw, vector<unsigned> initialPath, double initialDistance) {
+BranchAndBound::BranchAndBound(Graph graph, vector<unsigned> initialPath, double initialDistance) {
 	// adicionar rota inicial e distância inicial ao construtor
-	network = nw;
+	this->graph = graph;
+	//FloydWarshall* floyd(graph);
+	//fw = floyd;
 	performed = false;
 	path = initialPath;
 	distance = initialDistance;
 
 }
 
-vector<unsigned> BranchAndBound::recursion(unsigned currentIndex, vector<bool> visited, double distanceUntilNow) {
+/*vector<unsigned> BranchAndBound::recursion(unsigned currentIndex, vector<bool> visited, double distanceUntilNow) {
 	visited[currentIndex] = true;
 	vector<unsigned> answer = {};
 	for (size_t i = 0; i < network.getChildrenVertices().size(); i++){
@@ -27,16 +29,13 @@ vector<unsigned> BranchAndBound::recursion(unsigned currentIndex, vector<bool> v
 	}
 	return answer;
 
-}
+}*/
 
 
 
 void BranchAndBound::perform(){
 
-
-
-
-	perform = true;
+	performed = true;
 }
 
 

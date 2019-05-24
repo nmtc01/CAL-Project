@@ -232,7 +232,7 @@ void graph_menu_interface() {
 					cout << "There are no schools in the network" << endl;
 				else {
 					for(unsigned i = 0; i < network->getSchools().size(); i++)
-						cout << network->getSchools().at(i).getAmenity() << endl;
+						cout << "ID " << network->getSchools().at(i).getId() << ": " << network->getSchools().at(i).getAmenity() << endl;
 				}
 
 				cout << endl << endl;

@@ -9,6 +9,7 @@
 
 #include "Graphviewer/graphviewer.h"
 #include "Network.h"
+#include "NearestNeighbour.h"
 
 #define HEADER_SIZE_BIG 50
 #define HEADER_SIZE_SMALL 30

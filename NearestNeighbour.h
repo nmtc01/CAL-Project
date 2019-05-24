@@ -19,6 +19,9 @@ public:
 
 	void perform();
 
+	vector<unsigned> getPath();
+	void printPath();
+
 	virtual ~NearestNeighbour();
 };
 

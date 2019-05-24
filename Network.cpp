@@ -16,7 +16,7 @@ Network::Network() {
 void Network::loadMap(const Graph& newMap) {
 	map = newMap;
 
-	initializeSchools();
+	//initializeSchools();
 }
 
 void Network::initializeSchools() {

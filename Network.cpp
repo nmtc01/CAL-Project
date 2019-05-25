@@ -89,7 +89,7 @@ void Network::calculatePathMatrix(){
 			distances.push_back({});
 			paths.push_back({});
 			for (size_t j = 0; j < childrenVertices.size(); j++){
-				FW.getDistance(childrenVertices[i].getId(), childrenVertices[j].getId());
+				distances[i].push_back(FW.getDistance(childrenVertices[i].getId(), childrenVertices[j].getId()));
 				paths[i].push_back(FW.getPath(childrenVertices[i].getId(), childrenVertices[j].getId()));
 			}
 		}

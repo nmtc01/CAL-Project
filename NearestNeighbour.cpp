@@ -4,6 +4,7 @@
  */
 
 #include "NearestNeighbour.h"
+#include <iostream>
 
 NearestNeighbour::NearestNeighbour(Network nw) {
 	network=nw;
@@ -18,7 +19,13 @@ NearestNeighbour::NearestNeighbour(Network nw) {
 void NearestNeighbour::perform(){
 	size_t k, k2;
 	double dist = INF;
-
+	path = {};
+	path.push_back(network.getSchool().getId());
+	if (network.getChildrenVertices().size() == 0){
+		cout << "There are no children addresses in the path. Please insert the addresses." << endl << endl;
+		path.push_back(network.getGarage().getId());
+		return;
+	}
 	//encontra vertice mais proximo da escola
 	for (size_t i = 0; i < network.getDistancesFromSchool().size(); i++){
 		if (dist > network.getDistancesFromSchool()[i]){
@@ -26,9 +33,11 @@ void NearestNeighbour::perform(){
 			dist = network.getDistancesFromSchool()[i];
 		}
 	}
-	visited[k]=true;
-	distance += distance;
-	path.push_back(network.getChildrenVertices()[k].getId());
+	if (dist != INF){
+		visited[k]=true;
+		distance += dist;
+		path.push_back(network.getChildrenVertices()[k].getId());
+	}
 
 
 	for (size_t i = 0; i < network.getDistances().size(); i++) {
@@ -38,6 +47,9 @@ void NearestNeighbour::perform(){
 				k2 = j;
 				dist = network.getDistances()[k][j];
 			}
+		}
+		if (dist == INF){
+			break;
 		}
 		k=k2;
 		visited[k]=true;
@@ -49,14 +61,16 @@ void NearestNeighbour::perform(){
 	path.push_back(network.getGarage().getId());
 
 
-
-
 	performed = true;
 
 }
 
 vector<unsigned> NearestNeighbour::getPath(){
 	return path;
+}
+
+double NearestNeighbour::getDistance(){
+	return distance;
 }
 
 void NearestNeighbour::printPath(){

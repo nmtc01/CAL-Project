@@ -4,6 +4,7 @@
  */
 
 #include "Interface.h"
+#include <chrono>
 
 Network* network = new Network();
 
@@ -198,11 +199,25 @@ void graph_menu_interface() {
 			}
 			case 5:
 			{
+				cout << endl << endl << "Calculating FloydWarshall" << endl;
+				auto start = chrono::high_resolution_clock::now();
+				network->calculatePathMatrix();
+				auto end = chrono::high_resolution_clock::now();
+			    auto dur = end - start;
+			    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
+				cout << endl << "Calculated FloydWarshall in " << ms << " miliseconds" << endl;
 				cout << endl << endl << "Calculating with nearest neighbour algorithm" << endl;
 				NearestNeighbour NN(*network);
+				start = chrono::high_resolution_clock::now();
 				NN.perform();
+				end = chrono::high_resolution_clock::now();
+			    dur = end - start;
+			    ms = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
+				cout << endl << "Calculated NearestNeighbour in " << ms << " miliseconds" << endl;
 				cout << "Path found: " << endl;
 				NN.printPath();
+				cout << endl << "Total distance: " << NN.getDistance() << endl;
+
 				break;
 			}
 			case 6:

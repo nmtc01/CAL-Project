@@ -36,29 +36,35 @@ void NearestNeighbour::perform(){
 	if (dist != INF){
 		visited[k]=true;
 		distance += dist;
-		path.push_back(network.getChildrenVertices()[k].getId());
+		path.push_back(network.getChildrenIds()[k]);
 	}
 
 
+	cout << network.getDistances().size() << endl;
 	for (size_t i = 0; i < network.getDistances().size(); i++) {
+		cout << "2nd for" << endl;
 		dist = INF;
 		for (size_t j = 0; j < network.getDistances()[k].size(); j++){
+			cout << "forfor" << endl;
 			if (dist > network.getDistances()[k][j] && !visited[j]){
+				cout << "if" << endl;
 				k2 = j;
 				dist = network.getDistances()[k][j];
+				cout << "dist = " << dist << endl;
 			}
 		}
 		if (dist == INF){
+			cout << "dist = INF --- brak"<< endl;
 			break;
 		}
 		k=k2;
 		visited[k]=true;
 		distance += dist;
-		path.push_back(network.getChildrenVertices()[k].getId());
+		path.push_back(network.getChildrenIds()[k]);
 
 	}
 	distance+=network.getDistancesToGarage()[k];
-	path.push_back(network.getGarage().getId());
+	path.push_back(network.getGarageId());
 
 
 	performed = true;

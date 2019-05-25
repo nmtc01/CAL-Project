@@ -4,7 +4,7 @@
  */
 
 #include "Interface.h"
-#include <chrono>
+#include <ctime>
 
 Network* network = new Network();
 
@@ -151,10 +151,12 @@ void print_graph_menu() {
 	cout << "\t[3]: Add a school" << endl;
 	cout << "\t[4]: Set the garage" << endl;
 	cout << "\t[5]: Calculate with nearest neighbour" << endl;
-	cout << "\t[6]: See some graph stats (just for testing)" << endl;
-	cout << "\t[7]: See the schools' list" << endl;
-	cout << "\t[8]: Test something" << endl;
-	cout << "\t[9]: Go back to the graph loading menu" << endl << endl;
+	cout << "\t[6]: Calculate with Bellman-Held-Karp" << endl;
+	cout << "\t[7]: See some graph stats (just for testing)" << endl;
+	cout << "\t[8]: See the schools' list" << endl;
+	cout << "\t[9]: See the students houses list" << endl;
+	cout << "\t[10]: Test something" << endl;
+	cout << "\t[11]: Go back to the graph loading menu" << endl << endl;
 }
 
 void graph_menu_interface() {
@@ -200,19 +202,17 @@ void graph_menu_interface() {
 			case 5:
 			{
 				cout << endl << endl << "Calculating FloydWarshall" << endl;
-				auto start = chrono::high_resolution_clock::now();
+				clock_t start = clock();
 				network->calculatePathMatrix();
-				auto end = chrono::high_resolution_clock::now();
-			    auto dur = end - start;
-			    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
+				clock_t end = clock();
+			    double ms = ((double)1000*(end - start))/CLOCKS_PER_SEC;
 				cout << endl << "Calculated FloydWarshall in " << ms << " miliseconds" << endl;
 				cout << endl << endl << "Calculating with nearest neighbour algorithm" << endl;
 				NearestNeighbour NN(*network);
-				start = chrono::high_resolution_clock::now();
+				start = clock();
 				NN.perform();
-				end = chrono::high_resolution_clock::now();
-			    dur = end - start;
-			    ms = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
+				end = clock();
+				ms = ((double)1000*(end - start))/CLOCKS_PER_SEC;
 				cout << endl << "Calculated NearestNeighbour in " << ms << " miliseconds" << endl;
 				cout << "Path found: " << endl;
 				NN.printPath();
@@ -221,6 +221,27 @@ void graph_menu_interface() {
 				break;
 			}
 			case 6:
+			{
+				cout << endl << endl << "Calculating FloydWarshall" << endl;
+				clock_t start = clock();
+				network->calculatePathMatrix();
+				clock_t end = clock();
+			    double ms = 1000*(end - start)/CLOCKS_PER_SEC;
+				cout << endl << "Calculated FloydWarshall in " << ms << " miliseconds" << endl;
+				cout << endl << endl << "Calculating with Bellman-Held-Karp algorithm" << endl;
+				HeldKarp HK(network->getMap(), network->getFloydWarshall());
+				start = clock();
+				HK.perform(network->getSchoolId(), network->getGarageId(), network->getChildrenIds());
+				end = clock();
+			    ms = ((double)1000*(end - start))/CLOCKS_PER_SEC;
+				cout << endl << "Calculated Bellman-Held-Karp in " << ms << " miliseconds" << endl;
+				cout << "Path found: " << endl;
+				HK.printPath();
+				cout << endl << "Total distance: " << HK.getDistance() << endl;
+
+				break;
+			}
+			case 7:
 			{
 				small_header("Statistics");
 				Graph graph = network->getMap();
@@ -239,7 +260,7 @@ void graph_menu_interface() {
 
 				break;
 			}
-			case 7:
+			case 8:
 			{
 				small_header("Schools");
 
@@ -253,12 +274,26 @@ void graph_menu_interface() {
 				cout << endl << endl;
 				break;
 			}
-			case 8:
+			case 9:
+			{
+				small_header("Students houses");
+
+				if(network->getChildrenIds().size() == 0)
+					cout << "There are no students in the network" << endl;
+				else {
+					for(unsigned i = 0; i < network->getChildrenIds().size(); i++)
+						cout << "ID " << network->getChildrenIds().at(i) << ": " << network->getChildrenVertices().at(i).getAmenity() << endl;
+				}
+
+				cout << endl << endl;
+				break;
+			}
+			case 10:
 			{
 				network->calculatePathMatrix();
 				break;
 			}
-			case 9:
+			case 11:
 			{
 				return;
 			}

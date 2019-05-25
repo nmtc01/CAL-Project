@@ -18,6 +18,7 @@ class Network {
 	vector<Vertex> schools;
 	vector<Vertex> childrenVertices;    // vertex set
 	unsigned int numberOfBus;
+	FloydWarshall fw;
 
 	Matrix distances;
 	vector<double> distancesFromSchool;
@@ -29,14 +30,18 @@ class Network {
 public:
 	Network();
 	Graph getMap();
+	FloydWarshall getFloydWarshall();
 	void loadMap(const Graph& newMap);
 	void initializeSchools();
 	vector<Vertex> getSchools();
 	Vertex getSchool();
+	unsigned getSchoolId();
 	void setSchool(unsigned id);
 	Vertex getGarage();
+	unsigned getGarageId();
 	void setGarage(unsigned id);
 	vector<Vertex>	getChildrenVertices();
+	vector<unsigned> getChildrenIds();
 	Matrix getDistances();
 	vector<vector<vector<unsigned>>> getPaths();
 	vector<double> getDistancesFromSchool();

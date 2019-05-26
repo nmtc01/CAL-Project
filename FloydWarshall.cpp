@@ -85,5 +85,8 @@ double FloydWarshall::getDistance(unsigned sourceId, unsigned destinyId) const {
 	else return distances[i][j];
 
 }
+bool FloydWarshall::alreadyPerformed() {
+	return performed;
+}
 
 

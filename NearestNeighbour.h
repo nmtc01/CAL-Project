@@ -19,6 +19,7 @@ public:
 
 	void perform();
 
+	double getDistance();
 	vector<unsigned> getPath();
 	void printPath();
 

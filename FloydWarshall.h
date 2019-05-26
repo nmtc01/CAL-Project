@@ -22,6 +22,7 @@ public:
 
 	//Calcules distances between all points
 	void perform();
+	bool alreadyPerformed();
 
 	//Show the path between two points
 	vector<unsigned> getPath(unsigned sourceId, unsigned destinyId) const;

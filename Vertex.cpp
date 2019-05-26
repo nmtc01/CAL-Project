@@ -11,12 +11,10 @@ Vertex::Vertex() {
 	x = 0;
 	y = 0;
 	amenity = "";
-	visited = false;
 }
 
 Vertex::Vertex(unsigned id, double x, double y) : id(id), x(x), y(y) {
 	amenity = "";
-	visited = false;
 }
 
 

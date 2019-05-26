@@ -76,10 +76,12 @@ void Network::removeAddress(unsigned id){
 
 //Path methods
 void Network::calculatePathMatrix(){
+	if (fw.alreadyPerformed()) return; //N„o È necessario executar o FloydWarshall mais de uma vez. Este if evita perda de tempo.
 	unsigned v = map.getNumVertex();
 	unsigned e = map.getNumEdges();
 	distances = {};
 	paths = {};
+
 	if ((v+e)*log2((double)v)*childrenVertices.size() > pow(v, 3) || true){ //o true √© s√≥ para testar
 		//Neste caso calcular FloydWarshall
 		FloydWarshall FW = FloydWarshall(map);
@@ -89,7 +91,7 @@ void Network::calculatePathMatrix(){
 			distances.push_back({});
 			paths.push_back({});
 			for (size_t j = 0; j < childrenVertices.size(); j++){
-				FW.getDistance(childrenVertices[i].getId(), childrenVertices[j].getId());
+				distances[i].push_back(FW.getDistance(childrenVertices[i].getId(), childrenVertices[j].getId()));
 				paths[i].push_back(FW.getPath(childrenVertices[i].getId(), childrenVertices[j].getId()));
 			}
 		}
@@ -102,6 +104,7 @@ void Network::calculatePathMatrix(){
 			pathsToGarage.push_back(FW.getPath(childrenVertices[i].getId(), garage.getId()));
 
 		}
+		fw=FW;
 	}
 	else {
 		//Neste caso calcular Dijkstra para cada vÔøΩrtice
@@ -114,7 +117,25 @@ void Network::calculatePathMatrix(){
 	}
 }
 
+FloydWarshall Network::getFloydWarshall(){
+	return fw;
+}
 
+
+unsigned Network::getSchoolId(){
+	return school.getId();
+}
+unsigned Network::getGarageId(){
+	return garage.getId();
+}
+
+vector<unsigned> Network::getChildrenIds(){
+	vector<unsigned> ids = {};
+	for (size_t i = 0; i < childrenVertices.size(); i++){
+		ids.push_back(childrenVertices[i].getId());
+	}
+	return ids;
+}
 
 Matrix Network::getDistances(){
 	return distances;

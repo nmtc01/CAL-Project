@@ -46,7 +46,7 @@ double BranchAndBound::findMinLine(matrix weights, int line) {
 
 double BranchAndBound::findMinCol(matrix weights, int col) {
 	double min = weights[0][col];
-	for (int i = 0; i < weights.size(); i++) {
+	for (unsigned i = 0; i < weights.size(); i++) {
 		if (weights[i][col] < min)
 			min = weights[i][col];
 	}
@@ -56,7 +56,7 @@ double BranchAndBound::findMinCol(matrix weights, int col) {
 
 void BranchAndBound::reduceMatrixLine(matrix &weights, int line) {
 	double min = findMinLine(weights, line);
-	for (int i = 0; i < weights[line].size(); i++) {
+	for (unsigned i = 0; i < weights[line].size(); i++) {
 		if (weights[line][i] != INF)
 			weights[line][i] -= min;
 	}
@@ -65,7 +65,7 @@ void BranchAndBound::reduceMatrixLine(matrix &weights, int line) {
 
 void BranchAndBound::reduceMatrixCol(matrix &weights, int col) {
 	double min = findMinCol(weights, col);
-	for (int i = 0; i < weights.size(); i++) {
+	for (unsigned i = 0; i < weights.size(); i++) {
 		if (weights[i][col] != INF)
 			weights[i][col] -= min;
 	}
@@ -73,10 +73,10 @@ void BranchAndBound::reduceMatrixCol(matrix &weights, int col) {
 }
 
 void BranchAndBound::reduceMatrix(matrix &weights) {
-	for (int i = 0; i < weights.size(); i++) {
+	for (unsigned i = 0; i < weights.size(); i++) {
 		reduceMatrixLine(weights, i);
 	}
-	for (int i = 0; i < weights[0].size(); i++) {
+	for (unsigned i = 0; i < weights[0].size(); i++) {
 		reduceMatrixCol(weights, i);
 	}
 }

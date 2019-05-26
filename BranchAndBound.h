@@ -1,27 +1,36 @@
 /*
  * BranchAndBound.h
  *
- *  Created on: 24 de mai de 2019
- *      Author: Estudio
+ *  Created on: 26/05/2019
+ *      Author: Nuno Cardoso
  */
 
 #pragma once
+
 #include "Graph.h"
-#include "FloydWarshall.h"
+
+typedef vector<vector<double>> matrix;
 
 class BranchAndBound {
 
 	Graph graph;
-	FloydWarshall fw;
 	VertexHashTable visitedVertices;
-	double distance;
-	vector<unsigned> path;
-	bool performed;
-	//vector<unsigned> recursion(unsigned currentIndex, vector<bool> visited, double distanceUntilNow);
-	// adicionar private function para minimum spanning tree
-public:
+	matrix weightMatrix;
+	double upperBound;
 
-	BranchAndBound(Graph graph, vector<unsigned> initialPath, double initialDistance);
-	/*virtual ~BranchAndBound();
-	void perform();*/
+public:
+	BranchAndBound(Graph graph, double upperBound);
+	void initializeMatrix();
+	double findMinLine();
+	double findMinCol();
+	void reduceMatrixLine();
+	void reduceMatrixCol();
+	VertexHashTable perform(const unsigned &originId);
+
 };
+
+
+
+
+
+

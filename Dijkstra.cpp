@@ -14,15 +14,15 @@ Dijkstra::Dijkstra(const Graph &graph) : graph(graph) {}
 vector<unsigned> Dijkstra::perform(unsigned sourceId, unsigned destinyId) {
 	resetDataStructures();
 
-	idsQueue.push(sourceId);
+	pQueue.push(make_pair(sourceId, 0));
 	paths.at(sourceId) = sourceId;
 	distances.at(sourceId) = 0;
 
-	while(!idsQueue.empty()) {
-		unsigned currentId = idsQueue.top();
-		idsQueue.pop();
+	while(pQueue.empty()) {
+		unsigned currentId = pQueue.top().first;
+		pQueue.top();
 
-		if(currentId == destinyId)
+		if(currentId == destinyId)					//can be removed to get path to all vertices (I think)
 			return getPath(sourceId, destinyId);
 
 		visitedVertices.insert(graph.getVertex(currentId));
@@ -32,14 +32,14 @@ vector<unsigned> Dijkstra::perform(unsigned sourceId, unsigned destinyId) {
 
 			if(visitedVertices.find(graph.getVertex(neighbourId)) != visitedVertices.end())
 				continue;
+			visitedVertices.insert(graph.getVertex(neighbourId));
 
 			double new_weight = distances.at(currentId) + edge.getWeight();
 
 			if( (paths.find(neighbourId) == paths.end()) || (new_weight < distances.at(neighbourId)) ) {
 				distances.at(neighbourId) = new_weight;
 				paths.at(neighbourId) = currentId;
-				//idsQueue.push(neighbourId, new_weight);
-				idsQueue.push(neighbourId);		// ----> provavelmente errado (talvez tenha de mudar a priority queue)
+				pQueue.push(make_pair(neighbourId, new_weight));
 			}
 		}
 	}
@@ -63,7 +63,8 @@ vector<unsigned> Dijkstra::getPath(unsigned sourceId, unsigned destinyId) {
 
 void Dijkstra::resetDataStructures() {
 	visitedVertices.clear();
-	idsQueue = priority_queue<unsigned, vector<unsigned>, std::greater<unsigned>>();
+	//idsQueue = priority_queue<unsigned, vector<unsigned>, std::greater<unsigned>>();
+	pQueue = priority_queue<iPair, vector<iPair>, prioritize>();
 	paths.clear();
 	distances.clear();
 }

@@ -68,7 +68,7 @@ vector<unsigned> Dijkstra::getPath(unsigned sourceId, unsigned destinyId) {
 //SHOULD ONLY BE USED AFTER PERFORMING IN THE SOURCEID
 double Dijkstra::getDistance(unsigned sourceId, unsigned destinyId) const {
 	if(distances.find(destinyId) == distances.end())
-		return NOT_FOUND;
+		return INF;
 
 	return distances.at(destinyId);
 }

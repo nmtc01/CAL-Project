@@ -63,14 +63,16 @@ void Network::insertAddress(unsigned id){
 	childrenVertices.push_back(map.getVertexSet().at(id));
 }
 
-void Network::removeAddress(unsigned id){
+bool Network::removeAddress(unsigned id){
 	vector<Vertex> newVector = {};
+	bool returnValue = true; //true if found the id, else false
 	for (size_t i = 0; i < childrenVertices.size(); i++){
 		if (childrenVertices[i].getId() != id)
 			newVector.push_back(childrenVertices[i]);
+		else returnValue = true;
 	}
-
 	childrenVertices = newVector;
+	return returnValue;
 }
 
 
@@ -109,13 +111,14 @@ void Network::calculatePathMatrix(){
 		fw=FW;
 	}
 	else {
-		//Neste caso calcular Dijkstra para cada v�rtice
+		//Neste caso calcular Dijkstra para cada vertice
+		dij = Dijkstra(map);
 		/*
 		 * Algo assim (quando o Dijkstra estiver pronto):
-		for (size_t i = 0; i < childrenVertices.size(); i++){
-			Dijkstra Dij = Dijkstra(map, childrenVertices[i]);
-			Dij.perform();
-		}*/
+		for (size_t i = 0; i < childrenIds.size(); i++){
+			perform(childrenIds[i]);
+		}
+		*/
 	}
 }
 

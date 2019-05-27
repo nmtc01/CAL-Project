@@ -7,6 +7,7 @@
 
 
 //Constructor
+Dijkstra::Dijkstra() {}
 Dijkstra::Dijkstra(const Graph &graph) : graph(graph) {}
 
 

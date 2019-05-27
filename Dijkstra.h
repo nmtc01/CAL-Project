@@ -40,6 +40,7 @@ class Dijkstra {
 
 public:
 	//Constructor
+	Dijkstra();
 	Dijkstra(const Graph &graph);
 
 	//Calculates the optimal path between source and destiny

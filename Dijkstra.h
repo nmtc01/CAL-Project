@@ -11,6 +11,8 @@
 
 #include "Graph.h"
 
+using namespace std;
+
 //Pair with a vertex ID associated to its weight
 typedef pair<unsigned, double> iPair;
 
@@ -35,11 +37,15 @@ class Dijkstra {
 
 	//Useful private functions
 	void resetDataStructures();
+	void addPathsMap(unsigned sourceId, unsigned destinyId);
+	void addDistancesMap(unsigned id, double weight);
+	bool wasVisited(unsigned id);
 	vector<unsigned> getPath(unsigned sourceId, unsigned destinyId);
 
 
 public:
-	//Constructor
+	//Constructors
+	Dijkstra();
 	Dijkstra(const Graph &graph);
 
 	//Calculates the optimal path between source and destiny

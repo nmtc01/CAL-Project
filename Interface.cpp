@@ -150,13 +150,14 @@ void print_graph_menu() {
 	cout << "\t[2]: Add a student house" << endl;
 	cout << "\t[3]: Add a school" << endl;
 	cout << "\t[4]: Set the garage" << endl;
-	cout << "\t[5]: Calculate with nearest neighbour" << endl;
-	cout << "\t[6]: Calculate with Bellman-Held-Karp" << endl;
-	cout << "\t[7]: See some graph stats (just for testing)" << endl;
-	cout << "\t[8]: See the schools' list" << endl;
-	cout << "\t[9]: See the students houses list" << endl;
-	cout << "\t[10]: Test something" << endl;
-	cout << "\t[11]: Go back to the graph loading menu" << endl << endl;
+	cout << "\t[5]: Remove a student house" << endl;
+	cout << "\t[6]: Calculate with nearest neighbour" << endl;
+	cout << "\t[7]: Calculate with Bellman-Held-Karp" << endl;
+	cout << "\t[8]: See some graph stats (just for testing)" << endl;
+	cout << "\t[9]: See the schools' list" << endl;
+	cout << "\t[10]: See the students houses list" << endl;
+	cout << "\t[11]: Calculate paths matrix" << endl;
+	cout << "\t[12]: Go back to the graph loading menu" << endl << endl;
 }
 
 void graph_menu_interface() {
@@ -164,7 +165,7 @@ void graph_menu_interface() {
 		big_header("Graph Menu");
 		print_graph_menu();
 
-		switch(prompt_menu(1, 9)) {
+		switch(prompt_menu(1, 12)) {
 
 			case 1:
 			{
@@ -201,6 +202,15 @@ void graph_menu_interface() {
 			}
 			case 5:
 			{
+                cout << endl << endl << "Insert the id of the vertex for the students' house that you want to remove" << endl;
+				unsigned id = NOT_FOUND;
+				input_receiver(id);
+                                if (network->removeAddress(id)) cout << "Successfuly removed address " << id << endl;
+				else cout << "Address " << id << " is not a student house" << endl;
+				break;
+			}
+			case 6:
+			{
 				cout << endl << endl << "Calculating FloydWarshall" << endl;
 				clock_t start = clock();
 				network->calculatePathMatrix();
@@ -208,9 +218,9 @@ void graph_menu_interface() {
 			    double ms = ((double)1000*(end - start))/CLOCKS_PER_SEC;
 				cout << endl << "Calculated FloydWarshall in " << ms << " miliseconds" << endl;
 				cout << endl << endl << "Calculating with nearest neighbour algorithm" << endl;
-				NearestNeighbour NN(*network);
+				NearestNeighbour NN(network->getMap(), network->getFloydWarshall());
 				start = clock();
-				NN.perform();
+				NN.perform(network->getSchoolId(), network->getGarageId(), network->getChildrenIds());
 				end = clock();
 				ms = ((double)1000*(end - start))/CLOCKS_PER_SEC;
 				cout << endl << "Calculated NearestNeighbour in " << ms << " miliseconds" << endl;
@@ -220,7 +230,7 @@ void graph_menu_interface() {
 
 				break;
 			}
-			case 6:
+			case 7:
 			{
 				cout << endl << endl << "Calculating FloydWarshall" << endl;
 				clock_t start = clock();
@@ -241,7 +251,7 @@ void graph_menu_interface() {
 
 				break;
 			}
-			case 7:
+			case 8:
 			{
 				small_header("Statistics");
 				Graph graph = network->getMap();
@@ -260,7 +270,7 @@ void graph_menu_interface() {
 
 				break;
 			}
-			case 8:
+			case 9:
 			{
 				small_header("Schools");
 
@@ -274,7 +284,7 @@ void graph_menu_interface() {
 				cout << endl << endl;
 				break;
 			}
-			case 9:
+			case 10:
 			{
 				small_header("Students houses");
 
@@ -288,12 +298,12 @@ void graph_menu_interface() {
 				cout << endl << endl;
 				break;
 			}
-			case 10:
+			case 11:
 			{
 				network->calculatePathMatrix();
 				break;
 			}
-			case 11:
+			case 12:
 			{
 				return;
 			}

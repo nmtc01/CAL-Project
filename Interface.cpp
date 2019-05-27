@@ -202,10 +202,10 @@ void graph_menu_interface() {
 			}
 			case 5:
 			{
-				cout << endl << endl << "Insert the id of the vertex for the students' house that you want to ramove" << endl;
+				cout << endl << endl << "Insert the id of the vertex for the students' house that you want to remove" << endl;
 				unsigned id = NOT_FOUND;
 				input_receiver(id);
-				if (network->removeAddress(id)) cout << "Successfuly inserted address " << id << endl;
+				if (network->removeAddress(id)) cout << "Successfuly removed address " << id << endl;
 				else cout << "Address " << id << " is not a student house" << endl;
 				break;
 			}

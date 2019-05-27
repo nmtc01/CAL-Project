@@ -29,7 +29,7 @@ public:
 	double reduceMatrixLine(matrix &weights, int line);
 	double reduceMatrixCol(matrix &weights, int col);
 	double reduceMatrix(matrix &weights);
-	void visitVertex(const unsigned &originId, matrix weights, double originCost);
+	VertexHashTable visitVertex(const unsigned &originId, matrix weights, double originCost, VertexHashTable path);
 	VertexHashTable perform(const unsigned &originId);
 	pair<double,matrix> calculateCostAndMatrix(Edge edge, matrix weights, double originCost);
 	bool existsSmaller(double &min);

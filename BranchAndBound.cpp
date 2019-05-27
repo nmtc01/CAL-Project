@@ -101,20 +101,32 @@ pair<double,matrix> BranchAndBound::calculateCostAndMatrix(Edge edge, matrix wei
 }
 
 bool BranchAndBound::existsSmaller(double &min) {
-	for (int i = 0; i < costs.size(); i++)
+	for (unsigned i = 0; i < costs.size(); i++)
 		if (costs[i] < min)
 			return true;
 	return false;
 }
 
-void BranchAndBound::visitVertex(const unsigned &originId, matrix weights, double originCost) {
+VertexHashTable BranchAndBound::visitVertex(const unsigned &originId, matrix weights, double originCost, VertexHashTable path) {
 	Vertex origin = graph.getVertex(originId);
+
+	bool getOut = true;
+	for (unsigned i = 0; i < origin.getEdges().size(); i++) {
+		if (path.find(graph.getVertex(origin.getEdges()[i].getDestinyId())) == path.end())
+			getOut = false;
+	}
+	if (getOut) {
+		visitedVertices = path;
+		return path;
+	}
 
 	vector<pair<double,matrix>> pathsCostAndMatrix;
 	double minCost = INF;
 	unsigned minIndex = 0;
 
 	for (unsigned i = 0; i < origin.getEdges().size(); i++){
+		if (path.find(graph.getVertex(origin.getEdges()[i].getDestinyId())) != path.end())
+			continue;
 		pathsCostAndMatrix.push_back(calculateCostAndMatrix(origin.getEdges()[i], weights, originCost));
 		if (pathsCostAndMatrix[i].first < minCost) {
 			minCost = pathsCostAndMatrix[i].first;
@@ -122,13 +134,26 @@ void BranchAndBound::visitVertex(const unsigned &originId, matrix weights, doubl
 		}
 	}
 	costs.push_back(minCost);
-	if (!existsSmaller(minCost))
-		visitVertex(origin.getEdges()[minIndex].getDestinyId(), pathsCostAndMatrix[minIndex].second, minCost);
 
-	//else faltava quebrar recursão e usar recursão anterior como novo vertice de menor custo
-	//faltava tb haver variavel path onde colocar todos os vertices visitados
-	//faltava evitar bidirecionalidade
-	//to finish
+	if (!existsSmaller(minCost)) {
+		path.insert(graph.getVertex(origin.getEdges()[minIndex].getDestinyId()));
+		visitVertex(origin.getEdges()[minIndex].getDestinyId(), pathsCostAndMatrix[minIndex].second, minCost, path);
+	}
+	else return path;
+
+	minCost = INF;
+	for (unsigned int i = 0; i < origin.getEdges().size(); i++) {
+		if (i == minIndex || path.find(graph.getVertex(origin.getEdges()[i].getDestinyId())) != path.end())
+			continue;
+		if (pathsCostAndMatrix[i].first < minCost) {
+			minCost = pathsCostAndMatrix[i].first;
+			minIndex = i;
+		}
+	}
+	costs.push_back(minCost);
+	visitVertex(origin.getEdges()[minIndex].getDestinyId(), pathsCostAndMatrix[minIndex].second, minCost, path);
+
+	return path;
 }
 
 VertexHashTable BranchAndBound::perform(const unsigned &originId) {
@@ -138,8 +163,9 @@ VertexHashTable BranchAndBound::perform(const unsigned &originId) {
 
 	lowerBound = reduceMatrix(weightMatrix);
 
-	visitVertex(originId, weightMatrix, lowerBound);
-	//to finish
+	VertexHashTable path;
+	path.clear();
+	visitVertex(originId, weightMatrix, lowerBound, path);
 
 	return visitedVertices;
 }

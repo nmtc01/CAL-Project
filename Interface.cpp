@@ -208,9 +208,9 @@ void graph_menu_interface() {
 			    double ms = ((double)1000*(end - start))/CLOCKS_PER_SEC;
 				cout << endl << "Calculated FloydWarshall in " << ms << " miliseconds" << endl;
 				cout << endl << endl << "Calculating with nearest neighbour algorithm" << endl;
-				NearestNeighbour NN(*network);
+				NearestNeighbour NN(network->getMap(), network->getFloydWarshall());
 				start = clock();
-				NN.perform();
+				NN.perform(network->getSchoolId(), network->getGarageId(), network->getChildrenIds());
 				end = clock();
 				ms = ((double)1000*(end - start))/CLOCKS_PER_SEC;
 				cout << endl << "Calculated NearestNeighbour in " << ms << " miliseconds" << endl;

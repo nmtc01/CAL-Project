@@ -19,14 +19,14 @@ class Network {
 	vector<Vertex> childrenVertices;    // vertex set
 	unsigned int numberOfBus;
 	FloydWarshall fw;
-
+/*
 	Matrix distances;
 	vector<double> distancesFromSchool;
 	vector<double> distancesToGarage;
 	vector<vector<vector<unsigned>>> paths;
 	vector<vector<unsigned>> pathsFromSchool;
 	vector<vector<unsigned>> pathsToGarage;
-
+*/
 public:
 	Network();
 	Graph getMap();
@@ -42,13 +42,14 @@ public:
 	void setGarage(unsigned id);
 	vector<Vertex>	getChildrenVertices();
 	vector<unsigned> getChildrenIds();
+	/*
 	Matrix getDistances();
 	vector<vector<vector<unsigned>>> getPaths();
 	vector<double> getDistancesFromSchool();
 	vector<double> getDistancesToGarage();
 	vector<vector<unsigned>> getPathsFromSchool();
 	vector<vector<unsigned>> getPathsToGarage();
-
+*/
 
 
 	void insertAddress(unsigned id);

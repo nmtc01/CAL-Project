@@ -13,7 +13,6 @@
 class Network {
 
 	Graph map;
-	//vector<string> childrenAdresses;
 	Vertex school;
 	Vertex garage;
 	vector<Vertex> schools;

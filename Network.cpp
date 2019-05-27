@@ -88,37 +88,15 @@ void Network::calculatePathMatrix(){
 		//Neste caso calcular FloydWarshall
 		FloydWarshall FW = FloydWarshall(map);
 		FW.perform();
-		//O ciclo abaixo aloca os resultados em duas matrizes (distances e paths)
-		//provavelmente não vamos mais usar isto
-		/*
-		for (size_t i = 0; i < childrenVertices.size(); i++){
-			distances.push_back({});
-			paths.push_back({});
-			for (size_t j = 0; j < childrenVertices.size(); j++){
-				distances[i].push_back(FW.getDistance(childrenVertices[i].getId(), childrenVertices[j].getId()));
-				paths[i].push_back(FW.getPath(childrenVertices[i].getId(), childrenVertices[j].getId()));
-			}
-		}
-		for (size_t i = 0; i < childrenVertices.size(); i++){
-			//as informacoes sobre a escola e a garagem sao postas em vetores separados
-			distancesFromSchool.push_back(FW.getDistance(school.getId(), childrenVertices[i].getId()));
-			distancesToGarage.push_back(FW.getDistance(childrenVertices[i].getId(), garage.getId()));
-
-			pathsFromSchool.push_back(FW.getPath(school.getId(), childrenVertices[i].getId()));
-			pathsToGarage.push_back(FW.getPath(childrenVertices[i].getId(), garage.getId()));
-
-		}*/
 		fw=FW;
 	}
 	else {
 		//Neste caso calcular Dijkstra para cada vertice
 		dij = Dijkstra(map);
-		/*
-		 * Algo assim (quando o Dijkstra estiver pronto):
-		for (size_t i = 0; i < childrenIds.size(); i++){
-			perform(childrenIds[i]);
+		for (size_t i = 0; i < childrenVertices.size(); i++){
+				dij.perform(childrenVertices[i].getId(),childrenVertices[i].getId());
 		}
-		*/
+
 	}
 }
 

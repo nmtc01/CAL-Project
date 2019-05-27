@@ -50,6 +50,7 @@ public:
 
 	//Calculates the optimal path between source and destiny
 	vector<unsigned> perform(unsigned sourceId, unsigned destinyId);
+	double getDistance(unsigned sourceId, unsigned destinyId) const;
 
 };
 

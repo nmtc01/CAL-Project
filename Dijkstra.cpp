@@ -65,6 +65,16 @@ vector<unsigned> Dijkstra::getPath(unsigned sourceId, unsigned destinyId) {
 	return solution;
 }
 
+//SHOULD ONLY BE USED AFTER PERFORMING IN THE SOURCEID
+double Dijkstra::getDistance(unsigned sourceId, unsigned destinyId) const {
+	if(distances.find(destinyId) == distances.end())
+		return NOT_FOUND;
+
+	return distances.at(destinyId);
+}
+
+
+
 void Dijkstra::resetDataStructures() {
 	visitedVertices.clear();
 

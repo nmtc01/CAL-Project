@@ -30,13 +30,13 @@ void BranchAndBound::initializeMatrix() {
 		for (unsigned j = 0; j < edges.size(); j++) {
 			weights.at(edges.at(j).getDestinyId()) = edges.at(j).getWeight();
 		}
-		weightMatrix.at(nodes.at(i).getId()) = (weights);
+		weightMatrix.at(nodes.at(i).getId()) = weights;
 	}
 }
 
 double BranchAndBound::findMinLine(matrix weights, int line) {
 	double min = weights[line][0];
-	for (int i = 0; i < weights[line].size(); i++) {
+	for (unsigned i = 0; i < weights[line].size(); i++) {
 		if (weights[line][i] < min)
 			min = weights[line][i];
 	}
@@ -54,47 +54,83 @@ double BranchAndBound::findMinCol(matrix weights, int col) {
 	return min;
 }
 
-void BranchAndBound::reduceMatrixLine(matrix &weights, int line) {
+double BranchAndBound::reduceMatrixLine(matrix &weights, int line) {
 	double min = findMinLine(weights, line);
 	for (unsigned i = 0; i < weights[line].size(); i++) {
 		if (weights[line][i] != INF)
 			weights[line][i] -= min;
 	}
-	lowerBound += min;
+
+	return min;
 }
 
-void BranchAndBound::reduceMatrixCol(matrix &weights, int col) {
+double BranchAndBound::reduceMatrixCol(matrix &weights, int col) {
 	double min = findMinCol(weights, col);
 	for (unsigned i = 0; i < weights.size(); i++) {
 		if (weights[i][col] != INF)
 			weights[i][col] -= min;
 	}
-	lowerBound += min;
+	return min;
 }
 
-void BranchAndBound::reduceMatrix(matrix &weights) {
+double BranchAndBound::reduceMatrix(matrix &weights) {
+	double reduction;
 	for (unsigned i = 0; i < weights.size(); i++) {
-		reduceMatrixLine(weights, i);
+		reduction += reduceMatrixLine(weights, i);
 	}
 	for (unsigned i = 0; i < weights[0].size(); i++) {
-		reduceMatrixCol(weights, i);
+		reduction += reduceMatrixCol(weights, i);
 	}
+
+	return reduction;
 }
 
-void BranchAndBound::visitVertex() {
+pair<double,matrix> BranchAndBound::calculateCost(Edge edge, matrix weights, double originCost) {
+	double cost = originCost + weights[edge.getSourceId()][edge.getDestinyId()];
 
+	for (int i = 0; i < weights[edge.getSourceId()].size(); i++) {
+		weights[edge.getSourceId()][i] = INF;
+		weights[i][edge.getDestinyId()] = INF;
+	}
+
+	weights[edge.getDestinyId()][edge.getSourceId()] = INF;
+
+	cost += reduceMatrix(weights);
+
+	return make_pair(cost, weights);
+}
+
+void BranchAndBound::visitVertex(const unsigned &originId, matrix weights, double originCost) {
+	Vertex origin = graph.getVertex(originId);
+
+	vector<pair<double,matrix>> pathsCostAndMatrix;
+	double minCost = INF;
+	unsigned minIndex = 0;
+
+	for (unsigned i = 0; i < origin.getEdges().size(); i++){
+		pathsCostAndMatrix.push_back(calculateCost(origin.getEdges()[i], weights, originCost));
+		if (pathsCostAndMatrix[i].first < minCost) {
+			minCost = pathsCostAndMatrix[i].first;
+			minIndex = i;
+		}
+	}
+
+	visitVertex(origin.getEdges()[minIndex].getDestinyId(), pathsCostAndMatrix[minIndex].second, minCost);
+
+	//to finish
 }
 
 VertexHashTable BranchAndBound::perform(const unsigned &originId) {
 	visitedVertices.clear();
 
-	Vertex origin = graph.getVertex(originId);
-
 	initializeMatrix();
 
-	reduceMatrix(weightMatrix);
+	lowerBound = reduceMatrix(weightMatrix);
 
-	visitVertex();
+	visitVertex(originId, weightMatrix, lowerBound);
+	//to finish
+
+	return visitedVertices;
 }
 
 

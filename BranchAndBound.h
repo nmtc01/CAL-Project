@@ -8,6 +8,7 @@
 #pragma once
 
 #include "Graph.h"
+#include <utility>
 
 typedef vector<vector<double>> matrix;
 
@@ -24,11 +25,12 @@ public:
 	void initializeMatrix();
 	double findMinLine(matrix weights, int line);
 	double findMinCol(matrix weights, int col);
-	void reduceMatrixLine(matrix &weights, int line);
-	void reduceMatrixCol(matrix &weights, int col);
-	void reduceMatrix(matrix &weights);
-	void visitVertex();
+	double reduceMatrixLine(matrix &weights, int line);
+	double reduceMatrixCol(matrix &weights, int col);
+	double reduceMatrix(matrix &weights);
+	void visitVertex(const unsigned &originId, matrix weights, double originCost);
 	VertexHashTable perform(const unsigned &originId);
+	pair<double,matrix> calculateCost(Edge edge, matrix weights, double originCost);
 };
 
 

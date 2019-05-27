@@ -6,7 +6,9 @@
 #include "Dijkstra.h"
 
 
-//Constructor
+//Constructors
+Dijkstra::Dijkstra() {}
+
 Dijkstra::Dijkstra(const Graph &graph) : graph(graph) {}
 
 

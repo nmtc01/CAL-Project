@@ -63,14 +63,16 @@ void Network::insertAddress(unsigned id){
 	childrenVertices.push_back(map.getVertexSet().at(id));
 }
 
-void Network::removeAddress(unsigned id){
+bool Network::removeAddress(unsigned id){
 	vector<Vertex> newVector = {};
+	bool returnValue = true; //true if found the id, else false
 	for (size_t i = 0; i < childrenVertices.size(); i++){
 		if (childrenVertices[i].getId() != id)
 			newVector.push_back(childrenVertices[i]);
+		else returnValue = true;
 	}
-
 	childrenVertices = newVector;
+	return returnValue;
 }
 
 
@@ -79,14 +81,16 @@ void Network::calculatePathMatrix(){
 	if (fw.alreadyPerformed()) return; //N„o È necessario executar o FloydWarshall mais de uma vez. Este if evita perda de tempo.
 	unsigned v = map.getNumVertex();
 	unsigned e = map.getNumEdges();
-	distances = {};
-	paths = {};
+	//distances = {};
+	//paths = {};
 
 	if ((v+e)*log2((double)v)*childrenVertices.size() > pow(v, 3) || true){ //o true √© s√≥ para testar
 		//Neste caso calcular FloydWarshall
 		FloydWarshall FW = FloydWarshall(map);
 		FW.perform();
 		//O ciclo abaixo aloca os resultados em duas matrizes (distances e paths)
+		//provavelmente n„o vamos mais usar isto
+		/*
 		for (size_t i = 0; i < childrenVertices.size(); i++){
 			distances.push_back({});
 			paths.push_back({});
@@ -103,17 +107,18 @@ void Network::calculatePathMatrix(){
 			pathsFromSchool.push_back(FW.getPath(school.getId(), childrenVertices[i].getId()));
 			pathsToGarage.push_back(FW.getPath(childrenVertices[i].getId(), garage.getId()));
 
-		}
+		}*/
 		fw=FW;
 	}
 	else {
-		//Neste caso calcular Dijkstra para cada vÔøΩrtice
+		//Neste caso calcular Dijkstra para cada vertice
+		dij = Dijkstra(map);
 		/*
 		 * Algo assim (quando o Dijkstra estiver pronto):
-		for (size_t i = 0; i < childrenVertices.size(); i++){
-			Dijkstra Dij = Dijkstra(map, childrenVertices[i]);
-			Dij.perform();
-		}*/
+		for (size_t i = 0; i < childrenIds.size(); i++){
+			perform(childrenIds[i]);
+		}
+		*/
 	}
 }
 
@@ -137,6 +142,9 @@ vector<unsigned> Network::getChildrenIds(){
 	return ids;
 }
 
+
+
+/*
 Matrix Network::getDistances(){
 	return distances;
 }
@@ -159,7 +167,7 @@ vector<vector<unsigned>> Network::getPathsFromSchool(){
 
 vector<vector<unsigned>> Network::getPathsToGarage(){
 	return pathsToGarage;
-}
+}*/
 
 
 

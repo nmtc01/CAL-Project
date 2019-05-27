@@ -35,6 +35,9 @@ class Dijkstra {
 
 	//Useful private functions
 	void resetDataStructures();
+	void addPathsMap(unsigned sourceId, unsigned destinyId);
+	void addDistancesMap(unsigned id, double weight);
+	bool wasVisited(unsigned id);
 	vector<unsigned> getPath(unsigned sourceId, unsigned destinyId);
 
 

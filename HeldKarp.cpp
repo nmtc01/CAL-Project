@@ -7,9 +7,9 @@
 
 #include "HeldKarp.h"
 
-HeldKarp::HeldKarp(Graph graph, FloydWarshall fw) {
+HeldKarp::HeldKarp(Graph graph, AbstractPathCalculator* APC) {
 	this->graph = graph;
-	this->fw = fw;
+	this->APC = APC;
 	performed = false;
 }
 
@@ -18,7 +18,7 @@ PathDistance HeldKarp::recursion(vector<unsigned> addresses, unsigned end){
 	double currentDistance = INF;
 	if (addresses.size()==1){
 		answer.path = {addresses[0], end};
-		answer.distance = fw.getDistance(addresses[0], end);
+		answer.distance = APC->getDistance(addresses[0], end);
 		return answer;
 	}
 
@@ -28,9 +28,9 @@ PathDistance HeldKarp::recursion(vector<unsigned> addresses, unsigned end){
 			if (i !=j) tmp.push_back(addresses[j]);
 		}
 		aux = recursion(tmp, addresses[i]);
-		if (aux.distance + fw.getDistance(addresses[i], end) < currentDistance){
+		if (aux.distance + APC->getDistance(addresses[i], end) < currentDistance){
 			answer.path = aux.path;
-			currentDistance = aux.distance + fw.getDistance(addresses[i], end);
+			currentDistance = aux.distance + APC->getDistance(addresses[i], end);
 		}
 	}
 	answer.path.push_back(end);
@@ -47,13 +47,13 @@ void HeldKarp::perform(unsigned school, unsigned garage, vector<unsigned> addres
 	distance = 0;
 	if (addresses.size()==1){
 		path = {school, garage};
-		distance = fw.getDistance(school, garage);
+		distance = APC->getDistance(school, garage);
 		return;
 	}
 
 	if (addresses.size()==1){
 		path = {school, addresses[0], garage};
-		distance = fw.getDistance(addresses[0], garage) + fw.getDistance(school, addresses[0]);
+		distance = APC->getDistance(addresses[0], garage) + APC->getDistance(school, addresses[0]);
 		return;
 	}
 
@@ -63,8 +63,8 @@ void HeldKarp::perform(unsigned school, unsigned garage, vector<unsigned> addres
 			if (i != j) tmp.push_back(addresses[j]);
 		}
 		aux = recursion(tmp, garage);
-		if (fw.getDistance(school, addresses[i]) + fw.getDistance(addresses[i], aux.path[0]) + aux.distance < answer.distance){
-			answer.distance = fw.getDistance(school, addresses[i]) + fw.getDistance(addresses[i], aux.path[0]) + aux.distance;
+		if (APC->getDistance(school, addresses[i]) + APC->getDistance(addresses[i], aux.path[0]) + aux.distance < answer.distance){
+			answer.distance = APC->getDistance(school, addresses[i]) + APC->getDistance(addresses[i], aux.path[0]) + aux.distance;
 			answer.path = {school, addresses[i]};
 			answer.path.insert( answer.path.end(), aux.path.begin(), aux.path.end() );
 		}

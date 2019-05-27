@@ -6,10 +6,11 @@
 #pragma once
 
 #include "Graph.h"
+#include "AbstractPathCalculator.h"
 
 typedef vector<vector<double>> Matrix;
 
-class FloydWarshall {
+class FloydWarshall : public AbstractPathCalculator {
 	Graph graph;
 	double **distances = nullptr;	//matrix array for distances
 	unsigned **paths = nullptr;		//matrix array for the path

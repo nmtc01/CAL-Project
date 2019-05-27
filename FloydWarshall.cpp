@@ -4,6 +4,7 @@
  */
 
 #include "FloydWarshall.h"
+#include <iostream>
 
 FloydWarshall::FloydWarshall() {
 	performed = false;
@@ -15,6 +16,7 @@ FloydWarshall::FloydWarshall(const Graph &graph) : graph(graph) {
 
 
 void FloydWarshall::perform() {
+	cout << "Calculating FloydWarshall" << endl;
 	unsigned size = graph.getNumVertex();
 
 	//resets the matrixes

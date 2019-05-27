@@ -6,10 +6,11 @@
 #include "NearestNeighbour.h"
 #include <iostream>
 
-NearestNeighbour::NearestNeighbour(Graph graph, FloydWarshall fw) {
+
+NearestNeighbour::NearestNeighbour(Graph graph, AbstractPathCalculator *APC) {
 	//network=nw;
-	this->graph=graph;
-	this->fw=fw;
+	this->graph = graph;
+	this->APC = APC;
 	performed = false;
 	distance = 0;
 	path = {};
@@ -17,24 +18,29 @@ NearestNeighbour::NearestNeighbour(Graph graph, FloydWarshall fw) {
 
 }
 
-void NearestNeighbour::perform(unsigned school, unsigned garage, vector<unsigned> addresses){
+void NearestNeighbour::perform(unsigned school, unsigned garage, vector<unsigned> addresses, AbstractPathCalculator *APC2){
 	size_t k, k2;
 	double dist = INF;
 	path = {};
 	path.push_back(school);
 	visited = {};
+	cout << "starting nearest neighbour" << endl;
 	for (size_t i = 0; i < addresses.size(); i++) visited.push_back(false);
 	if (addresses.size() == 0){
 		cout << "There are no children addresses in the path. Please insert the addresses." << endl << endl;
+		distance = APC->getDistance(school, garage);
 		path.push_back(garage);
 		return;
 	}
 	//encontra vertice mais proximo da escola
 	for (size_t i = 0; i < addresses.size(); i++){
-		if (dist > fw.getDistance(school, addresses[i])){
+		cout << "for" << endl;
+		if (dist > APC2->getDistance(school, addresses[i])){
+			cout << "if" << endl;
 			k = i;
-			dist = fw.getDistance(school, addresses[i]);
+			dist = APC2->getDistance(school, addresses[i]);
 		}
+		else cout << "else" << endl;
 	}
 	if (dist != INF){
 		visited[k]=true;
@@ -49,10 +55,10 @@ void NearestNeighbour::perform(unsigned school, unsigned garage, vector<unsigned
 		dist = INF;
 		for (size_t j = 0; j < addresses.size(); j++){
 			cout << "forfor" << endl;
-			if (dist > fw.getDistance(addresses[k],addresses[j]) && !visited[j]){
+			if (dist > APC->getDistance(addresses[k],addresses[j]) && !visited[j]){
 				cout << "if" << endl;
 				k2 = j;
-				dist = fw.getDistance(addresses[k],addresses[j]);
+				dist = APC->getDistance(addresses[k],addresses[j]);
 				cout << "dist = " << dist << endl;
 			}
 		}
@@ -66,7 +72,7 @@ void NearestNeighbour::perform(unsigned school, unsigned garage, vector<unsigned
 		path.push_back(addresses[k]);
 
 	}
-	distance+=fw.getDistance(addresses[k],garage);
+	distance+=APC->getDistance(addresses[k],garage);
 	path.push_back(garage);
 
 

@@ -10,6 +10,7 @@
 #include <functional>
 
 #include "Graph.h"
+#include "AbstractPathCalculator.h"
 
 using namespace std;
 
@@ -25,7 +26,7 @@ struct prioritize {
 
 
 
-class Dijkstra {
+class Dijkstra : public AbstractPathCalculator {
 	Graph graph;
 	VertexHashTable visitedVertices;
 	priority_queue<iPair, vector<iPair>, prioritize> pQueue;
@@ -40,17 +41,17 @@ class Dijkstra {
 	void addPathsMap(unsigned sourceId, unsigned destinyId);
 	void addDistancesMap(unsigned id, double weight);
 	bool wasVisited(unsigned id);
-	vector<unsigned> getPath(unsigned sourceId, unsigned destinyId);
 
 
 public:
 	//Constructors
 	Dijkstra();
 	Dijkstra(const Graph &graph);
+	double getDistance(unsigned sourceId, unsigned destinyId);
+	vector<unsigned> getPath(unsigned sourceId, unsigned destinyId);
 
 	//Calculates the optimal path between source and destiny
 	vector<unsigned> perform(unsigned sourceId, unsigned destinyId);
-	double getDistance(unsigned sourceId, unsigned destinyId) const;
 
 };
 

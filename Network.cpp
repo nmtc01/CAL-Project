@@ -78,30 +78,32 @@ bool Network::removeAddress(unsigned id){
 
 //Path methods
 void Network::calculatePathMatrix(){
-	if (fw.alreadyPerformed()) return; //N„o È necessario executar o FloydWarshall mais de uma vez. Este if evita perda de tempo.
+	//if (fw.AlreadyPerformed) return; //N„o È necessario executar o FloydWarshall mais de uma vez. Este if evita perda de tempo.
 	unsigned v = map.getNumVertex();
 	unsigned e = map.getNumEdges();
 	//distances = {};
 	//paths = {};
 
-	if ((v+e)*log2((double)v)*childrenVertices.size() > pow(v, 3) || true){ //o true √© s√≥ para testar
+	if ((v+e)*log2((double)v)*childrenVertices.size() > pow(v, 3)){ //o true √© s√≥ para testar
 		//Neste caso calcular FloydWarshall
-		FloydWarshall FW = FloydWarshall(map);
-		FW.perform();
-		fw=FW;
+		FloydWarshall fw = FloydWarshall(map);
+		fw.perform();
+		*APC = fw;
 	}
 	else {
 		//Neste caso calcular Dijkstra para cada vertice
-		dij = Dijkstra(map);
+		Dijkstra dij = Dijkstra(map);
 		for (size_t i = 0; i < childrenVertices.size(); i++){
-				dij.perform(childrenVertices[i].getId(),childrenVertices[i].getId());
+			dij.perform(school.getId(), childrenVertices[i].getId());
+			dij.perform(childrenVertices[i].getId(),garage.getId());
+			for (size_t j = 0; j < childrenVertices.size(); j++) dij.perform(childrenVertices[i].getId(),childrenVertices[j].getId());
 		}
-
+		*APC=dij;
 	}
 }
 
-FloydWarshall Network::getFloydWarshall(){
-	return fw;
+AbstractPathCalculator* Network::getAPC(){
+	return APC;
 }
 
 

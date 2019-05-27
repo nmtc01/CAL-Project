@@ -17,13 +17,13 @@ typedef struct {
 
 class HeldKarp {
 	Graph graph;
-	FloydWarshall fw;
+	AbstractPathCalculator *APC;
 	vector<unsigned> path;
 	double distance;
 	bool performed;
 	PathDistance recursion(vector<unsigned> addresses, unsigned end);
 public:
-	HeldKarp(Graph graph, FloydWarshall fw);
+	HeldKarp(Graph graph, AbstractPathCalculator* apc);
 	void perform(unsigned school, unsigned garage, vector<unsigned> addresses);
 
 	vector<unsigned> getPath();

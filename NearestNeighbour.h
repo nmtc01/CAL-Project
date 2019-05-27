@@ -11,7 +11,7 @@
 
 class NearestNeighbour {
 //	Network network;
-	FloydWarshall fw;
+	AbstractPathCalculator *APC;
 	Graph graph;
 	vector<bool> visited;
 	double distance;
@@ -19,9 +19,9 @@ class NearestNeighbour {
 	bool performed;
 
 public:
-	NearestNeighbour(Graph graph, FloydWarshall fw);
+	NearestNeighbour(Graph graph, AbstractPathCalculator *apc);
 
-	void perform(unsigned school, unsigned garage, vector<unsigned> addresses);
+	void perform(unsigned school, unsigned garage, vector<unsigned> addresses, AbstractPathCalculator *apc);
 
 	double getDistance();
 	vector<unsigned> getPath();

@@ -4,7 +4,7 @@
  */
 
 #include "Dijkstra.h"
-
+#include <iostream>
 
 //Constructors
 Dijkstra::Dijkstra() {}
@@ -15,7 +15,7 @@ Dijkstra::Dijkstra(const Graph &graph) : graph(graph) {}
 //Performs the search
 vector<unsigned> Dijkstra::perform(unsigned sourceId, unsigned destinyId) {
 	resetDataStructures();
-
+	cout << "Calculating Dijkstra" << endl;
 	pQueue.push(make_pair(sourceId, 0));
 	paths.insert(make_pair(sourceId, sourceId));
 	distances.insert(make_pair(sourceId, 0));
@@ -52,6 +52,7 @@ vector<unsigned> Dijkstra::perform(unsigned sourceId, unsigned destinyId) {
 }
 
 vector<unsigned> Dijkstra::getPath(unsigned sourceId, unsigned destinyId) {
+	cout << "Dijkstra::getPath" << endl;
 	solution.clear();
 
 	unsigned currentId = destinyId;
@@ -65,15 +66,11 @@ vector<unsigned> Dijkstra::getPath(unsigned sourceId, unsigned destinyId) {
 	return solution;
 }
 
-//SHOULD ONLY BE USED AFTER PERFORMING IN THE SOURCEID
-double Dijkstra::getDistance(unsigned sourceId, unsigned destinyId) const {
-	if(distances.find(destinyId) == distances.end())
-		return INF;
-
-	return distances.at(destinyId);
+double Dijkstra::getDistance(unsigned sourceId, unsigned destinyId){
+	cout << "Dijkstra::getDistance" << endl;
+	double d = 1.0;
+	return d;
 }
-
-
 
 void Dijkstra::resetDataStructures() {
 	visitedVertices.clear();

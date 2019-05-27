@@ -18,8 +18,7 @@ class Network {
 	vector<Vertex> schools;
 	vector<Vertex> childrenVertices;    // vertex set
 	unsigned int numberOfBus;
-	FloydWarshall fw;
-	Dijkstra dij;
+	AbstractPathCalculator *APC;
 /*
 	Matrix distances;
 	vector<double> distancesFromSchool;
@@ -31,7 +30,7 @@ class Network {
 public:
 	Network();
 	Graph getMap();
-	FloydWarshall getFloydWarshall();
+	AbstractPathCalculator *getAPC();
 	void loadMap(const Graph& newMap);
 	void initializeSchools();
 	vector<Vertex> getSchools();

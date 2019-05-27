@@ -211,16 +211,16 @@ void graph_menu_interface() {
 			}
 			case 6:
 			{
-				cout << endl << endl << "Calculating FloydWarshall" << endl;
+				cout << endl << endl << "Calculating FloydWarshall/Dijkstra" << endl;
 				clock_t start = clock();
 				network->calculatePathMatrix();
 				clock_t end = clock();
 			    double ms = ((double)1000*(end - start))/CLOCKS_PER_SEC;
 				cout << endl << "Calculated FloydWarshall in " << ms << " miliseconds" << endl;
 				cout << endl << endl << "Calculating with nearest neighbour algorithm" << endl;
-				NearestNeighbour NN(network->getMap(), network->getFloydWarshall());
+				NearestNeighbour NN(network->getMap(), network->getAPC());
 				start = clock();
-				NN.perform(network->getSchoolId(), network->getGarageId(), network->getChildrenIds());
+				NN.perform(network->getSchoolId(), network->getGarageId(), network->getChildrenIds(), network->getAPC());
 				end = clock();
 				ms = ((double)1000*(end - start))/CLOCKS_PER_SEC;
 				cout << endl << "Calculated NearestNeighbour in " << ms << " miliseconds" << endl;
@@ -232,14 +232,14 @@ void graph_menu_interface() {
 			}
 			case 7:
 			{
-				cout << endl << endl << "Calculating FloydWarshall" << endl;
+				cout << endl << endl << "Calculating FloydWarshall/Dijkstra" << endl;
 				clock_t start = clock();
 				network->calculatePathMatrix();
 				clock_t end = clock();
 			    double ms = 1000*(end - start)/CLOCKS_PER_SEC;
 				cout << endl << "Calculated FloydWarshall in " << ms << " miliseconds" << endl;
 				cout << endl << endl << "Calculating with Bellman-Held-Karp algorithm" << endl;
-				HeldKarp HK(network->getMap(), network->getFloydWarshall());
+				HeldKarp HK(network->getMap(), network->getAPC());
 				start = clock();
 				HK.perform(network->getSchoolId(), network->getGarageId(), network->getChildrenIds());
 				end = clock();
@@ -343,75 +343,6 @@ void graphviewer_option() {
 		for(Edge edge : edges){
 			gv->addEdge(idEdge, node.getId(), edge.getDestinyId(), EdgeType::DIRECTED);
 			idEdge++;
-		}
-	}
-}
-
-
-
-/*** WORK IN PROGRESS ***/
-
-void print_network_menu() {
-	cout << "Would you like to: " << endl << endl;
-	cout << "\t[1]: Add a student house" << endl;
-	cout << "\t[2]: Add a school" << endl;
-	cout << "\t[3]: Set the garage location" << endl;
-	cout << "\t[4]: Remove a student house" << endl;
-	cout << "\t[5]: Remove a school" << endl;
-	cout << "\t[6]: Go back to the graph menu" << endl << endl;
-}
-
-void network_menu_interface() {
-	while(true) {
-		big_header("School Network Menu");
-		print_network_menu();
-
-		switch(prompt_menu(1,6)) {
-		case 1:
-		{
-			cout << endl << endl << "Insert the id of the vertex for the students' house" << endl;
-			unsigned id = NOT_FOUND;
-			input_receiver(id);
-			network->insertAddress(id);
-			cout << "Successfuly inserted address " << id << endl;
-			break;
-		}
-		case 2:
-		{
-			cout << endl << endl << "Insert the id of the vertex for the school" << endl;
-			unsigned id = NOT_FOUND;
-			input_receiver(id);
-			network->setSchool(id);
-			cout << "Successfuly set school at address " << id << endl;
-			break;
-		}
-		case 3:
-		{
-			cout << endl << endl << "Insert the id of the vertex for the garage" << endl;
-			unsigned id = NOT_FOUND;
-			input_receiver(id);
-			network->setGarage(id);
-			cout << "Set garage at address " << id << endl;
-			break;
-		}
-		case 4:
-		{
-            cout << endl << endl << "Insert the id of the vertex for the students' house that you want to remove" << endl;
-			unsigned id = NOT_FOUND;
-			input_receiver(id);
-            if (network->removeAddress(id)) cout << "Successfuly removed address " << id << endl;
-			else cout << "Address " << id << " is not a student house" << endl;
-			break;
-		}
-		case 5:
-		{
-			break;
-		}
-		case 6:
-		{
-			return;
-		}
-
 		}
 	}
 }

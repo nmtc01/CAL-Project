@@ -17,6 +17,7 @@ private:
 	Graph graph;
 	VertexHashTable visitedVertices;
 	matrix weightMatrix;
+	vector<double> costs;
 	double upperBound = INF;
 	double lowerBound = 0;
 
@@ -30,7 +31,8 @@ public:
 	double reduceMatrix(matrix &weights);
 	void visitVertex(const unsigned &originId, matrix weights, double originCost);
 	VertexHashTable perform(const unsigned &originId);
-	pair<double,matrix> calculateCost(Edge edge, matrix weights, double originCost);
+	pair<double,matrix> calculateCostAndMatrix(Edge edge, matrix weights, double originCost);
+	bool existsSmaller(double &min);
 };
 
 

@@ -85,10 +85,10 @@ double BranchAndBound::reduceMatrix(matrix &weights) {
 	return reduction;
 }
 
-pair<double,matrix> BranchAndBound::calculateCost(Edge edge, matrix weights, double originCost) {
+pair<double,matrix> BranchAndBound::calculateCostAndMatrix(Edge edge, matrix weights, double originCost) {
 	double cost = originCost + weights[edge.getSourceId()][edge.getDestinyId()];
 
-	for (int i = 0; i < weights[edge.getSourceId()].size(); i++) {
+	for (unsigned i = 0; i < weights[edge.getSourceId()].size(); i++) {
 		weights[edge.getSourceId()][i] = INF;
 		weights[i][edge.getDestinyId()] = INF;
 	}
@@ -100,6 +100,13 @@ pair<double,matrix> BranchAndBound::calculateCost(Edge edge, matrix weights, dou
 	return make_pair(cost, weights);
 }
 
+bool BranchAndBound::existsSmaller(double &min) {
+	for (int i = 0; i < costs.size(); i++)
+		if (costs[i] < min)
+			return true;
+	return false;
+}
+
 void BranchAndBound::visitVertex(const unsigned &originId, matrix weights, double originCost) {
 	Vertex origin = graph.getVertex(originId);
 
@@ -108,15 +115,19 @@ void BranchAndBound::visitVertex(const unsigned &originId, matrix weights, doubl
 	unsigned minIndex = 0;
 
 	for (unsigned i = 0; i < origin.getEdges().size(); i++){
-		pathsCostAndMatrix.push_back(calculateCost(origin.getEdges()[i], weights, originCost));
+		pathsCostAndMatrix.push_back(calculateCostAndMatrix(origin.getEdges()[i], weights, originCost));
 		if (pathsCostAndMatrix[i].first < minCost) {
 			minCost = pathsCostAndMatrix[i].first;
 			minIndex = i;
 		}
 	}
+	costs.push_back(minCost);
+	if (!existsSmaller(minCost))
+		visitVertex(origin.getEdges()[minIndex].getDestinyId(), pathsCostAndMatrix[minIndex].second, minCost);
 
-	visitVertex(origin.getEdges()[minIndex].getDestinyId(), pathsCostAndMatrix[minIndex].second, minCost);
-
+	//else faltava quebrar recursão e usar recursão anterior como novo vertice de menor custo
+	//faltava tb haver variavel path onde colocar todos os vertices visitados
+	//faltava evitar bidirecionalidade
 	//to finish
 }
 

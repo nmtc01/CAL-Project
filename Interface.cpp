@@ -349,3 +349,72 @@ void graphviewer_option() {
 
 
 
+/*** WORK IN PROGRESS ***/
+
+void print_network_menu() {
+	cout << "Would you like to: " << endl << endl;
+	cout << "\t[1]: Add a student house" << endl;
+	cout << "\t[2]: Add a school" << endl;
+	cout << "\t[3]: Set the garage location" << endl;
+	cout << "\t[4]: Remove a student house" << endl;
+	cout << "\t[5]: Remove a school" << endl;
+	cout << "\t[6]: Go back to the graph menu" << endl << endl;
+}
+
+void network_menu_interface() {
+	while(true) {
+		big_header("School Network Menu");
+		print_network_menu();
+
+		switch(prompt_menu(1,6)) {
+		case 1:
+		{
+			cout << endl << endl << "Insert the id of the vertex for the students' house" << endl;
+			unsigned id = NOT_FOUND;
+			input_receiver(id);
+			network->insertAddress(id);
+			cout << "Successfuly inserted address " << id << endl;
+			break;
+		}
+		case 2:
+		{
+			cout << endl << endl << "Insert the id of the vertex for the school" << endl;
+			unsigned id = NOT_FOUND;
+			input_receiver(id);
+			network->setSchool(id);
+			cout << "Successfuly set school at address " << id << endl;
+			break;
+		}
+		case 3:
+		{
+			cout << endl << endl << "Insert the id of the vertex for the garage" << endl;
+			unsigned id = NOT_FOUND;
+			input_receiver(id);
+			network->setGarage(id);
+			cout << "Set garage at address " << id << endl;
+			break;
+		}
+		case 4:
+		{
+            cout << endl << endl << "Insert the id of the vertex for the students' house that you want to remove" << endl;
+			unsigned id = NOT_FOUND;
+			input_receiver(id);
+            if (network->removeAddress(id)) cout << "Successfuly removed address " << id << endl;
+			else cout << "Address " << id << " is not a student house" << endl;
+			break;
+		}
+		case 5:
+		{
+			break;
+		}
+		case 6:
+		{
+			return;
+		}
+
+		}
+	}
+}
+
+
+

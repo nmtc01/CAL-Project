@@ -7,7 +7,6 @@
 #include <ctime>
 
 Network* network = new Network();
-vector<unsigned> visitedVerticesIds;
 
 //General header drawing function
 void big_header(string message) {
@@ -152,15 +151,16 @@ void print_graph_menu() {
 	cout << "\t[3]: Add a school" << endl;
 	cout << "\t[4]: Set the garage" << endl;
 	cout << "\t[5]: Remove a student house" << endl;
-	cout << "\t[6]: Calculate with nearest neighbour" << endl;
-	cout << "\t[7]: Calculate with Branch and Bound" << endl;
-	cout << "\t[8]: Calculate with Bellman-Held-Karp" << endl;
-	cout << "\t[9]: See some graph stats (just for testing)" << endl;
-	cout << "\t[10]: See the schools' list" << endl;
-	cout << "\t[11]: See the students houses list" << endl;
-	cout << "\t[12]: Calculate paths matrix" << endl;
-	cout << "\t[13]: Reset network" << endl;
-	cout << "\t[14]: Go back to the graph loading menu" << endl << endl;
+	cout << "\t[6]: Set bus capacity" << endl;
+	cout << "\t[7]: Calculate with nearest neighbour" << endl;
+	cout << "\t[8]: Calculate with Branch and Bound" << endl;
+	cout << "\t[9]: Calculate with Bellman-Held-Karp" << endl;
+	cout << "\t[10]: See some graph stats (just for testing)" << endl;
+	cout << "\t[11]: See the schools' list" << endl;
+	cout << "\t[12]: See the students houses list" << endl;
+	cout << "\t[13]: Calculate paths matrix" << endl;
+	cout << "\t[14]: Reset network" << endl;
+	cout << "\t[15]: Go back to the graph loading menu" << endl << endl;
 }
 
 void graph_menu_interface() {
@@ -168,7 +168,7 @@ void graph_menu_interface() {
 		big_header("Graph Menu");
 		print_graph_menu();
 
-		switch(prompt_menu(1, 14)) {
+		switch(prompt_menu(1, 13)) {
 
 			case 1:
 			{
@@ -183,6 +183,10 @@ void graph_menu_interface() {
 				input_receiver(id);
 				clock_t start,end;
 				double ms;
+				if (network->getGarageId() == NOT_FOUND) {
+					cout << endl << endl << "Please, choose the garage address before inserting other addresses" << endl;
+					break;
+				}
 				if (!network->getFloydWarshall().alreadyPerformed()) {
 					cout << endl << endl << "Calculating FloydWarshall" << endl;
 					start = clock();
@@ -190,10 +194,6 @@ void graph_menu_interface() {
 					end = clock();
 					ms = ((double)1000*(end - start))/CLOCKS_PER_SEC;
 					cout << endl << "Calculated FloydWarshall in " << ms << " miliseconds" << endl;
-				}
-				if (network->getGarageId() == NOT_FOUND) {
-					cout << endl << endl << "Please, choose the garage address before inserting other addresses" << endl;
-					break;
 				}
 				if (network->getFloydWarshall().alreadyPerformed()){
 					if (network->getFloydWarshall().getDistance(id,network->getGarage().getId()) != INF){
@@ -246,12 +246,20 @@ void graph_menu_interface() {
                 cout << endl << endl << "Insert the id of the vertex for the students' house that you want to remove" << endl;
 				unsigned id = NOT_FOUND;
 				input_receiver(id);
-                if (network->removeAddress(id))
-                	cout << "Successfuly removed address " << id << endl;
+                if (network->removeAddress(id)) cout << "Successfuly removed address " << id << endl;
 				else cout << "Address " << id << " is not a student house" << endl;
 				break;
 			}
 			case 6:
+			{
+                cout << endl << endl << "Insert the bus capacity" << endl;
+                unsigned cap;
+                input_receiver(cap);
+                network->setBusCapacity(cap);
+				break;
+			}
+
+			case 7:
 			{
 				clock_t start,end;
 				double ms;
@@ -278,12 +286,11 @@ void graph_menu_interface() {
 				ms = ((double)1000*(end - start))/CLOCKS_PER_SEC;
 				cout << endl << "Calculated NearestNeighbour in " << ms << " miliseconds" << endl;
 				cout << "Path found: " << endl;
-				visitedVerticesIds = NN.getPath();
 				NN.printPath();
 				cout << endl << "Total distance: " << NN.getDistance() << endl;
 				break;
 			}
-			case 7:
+			case 8:
 			{
 
 				clock_t start,end;
@@ -308,7 +315,7 @@ void graph_menu_interface() {
 				cout << endl << "Total distance: " << BB.getDistance() << endl;
 				break;
 			}
-			case 8:
+			case 9:
 			{
 				clock_t start,end;
 				double ms;
@@ -333,7 +340,7 @@ void graph_menu_interface() {
 
 				break;
 			}
-			case 9:
+			case 10:
 			{
 				small_header("Statistics");
 				Graph graph = network->getMap();
@@ -352,7 +359,7 @@ void graph_menu_interface() {
 
 				break;
 			}
-			case 10:
+			case 11:
 			{
 				small_header("Schools");
 
@@ -366,7 +373,7 @@ void graph_menu_interface() {
 				cout << endl << endl;
 				break;
 			}
-			case 11:
+			case 12:
 			{
 				small_header("Students houses");
 
@@ -380,19 +387,19 @@ void graph_menu_interface() {
 				cout << endl << endl;
 				break;
 			}
-			case 12:
+			case 13:
 			{
 				network->calculatePathMatrix();
 				break;
 			}
-			case 13:
+			case 14:
 			{
 				Graph g= network->getMap();
 				network = new Network();
 				network->loadMap(g);
 				break;
 			}
-			case 14:
+			case 15:
 			{
 				return;
 			}
@@ -403,6 +410,7 @@ void graph_menu_interface() {
 
 void graphviewer_option() {
 	GraphViewer *gv = new GraphViewer(1000, 1000, false);
+
 	gv->setBackground("background.jpg");
 
 	gv->createWindow(1000, 1000);
@@ -421,42 +429,8 @@ void graphviewer_option() {
 			ymin = node.getY();
 	}
 
-	bool isSchool = false;
-	bool isHouse = false;
-	bool isGarage = false;
-	for(Vertex node : nodes) {
-
-		for (Vertex school : network->getSchools())
-			if (node.getId() == school.getId()) {
-				gv->setVertexColor(node.getId(), RED);
-				isSchool = true;
-			}
-
-		if (!isSchool)
-			for (Vertex house : network->getChildrenVertices())
-				if (node.getId() == house.getId()) {
-					gv->setVertexColor(node.getId(), GREEN);
-					isHouse = true;
-				}
-
-		if (!isSchool && !isHouse)
-			if (node.getId() == network->getGarageId()) {
-				gv->setVertexColor(node.getId(), BLACK);
-				isGarage = true;
-			}
-
-		if (!isSchool && !isHouse && !isGarage)
-			for (unsigned id : visitedVerticesIds)
-				if (node.getId() == id) {
-					gv->setVertexColor(node.getId(), BLUE);
-				}
-
+	for(Vertex node : nodes)
 		gv->addNode(node.getId(), node.getX()-xmin, node.getY()-ymin);
-
-		isSchool = false;
-		isHouse = false;
-		isGarage = false;
-	}
 
 	int idEdge = 0;
 	for(Vertex node : nodes) {

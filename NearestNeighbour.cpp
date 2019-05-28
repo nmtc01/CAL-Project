@@ -33,72 +33,79 @@ NearestNeighbour::NearestNeighbour(Graph graph, MultipleDijkstra dij) {
 	visited = {};
 }
 
-void NearestNeighbour::perform(unsigned school, unsigned garage, vector<unsigned> addresses){
-	if (withFW) performWithFW(school, garage, addresses);
+
+void NearestNeighbour::perform(unsigned school, unsigned garage, vector<unsigned> addresses, unsigned capacity){
+	if (withFW) performWithFW(school, garage, addresses, capacity);
 	else performWithDij(school, garage, addresses);
 }
 
 
-
-void NearestNeighbour::performWithFW(unsigned school, unsigned garage, vector<unsigned> addresses){
-	size_t k, k2;
-	double dist = INF;
-	path = {};
-	path.push_back(school);
-	visited = {};
-	for (size_t i = 0; i < addresses.size(); i++) visited.push_back(false);
-	if (addresses.size() == 0){
-		cout << "There are no children addresses in the path. Please insert the addresses." << endl << endl;
-		path.push_back(garage);
-		return;
-	}
-	//encontra vertice mais proximo da escola
-	for (size_t i = 0; i < addresses.size(); i++){
-		if (dist > fw.getDistance(school, addresses[i])){
-			k = i;
-			dist = fw.getDistance(school, addresses[i]);
+void NearestNeighbour::performWithFW(unsigned school, unsigned garage, vector<unsigned> addresses, unsigned capacity){
+		size_t k, k2;
+		double dist = INF;
+		path = {};
+		path.push_back(school);
+		visited = {};
+		unsigned number_of_children = 0;
+		for (size_t i = 0; i < addresses.size(); i++) visited.push_back(false);
+		if (addresses.size() == 0){
+			cout << "There are no children addresses in the path. Please insert the addresses." << endl << endl;
+			path.push_back(garage);
+			return;
 		}
-	}
-	if (dist != INF){
-		visited[k]=true;
-		distance += dist;
-		vector<unsigned> tmp = fw.getPath(school, addresses[k]);
-		path.insert(path.end(), tmp.begin(), tmp.end());
-	}
-
-
-	cout << addresses.size() << endl;
-	for (size_t i = 0; i < addresses.size(); i++) {
-		cout << "2nd for" << endl;
-		dist = INF;
-		for (size_t j = 0; j < addresses.size(); j++){
-			cout << "forfor" << endl;
-			if (dist > fw.getDistance(addresses[k],addresses[j]) && !visited[j]){
-				cout << "if" << endl;
-				k2 = j;
-				dist = fw.getDistance(addresses[k],addresses[j]);
-				cout << "dist = " << dist << endl;
+		if (capacity == 0){
+			cout << "Bus capacity must be greater than 0" << endl << endl;
+			path.push_back(garage);
+			return;
+		}
+		//encontra vertice mais proximo da escola
+		for (size_t i = 0; i < addresses.size(); i++){
+			if (dist > fw.getDistance(school, addresses[i])){
+				k = i;
+				dist = fw.getDistance(school, addresses[i]);
 			}
 		}
-		if (dist == INF){
-			cout << "dist = INF --- break"<< endl;
-			break;
+		if (dist != INF){
+			visited[k]=true;
+			distance += dist;
+			path.push_back(addresses[k]);
 		}
-		k=k2;
-		visited[k]=true;
-		distance += dist;
-		path.push_back(addresses[k]);
-
-	}
-	cout << "exited for"<< endl;
-	distance+=fw.getDistance(addresses[k],garage);
-	cout << "fw.getDistance"<< endl;
-	path.push_back(garage);
 
 
-	performed = true;
+		cout << addresses.size() << endl;
+		for (size_t i = 0; i < addresses.size(); i++) {
+			cout << "2nd for" << endl;
+			dist = INF;
+			for (size_t j = 0; j < addresses.size(); j++){
+				cout << "forfor" << endl;
+				if (dist > fw.getDistance(addresses[k],addresses[j]) && !visited[j]){
+					cout << "if" << endl;
+					k2 = j;
+					dist = fw.getDistance(addresses[k],addresses[j]);
+					cout << "dist = " << dist << endl;
+				}
+			}
+			if (dist == INF){
+				cout << "dist = INF --- break"<< endl;
+				break;
+			}
+			k=k2;
+			visited[k]=true;
+			distance += dist;
+			path.push_back(addresses[k]);
+			if (number_of_children >= capacity) break;
+
+		}
+		cout << "exited for"<< endl;
+		distance+=fw.getDistance(addresses[k],garage);
+		cout << "fw.getDistance"<< endl;
+		path.push_back(garage);
+
+
+		performed = true;
 
 }
+
 
 void NearestNeighbour::performWithDij(unsigned school, unsigned garage, vector<unsigned> addresses){
 	size_t k, k2;

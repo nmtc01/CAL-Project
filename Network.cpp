@@ -51,6 +51,7 @@ vector<Vertex>	Network::getChildrenVertices() {
 //Set methods
 void Network::setSchool(unsigned id){
 	school = map.getVertexSet().at(id);
+	schools.push_back(map.getVertexSet().at(id));
 }
 
 void Network::setGarage(unsigned id){
@@ -65,7 +66,7 @@ void Network::insertAddress(unsigned id){
 
 bool Network::removeAddress(unsigned id){
 	vector<Vertex> newVector = {};
-	bool returnValue = true; //true if found the id, else false
+	bool returnValue = false; //true if found the id, else false
 	for (size_t i = 0; i < childrenVertices.size(); i++){
 		if (childrenVertices[i].getId() != id)
 			newVector.push_back(childrenVertices[i]);

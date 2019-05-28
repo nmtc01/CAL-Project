@@ -206,7 +206,8 @@ void graph_menu_interface() {
                 cout << endl << endl << "Insert the id of the vertex for the students' house that you want to remove" << endl;
 				unsigned id = NOT_FOUND;
 				input_receiver(id);
-                                if (network->removeAddress(id)) cout << "Successfuly removed address " << id << endl;
+                if (network->removeAddress(id))
+                	cout << "Successfuly removed address " << id << endl;
 				else cout << "Address " << id << " is not a student house" << endl;
 				break;
 			}
@@ -346,7 +347,6 @@ void graph_menu_interface() {
 
 void graphviewer_option() {
 	GraphViewer *gv = new GraphViewer(1000, 1000, false);
-
 	gv->setBackground("background.jpg");
 
 	gv->createWindow(1000, 1000);
@@ -365,8 +365,31 @@ void graphviewer_option() {
 			ymin = node.getY();
 	}
 
-	for(Vertex node : nodes)
+	bool isSchool = false;
+	bool isHouse = false;
+	for(Vertex node : nodes) {
+
+		for (Vertex school : network->getSchools())
+			if (node.getId() == school.getId()) {
+				gv->setVertexColor(node.getId(), RED);
+				isSchool = true;
+			}
+
+		if (!isSchool)
+			for (Vertex house : network->getChildrenVertices())
+				if (node.getId() == house.getId()) {
+					gv->setVertexColor(node.getId(), GREEN);
+					isHouse = true;
+				}
+
+		if (!isSchool && !isHouse)
+			if (node.getId() == network->getGarageId())
+				gv->setVertexColor(node.getId(), BLACK);
+
 		gv->addNode(node.getId(), node.getX()-xmin, node.getY()-ymin);
+		isSchool = false;
+		isHouse = false;
+	}
 
 	int idEdge = 0;
 	for(Vertex node : nodes) {

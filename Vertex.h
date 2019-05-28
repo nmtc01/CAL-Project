@@ -22,7 +22,7 @@ class Vertex {
 	vector<Edge> edges;
 
 	void addEdge(unsigned destinyId, double weight);
-
+	bool visited = false;
 	double dist = 0;
 	unsigned path = -1;
 	int queue_index = 0;	//required for MutablePriorityQueue

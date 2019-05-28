@@ -6,35 +6,33 @@
  */
 
 #pragma once
-
+#include <ctime>
 #include "Graph.h"
-#include <utility>
+#include "FloydWarshall.h"
+#include "NearestNeighbour.h"
 
-typedef vector<vector<double>> matrix;
+#define TIME_LIMIT 5
 
 class BranchAndBound {
-private:
+	clock_t initial_time;
 	Graph graph;
+	FloydWarshall fw;
 	VertexHashTable visitedVertices;
-	matrix weightMatrix;
-	vector<double> costs;
-	double upperBound = INF;
-	double lowerBound = 0;
-
+	double bound;
+	vector<unsigned> path;
+	bool performed;
+	void recursion(unsigned start, unsigned garage, vector<unsigned> addresses, double distanceUntilNow, vector<unsigned> pathUntilNow);
+	double Prim(vector<unsigned> addresses);
 public:
-	BranchAndBound(Graph graph, double upperBound, double lowerBound);
-	void initializeMatrix();
-	double findMinLine(matrix weights, int line);
-	double findMinCol(matrix weights, int col);
-	double reduceMatrixLine(matrix &weights, int line);
-	double reduceMatrixCol(matrix &weights, int col);
-	double reduceMatrix(matrix &weights);
-	VertexHashTable visitVertex(const unsigned &originId, matrix weights, double originCost, VertexHashTable path);
-	VertexHashTable perform(const unsigned &originId);
-	pair<double,matrix> calculateCostAndMatrix(Edge edge, matrix weights, double originCost);
-	bool existsSmaller(double &min);
-};
 
+	BranchAndBound(Graph graph, FloydWarshall fw);
+	~BranchAndBound();
+	void perform(unsigned school, unsigned garage, vector<unsigned> addresses);
+	void printPath();
+	vector<unsigned> getPath();
+	double getDistance();
+
+};
 
 
 

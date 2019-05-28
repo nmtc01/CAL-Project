@@ -152,12 +152,13 @@ void print_graph_menu() {
 	cout << "\t[4]: Set the garage" << endl;
 	cout << "\t[5]: Remove a student house" << endl;
 	cout << "\t[6]: Calculate with nearest neighbour" << endl;
-	cout << "\t[7]: Calculate with Bellman-Held-Karp" << endl;
-	cout << "\t[8]: See some graph stats (just for testing)" << endl;
-	cout << "\t[9]: See the schools' list" << endl;
-	cout << "\t[10]: See the students houses list" << endl;
-	cout << "\t[11]: Calculate paths matrix" << endl;
-	cout << "\t[12]: Go back to the graph loading menu" << endl << endl;
+	cout << "\t[7]: Calculate with Branch and Bound" << endl;
+	cout << "\t[8]: Calculate with Bellman-Held-Karp" << endl;
+	cout << "\t[9]: See some graph stats (just for testing)" << endl;
+	cout << "\t[10]: See the schools' list" << endl;
+	cout << "\t[11]: See the students houses list" << endl;
+	cout << "\t[12]: Calculate paths matrix" << endl;
+	cout << "\t[13]: Go back to the graph loading menu" << endl << endl;
 }
 
 void graph_menu_interface() {
@@ -165,7 +166,7 @@ void graph_menu_interface() {
 		big_header("Graph Menu");
 		print_graph_menu();
 
-		switch(prompt_menu(1, 12)) {
+		switch(prompt_menu(1, 13)) {
 
 			case 1:
 			{
@@ -242,6 +243,27 @@ void graph_menu_interface() {
 			}
 			case 7:
 			{
+
+				cout << endl << endl << "Calculating FloydWarshall" << endl;
+				clock_t start = clock();
+				network->calculatePathMatrix();
+				clock_t end = clock();
+			    double ms = 1000*(end - start)/CLOCKS_PER_SEC;
+				cout << endl << "Calculated FloydWarshall in " << ms << " miliseconds" << endl;
+				cout << endl << endl << "Calculating with Branch and Bound algorithm" << endl;
+				BranchAndBound BB(network->getMap(), network->getFloydWarshall());
+				start = clock();
+				BB.perform(network->getSchoolId(), network->getGarageId(), network->getChildrenIds());
+				end = clock();
+			    ms = ((double)1000*(end - start))/CLOCKS_PER_SEC;
+				cout << endl << "Calculated Branch and Bound in " << ms << " miliseconds" << endl;
+				cout << "Path found: " << endl;
+				BB.printPath();
+				cout << endl << "Total distance: " << BB.getDistance() << endl;
+				break;
+			}
+			case 8:
+			{
 				cout << endl << endl << "Calculating FloydWarshall" << endl;
 				clock_t start = clock();
 				network->calculatePathMatrix();
@@ -261,7 +283,7 @@ void graph_menu_interface() {
 
 				break;
 			}
-			case 8:
+			case 9:
 			{
 				small_header("Statistics");
 				Graph graph = network->getMap();
@@ -280,7 +302,7 @@ void graph_menu_interface() {
 
 				break;
 			}
-			case 9:
+			case 10:
 			{
 				small_header("Schools");
 
@@ -294,7 +316,7 @@ void graph_menu_interface() {
 				cout << endl << endl;
 				break;
 			}
-			case 10:
+			case 11:
 			{
 				small_header("Students houses");
 
@@ -308,12 +330,12 @@ void graph_menu_interface() {
 				cout << endl << endl;
 				break;
 			}
-			case 11:
+			case 12:
 			{
 				network->calculatePathMatrix();
 				break;
 			}
-			case 12:
+			case 13:
 			{
 				return;
 			}

@@ -45,7 +45,7 @@ void HeldKarp::perform(unsigned school, unsigned garage, vector<unsigned> addres
 	answer.distance = INF;
 	path = {};
 	distance = 0;
-	if (addresses.size()==1){
+	if (addresses.size()==0){
 		path = {school, garage};
 		distance = fw.getDistance(school, garage);
 		return;

@@ -80,7 +80,7 @@ void NearestNeighbour::performWithFW(unsigned school, unsigned garage, vector<un
 			}
 		}
 		if (dist == INF){
-			cout << "dist = INF --- brak"<< endl;
+			cout << "dist = INF --- break"<< endl;
 			break;
 		}
 		k=k2;
@@ -89,7 +89,9 @@ void NearestNeighbour::performWithFW(unsigned school, unsigned garage, vector<un
 		path.push_back(addresses[k]);
 
 	}
+	cout << "exited for"<< endl;
 	distance+=fw.getDistance(addresses[k],garage);
+	cout << "fw.getDistance"<< endl;
 	path.push_back(garage);
 
 

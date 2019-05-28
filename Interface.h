@@ -11,6 +11,7 @@
 #include "Network.h"
 #include "NearestNeighbour.h"
 #include "HeldKarp.h"
+#include "BranchAndBound.h"
 
 #define HEADER_SIZE_BIG 50
 #define HEADER_SIZE_SMALL 30

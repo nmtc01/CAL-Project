@@ -1,175 +1,148 @@
 /*
- * BranchAndBound.c
+ * BranchAndBound.cpp
  *
- *  Created on: 26/05/2019
- *      Author: Nuno Cardoso
+ *  Created on: 24 de mai de 2019
+ *      Author: Estudio
  */
 
 #include "BranchAndBound.h"
 
-BranchAndBound::BranchAndBound(Graph graph, double upperBound, double lowerBound) {
+BranchAndBound::BranchAndBound(Graph graph, FloydWarshall fw) {
 	this->graph = graph;
-	this->upperBound = upperBound;
-	this->lowerBound = lowerBound;
+	this->fw = fw;
+	performed = false;
+	bound = INF;
+
 }
 
-void BranchAndBound::initializeMatrix() {
-	vector<Vertex> nodes = graph.getVertexSet();
-	vector<double> weights;
-
-	for (unsigned i = 0; i < nodes.size(); i++) {
-		weights.push_back(INF);
+double BranchAndBound::Prim(vector<unsigned> addresses) {
+	if (addresses.size() == 0)
+		return 0;
+	// Reset auxiliary info
+	double min_dist = INF;
+	unsigned k = 0;
+	vector<double> dist;
+	vector<bool> visited;
+	dist.push_back(0);
+	visited.push_back(false);
+	for(size_t i = 1; i < addresses.size(); i++) {
+		dist.push_back(INF);
+		//v->path = nullptr;
+		visited.push_back(false);
 	}
+		// start with an arbitrary vertex
+	unsigned s = addresses[0];
 
-	for (unsigned i = 0; i < nodes.size(); i++) {
-		weightMatrix.push_back(weights);
-	}
-
-	for (unsigned i = 0; i < nodes.size(); i++) {
-		vector<Edge> edges = nodes.at(i).getEdges();
-		for (unsigned j = 0; j < edges.size(); j++) {
-			weights.at(edges.at(j).getDestinyId()) = edges.at(j).getWeight();
+	// process vertices in the priority queue
+	for(size_t i = 0; i < addresses.size(); i++) {
+		min_dist=INF;
+		for(size_t j = 0; j < addresses.size(); j++) {
+			if (!visited[j] && dist[j] < min_dist) {
+				k = j;
+				min_dist=dist[j];
+			}
 		}
-		weightMatrix.at(nodes.at(i).getId()) = weights;
-	}
-}
-
-double BranchAndBound::findMinLine(matrix weights, int line) {
-	double min = weights[line][0];
-	for (unsigned i = 0; i < weights[line].size(); i++) {
-		if (weights[line][i] < min)
-			min = weights[line][i];
-	}
-
-	return min;
-}
-
-double BranchAndBound::findMinCol(matrix weights, int col) {
-	double min = weights[0][col];
-	for (unsigned i = 0; i < weights.size(); i++) {
-		if (weights[i][col] < min)
-			min = weights[i][col];
-	}
-
-	return min;
-}
-
-double BranchAndBound::reduceMatrixLine(matrix &weights, int line) {
-	double min = findMinLine(weights, line);
-	for (unsigned i = 0; i < weights[line].size(); i++) {
-		if (weights[line][i] != INF)
-			weights[line][i] -= min;
-	}
-
-	return min;
-}
-
-double BranchAndBound::reduceMatrixCol(matrix &weights, int col) {
-	double min = findMinCol(weights, col);
-	for (unsigned i = 0; i < weights.size(); i++) {
-		if (weights[i][col] != INF)
-			weights[i][col] -= min;
-	}
-	return min;
-}
-
-double BranchAndBound::reduceMatrix(matrix &weights) {
-	double reduction;
-	for (unsigned i = 0; i < weights.size(); i++) {
-		reduction += reduceMatrixLine(weights, i);
-	}
-	for (unsigned i = 0; i < weights[0].size(); i++) {
-		reduction += reduceMatrixCol(weights, i);
-	}
-
-	return reduction;
-}
-
-pair<double,matrix> BranchAndBound::calculateCostAndMatrix(Edge edge, matrix weights, double originCost) {
-	double cost = originCost + weights[edge.getSourceId()][edge.getDestinyId()];
-
-	for (unsigned i = 0; i < weights[edge.getSourceId()].size(); i++) {
-		weights[edge.getSourceId()][i] = INF;
-		weights[i][edge.getDestinyId()] = INF;
-	}
-
-	weights[edge.getDestinyId()][edge.getSourceId()] = INF;
-
-	cost += reduceMatrix(weights);
-
-	return make_pair(cost, weights);
-}
-
-bool BranchAndBound::existsSmaller(double &min) {
-	for (unsigned i = 0; i < costs.size(); i++)
-		if (costs[i] < min)
-			return true;
-	return false;
-}
-
-VertexHashTable BranchAndBound::visitVertex(const unsigned &originId, matrix weights, double originCost, VertexHashTable path) {
-	Vertex origin = graph.getVertex(originId);
-
-	bool getOut = true;
-	for (unsigned i = 0; i < origin.getEdges().size(); i++) {
-		if (path.find(graph.getVertex(origin.getEdges()[i].getDestinyId())) == path.end())
-			getOut = false;
-	}
-	if (getOut) {
-		visitedVertices = path;
-		return path;
-	}
-
-	vector<pair<double,matrix>> pathsCostAndMatrix;
-	double minCost = INF;
-	unsigned minIndex = 0;
-
-	for (unsigned i = 0; i < origin.getEdges().size(); i++){
-		if (path.find(graph.getVertex(origin.getEdges()[i].getDestinyId())) != path.end())
-			continue;
-		pathsCostAndMatrix.push_back(calculateCostAndMatrix(origin.getEdges()[i], weights, originCost));
-		if (pathsCostAndMatrix[i].first < minCost) {
-			minCost = pathsCostAndMatrix[i].first;
-			minIndex = i;
+		visited[k] = true;
+		for(size_t j = 0; j < addresses.size(); j++) {
+			if (!visited[j]) {
+				if(fw.getDistance(addresses[k], addresses[j]) < dist[j] ) {
+					dist[j] = fw.getDistance(addresses[k],addresses[j]);
+				}
+			}
 		}
 	}
-	costs.push_back(minCost);
+	double total = 0;
+	for(size_t i = 0; i < dist.size(); i++) total += dist[i];
+	return total;
+}
 
-	if (!existsSmaller(minCost)) {
-		path.insert(graph.getVertex(origin.getEdges()[minIndex].getDestinyId()));
-		visitVertex(origin.getEdges()[minIndex].getDestinyId(), pathsCostAndMatrix[minIndex].second, minCost, path);
-	}
-	else return path;
 
-	minCost = INF;
-	for (unsigned int i = 0; i < origin.getEdges().size(); i++) {
-		if (i == minIndex || path.find(graph.getVertex(origin.getEdges()[i].getDestinyId())) != path.end())
-			continue;
-		if (pathsCostAndMatrix[i].first < minCost) {
-			minCost = pathsCostAndMatrix[i].first;
-			minIndex = i;
+
+void BranchAndBound::recursion(unsigned start, unsigned garage, vector<unsigned> addresses, double distanceUntilNow, vector<unsigned> pathUntilNow) {
+	cout << "recursion" << endl;
+	if (addresses.size() == 0){
+		if (distanceUntilNow + fw.getDistance(start, garage) < bound){
+			bound = distanceUntilNow + fw.getDistance(start, garage);
+			pathUntilNow.push_back(garage);
+			path = pathUntilNow;
+			return;
 		}
+		else return;
 	}
-	costs.push_back(minCost);
-	visitVertex(origin.getEdges()[minIndex].getDestinyId(), pathsCostAndMatrix[minIndex].second, minCost, path);
+	if (addresses.size() == 1){
+		double dist = distanceUntilNow + fw.getDistance(start, addresses[0]) + fw.getDistance(addresses[0], garage);
+		if (dist < bound){
+			bound = dist;
+			pathUntilNow.push_back(addresses[0]);
+			pathUntilNow.push_back(garage);
+			path = pathUntilNow;
+			return;
+		}
+		else return;
+	}
+	clock_t now = clock();
+	if ((now-initial_time)/CLOCKS_PER_SEC > TIME_LIMIT) return;
 
+	vector<unsigned> dest = addresses;
+	dest.push_back(garage);
+	dest.push_back(start);
+	if (Prim(dest) + distanceUntilNow > bound)	return;
+
+	vector<bool> checked;
+	for (size_t j = 0; j < addresses.size(); j++) checked.push_back(false);
+	unsigned k=0;
+	vector<unsigned> path_tmp, addr_tmp;
+	double min_dist = INF;
+	for (size_t i = 0; i < addresses.size(); i++) {
+		for (size_t j = 0; j < addresses.size(); j++){
+			if (!checked[j] && fw.getDistance(start,addresses[j]) < min_dist) {
+				k = j;
+				min_dist = fw.getDistance(start,addresses[j]);
+			}
+		}
+
+		addr_tmp={};
+		for (size_t j = 0; j < addresses.size(); j++){
+			if (k != j) addr_tmp.push_back(addresses[j]);
+		}
+		path_tmp = pathUntilNow;
+		path_tmp.push_back(start);
+		recursion(addresses[k], garage, addr_tmp, distanceUntilNow + fw.getDistance(start,addresses[k]), path_tmp);
+		now = clock();
+		if ((now-initial_time)/CLOCKS_PER_SEC > TIME_LIMIT) return;
+
+	}
+	return;
+}
+
+
+
+void BranchAndBound::perform(unsigned school, unsigned garage, vector<unsigned> addresses){
+	NearestNeighbour NN(graph, fw);
+	NN.perform(school, garage, addresses);
+	path = NN.getPath();
+	bound = NN.getDistance();
+	vector<unsigned> tmp = {};
+	double zero = 0.0;
+	recursion(school, garage, addresses, zero, tmp);
+	performed = true;
+}
+
+void BranchAndBound::printPath(){
+	for (size_t j = 0; j < path.size(); j++)
+		cout << path[j] << " ";
+	cout << endl;
+}
+
+vector<unsigned> BranchAndBound::getPath(){
 	return path;
 }
 
-VertexHashTable BranchAndBound::perform(const unsigned &originId) {
-	visitedVertices.clear();
-
-	initializeMatrix();
-
-	lowerBound = reduceMatrix(weightMatrix);
-
-	VertexHashTable path;
-	path.clear();
-	visitVertex(originId, weightMatrix, lowerBound, path);
-
-	return visitedVertices;
+double BranchAndBound::getDistance(){
+	return bound;
 }
 
 
-
-
+BranchAndBound::~BranchAndBound() {
+	// TODO Auto-generated destructor stub
+}

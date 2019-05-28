@@ -14,6 +14,8 @@ class DFS {
 	Graph graph;
 	VertexHashTable visitedVertices;
 
+	bool wasVisited(unsigned id);
+
 public:
 	//Constructor
 	DFS(Graph &graph);

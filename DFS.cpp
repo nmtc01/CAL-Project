@@ -24,8 +24,12 @@ void DFS::visitVertex(const unsigned &vertexId) {
 	if(visitedVertices.find(current) == visitedVertices.end())
 		visitedVertices.insert( graph.getVertex(vertexId) );
 
-	for(Edge edge : current.getEdges())
-		visitVertex(edge.getDestinyId());
+	for(Edge edge : current.getEdges()) {
+		unsigned destinyId = edge.getDestinyId();
+		if(!wasVisited(destinyId)) {
+			visitVertex(destinyId);
+		}
+	}
 }
 
 bool DFS::isPossible(const unsigned &originId, const unsigned &destinyId) {
@@ -56,6 +60,9 @@ vector<int> DFS::isPossible(const unsigned &originId, const vector<int> &destiny
 	return unreachable;
 }
 
+bool DFS::wasVisited(unsigned id) {
+	return visitedVertices.find(graph.getVertex(id)) != visitedVertices.end();
+}
 
 
 

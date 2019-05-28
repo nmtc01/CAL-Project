@@ -1,0 +1,6 @@
+/*
+ * StudentHouse.h
+ *
+ */
+
+#pragma once

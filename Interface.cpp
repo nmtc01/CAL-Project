@@ -7,6 +7,7 @@
 #include <ctime>
 
 Network* network = new Network();
+vector<unsigned> visitedVerticesIds;
 
 //General header drawing function
 void big_header(string message) {
@@ -286,6 +287,7 @@ void graph_menu_interface() {
 				ms = ((double)1000*(end - start))/CLOCKS_PER_SEC;
 				cout << endl << "Calculated NearestNeighbour in " << ms << " miliseconds" << endl;
 				cout << "Path found: " << endl;
+				visitedVerticesIds = NN.getPath();
 				NN.printPath();
 				cout << endl << "Total distance: " << NN.getDistance() << endl;
 				break;
@@ -311,6 +313,7 @@ void graph_menu_interface() {
 			    ms = ((double)1000*(end - start))/CLOCKS_PER_SEC;
 				cout << endl << "Calculated Branch and Bound in " << ms << " miliseconds" << endl;
 				cout << "Path found: " << endl;
+				visitedVerticesIds = BB.getPath();
 				BB.printPath();
 				cout << endl << "Total distance: " << BB.getDistance() << endl;
 				break;
@@ -335,6 +338,7 @@ void graph_menu_interface() {
 			    ms = ((double)1000*(end - start))/CLOCKS_PER_SEC;
 				cout << endl << "Calculated Bellman-Held-Karp in " << ms << " miliseconds" << endl;
 				cout << "Path found: " << endl;
+				visitedVerticesIds = HK.getPath();
 				HK.printPath();
 				cout << endl << "Total distance: " << HK.getDistance() << endl;
 
@@ -410,7 +414,6 @@ void graph_menu_interface() {
 
 void graphviewer_option() {
 	GraphViewer *gv = new GraphViewer(1000, 1000, false);
-
 	gv->setBackground("background.jpg");
 
 	gv->createWindow(1000, 1000);
@@ -429,8 +432,42 @@ void graphviewer_option() {
 			ymin = node.getY();
 	}
 
-	for(Vertex node : nodes)
+	bool isSchool = false;
+	bool isHouse = false;
+	bool isGarage = false;
+	for(Vertex node : nodes) {
+
+		for (Vertex school : network->getSchools())
+			if (node.getId() == school.getId()) {
+				gv->setVertexColor(node.getId(), RED);
+				isSchool = true;
+			}
+
+		if (!isSchool)
+			for (Vertex house : network->getChildrenVertices())
+				if (node.getId() == house.getId()) {
+					gv->setVertexColor(node.getId(), GREEN);
+					isHouse = true;
+				}
+
+		if (!isSchool && !isHouse)
+			if (node.getId() == network->getGarageId()) {
+				gv->setVertexColor(node.getId(), BLACK);
+				isGarage = true;
+			}
+
+		if (!isSchool && !isHouse && !isGarage)
+			for (unsigned id : visitedVerticesIds)
+				if (node.getId() == id) {
+					gv->setVertexColor(node.getId(), BLUE);
+				}
+
 		gv->addNode(node.getId(), node.getX()-xmin, node.getY()-ymin);
+
+		isSchool = false;
+		isHouse = false;
+		isGarage = false;
+	}
 
 	int idEdge = 0;
 	for(Vertex node : nodes) {
@@ -442,7 +479,6 @@ void graphviewer_option() {
 		}
 	}
 }
-
 
 
 /*** WORK IN PROGRESS ***/

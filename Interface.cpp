@@ -7,6 +7,7 @@
 #include <ctime>
 
 Network* network = new Network();
+vector<unsigned> visitedVerticesIds;
 
 //General header drawing function
 void big_header(string message) {
@@ -167,7 +168,7 @@ void graph_menu_interface() {
 		big_header("Graph Menu");
 		print_graph_menu();
 
-		switch(prompt_menu(1, 13)) {
+		switch(prompt_menu(1, 14)) {
 
 			case 1:
 			{
@@ -182,10 +183,6 @@ void graph_menu_interface() {
 				input_receiver(id);
 				clock_t start,end;
 				double ms;
-				if (network->getGarageId() == NOT_FOUND) {
-					cout << endl << endl << "Please, choose the garage address before inserting other addresses" << endl;
-					break;
-				}
 				if (!network->getFloydWarshall().alreadyPerformed()) {
 					cout << endl << endl << "Calculating FloydWarshall" << endl;
 					start = clock();
@@ -193,6 +190,10 @@ void graph_menu_interface() {
 					end = clock();
 					ms = ((double)1000*(end - start))/CLOCKS_PER_SEC;
 					cout << endl << "Calculated FloydWarshall in " << ms << " miliseconds" << endl;
+				}
+				if (network->getGarageId() == NOT_FOUND) {
+					cout << endl << endl << "Please, choose the garage address before inserting other addresses" << endl;
+					break;
 				}
 				if (network->getFloydWarshall().alreadyPerformed()){
 					if (network->getFloydWarshall().getDistance(id,network->getGarage().getId()) != INF){
@@ -277,6 +278,7 @@ void graph_menu_interface() {
 				ms = ((double)1000*(end - start))/CLOCKS_PER_SEC;
 				cout << endl << "Calculated NearestNeighbour in " << ms << " miliseconds" << endl;
 				cout << "Path found: " << endl;
+				visitedVerticesIds = NN.getPath();
 				NN.printPath();
 				cout << endl << "Total distance: " << NN.getDistance() << endl;
 				break;
@@ -421,6 +423,7 @@ void graphviewer_option() {
 
 	bool isSchool = false;
 	bool isHouse = false;
+	bool isGarage = false;
 	for(Vertex node : nodes) {
 
 		for (Vertex school : network->getSchools())
@@ -437,12 +440,22 @@ void graphviewer_option() {
 				}
 
 		if (!isSchool && !isHouse)
-			if (node.getId() == network->getGarageId())
+			if (node.getId() == network->getGarageId()) {
 				gv->setVertexColor(node.getId(), BLACK);
+				isGarage = true;
+			}
+
+		if (!isSchool && !isHouse && !isGarage)
+			for (unsigned id : visitedVerticesIds)
+				if (node.getId() == id) {
+					gv->setVertexColor(node.getId(), BLUE);
+				}
 
 		gv->addNode(node.getId(), node.getX()-xmin, node.getY()-ymin);
+
 		isSchool = false;
 		isHouse = false;
+		isGarage = false;
 	}
 
 	int idEdge = 0;

@@ -62,7 +62,8 @@ void NearestNeighbour::performWithFW(unsigned school, unsigned garage, vector<un
 	if (dist != INF){
 		visited[k]=true;
 		distance += dist;
-		path.push_back(addresses[k]);
+		vector<unsigned> tmp = fw.getPath(school, addresses[k]);
+		path.insert(path.end(), tmp.begin(), tmp.end());
 	}
 
 

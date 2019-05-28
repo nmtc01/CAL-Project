@@ -118,6 +118,7 @@ void BranchAndBound::recursion(unsigned start, unsigned garage, vector<unsigned>
 
 
 void BranchAndBound::perform(unsigned school, unsigned garage, vector<unsigned> addresses){
+	initial_time = clock();
 	NearestNeighbour NN(graph, fw);
 	NN.perform(school, garage, addresses);
 	path = NN.getPath();

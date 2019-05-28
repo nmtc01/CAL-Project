@@ -50,10 +50,12 @@ vector<Vertex>	Network::getChildrenVertices() {
 
 //Set methods
 void Network::setSchool(unsigned id){
+	cout<<"a";
 	school = map.getVertexSet().at(id);
 }
 
 void Network::setGarage(unsigned id){
+	cout<<"b";
 	garage = map.getVertexSet().at(id);
 }
 
@@ -126,6 +128,9 @@ vector<unsigned> Network::getChildrenIds(){
 	return ids;
 }
 
+void Network::clearChildrenVertices(){
+	childrenVertices = {};
+}
 
 
 

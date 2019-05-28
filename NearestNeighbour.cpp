@@ -68,8 +68,10 @@ void NearestNeighbour::performWithFW(unsigned school, unsigned garage, vector<un
 		if (dist != INF){
 			visited[k]=true;
 			distance += dist;
-			path.push_back(addresses[k]);
+			vector<unsigned> tmp = fw.getPath(school, addresses[k]);
+			path.insert(path.end(), tmp.begin(), tmp.end());
 			number_of_children += 1;
+			
 		}
 
 
@@ -94,14 +96,16 @@ void NearestNeighbour::performWithFW(unsigned school, unsigned garage, vector<un
 			k=k2;
 			visited[k]=true;
 			distance += dist;
-			path.push_back(addresses[k]);
+			vector<unsigned> tmp = fw.getPath(school, addresses[k]);
+			path.insert(path.end(), tmp.begin(), tmp.end());
 			number_of_children+=1;
 
 		}
 		cout << "exited for"<< endl;
 		distance+=fw.getDistance(addresses[k],garage);
 		cout << "fw.getDistance"<< endl;
-		path.push_back(garage);
+		vector<unsigned> tmp = fw.getPath(garage, addresses[k]);
+		path.insert(path.end(), tmp.begin(), tmp.end());
 
 
 		performed = true;

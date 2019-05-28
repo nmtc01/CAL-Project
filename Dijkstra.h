@@ -40,7 +40,6 @@ class Dijkstra {
 	void addPathsMap(unsigned sourceId, unsigned destinyId);
 	void addDistancesMap(unsigned id, double weight);
 	bool wasVisited(unsigned id);
-	vector<unsigned> getPath(unsigned sourceId, unsigned destinyId);
 
 
 public:
@@ -49,8 +48,9 @@ public:
 	Dijkstra(const Graph &graph);
 
 	//Calculates the optimal path between source and destiny
-	vector<unsigned> perform(unsigned sourceId, unsigned destinyId);
-	double getDistance(unsigned sourceId, unsigned destinyId) const;
+	vector<unsigned> perform(unsigned sourceId);
+	double getDistance(unsigned destinyId) const;
+	vector<unsigned> getPath(unsigned sourceId, unsigned destinyId) const;
 
 };
 

@@ -7,7 +7,7 @@
 
 #include "Graph.h"
 #include "FloydWarshall.h"
-#include "Dijkstra.h"
+#include "MultipleDijkstra.h"
 
 
 class Network {
@@ -19,7 +19,7 @@ class Network {
 	vector<Vertex> childrenVertices;    // vertex set
 	unsigned int numberOfBus;
 	FloydWarshall fw;
-	Dijkstra dij;
+	MultipleDijkstra dij;
 /*
 	Matrix distances;
 	vector<double> distancesFromSchool;
@@ -32,6 +32,7 @@ public:
 	Network();
 	Graph getMap();
 	FloydWarshall getFloydWarshall();
+	MultipleDijkstra getDijkstra();
 	void loadMap(const Graph& newMap);
 	void initializeSchools();
 	vector<Vertex> getSchools();

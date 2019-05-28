@@ -211,14 +211,25 @@ void graph_menu_interface() {
 			}
 			case 6:
 			{
-				cout << endl << endl << "Calculating FloydWarshall" << endl;
-				clock_t start = clock();
-				network->calculatePathMatrix();
-				clock_t end = clock();
-			    double ms = ((double)1000*(end - start))/CLOCKS_PER_SEC;
-				cout << endl << "Calculated FloydWarshall in " << ms << " miliseconds" << endl;
-				cout << endl << endl << "Calculating with nearest neighbour algorithm" << endl;
-				NearestNeighbour NN(network->getMap(), network->getFloydWarshall());
+				clock_t start,end;
+				double ms;
+				if (!network->getFloydWarshall().alreadyPerformed()) {
+					cout << endl << endl << "Calculating FloydWarshall" << endl;
+					start = clock();
+					network->calculatePathMatrix();
+					end = clock();
+					ms = ((double)1000*(end - start))/CLOCKS_PER_SEC;
+					cout << endl << "Calculated FloydWarshall in " << ms << " miliseconds" << endl;
+				}
+				NearestNeighbour NN;
+				if (network->getFloydWarshall().alreadyPerformed()){
+					cout << endl << endl << "Calculating with nearest neighbour algorithm" << endl;
+					NN = NearestNeighbour(network->getMap(), network->getFloydWarshall());
+				}
+				else {
+					cout << endl << endl << "Calculating with nearest neighbour algorithm" << endl;
+					NN = NearestNeighbour(network->getMap(), network->getDijkstra());
+				}
 				start = clock();
 				NN.perform(network->getSchoolId(), network->getGarageId(), network->getChildrenIds());
 				end = clock();
@@ -227,7 +238,6 @@ void graph_menu_interface() {
 				cout << "Path found: " << endl;
 				NN.printPath();
 				cout << endl << "Total distance: " << NN.getDistance() << endl;
-
 				break;
 			}
 			case 7:

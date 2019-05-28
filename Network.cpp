@@ -92,16 +92,22 @@ void Network::calculatePathMatrix(){
 	}
 	else {
 		//Neste caso calcular Dijkstra para cada vertice
-		dij = Dijkstra(map);
+		dij = MultipleDijkstra(map);
+		vector<unsigned> tmp = {};
 		for (size_t i = 0; i < childrenVertices.size(); i++){
-				dij.perform(childrenVertices[i].getId(),childrenVertices[i].getId());
+				tmp.push_back(childrenVertices[i].getId());
 		}
+		tmp.push_back(school.getId());
+		dij.perform(tmp);
 
 	}
 }
 
 FloydWarshall Network::getFloydWarshall(){
 	return fw;
+}
+MultipleDijkstra Network::getDijkstra(){
+	return dij;
 }
 
 
@@ -120,32 +126,6 @@ vector<unsigned> Network::getChildrenIds(){
 	return ids;
 }
 
-
-
-/*
-Matrix Network::getDistances(){
-	return distances;
-}
-
-vector<vector<vector<unsigned>>> Network::getPaths(){
-	return paths;
-}
-
-vector<double> Network::getDistancesFromSchool(){
-	return distancesFromSchool;
-}
-
-vector<double> Network::getDistancesToGarage(){
-	return distancesToGarage;
-}
-
-vector<vector<unsigned>> Network::getPathsFromSchool(){
-	return pathsFromSchool;
-}
-
-vector<vector<unsigned>> Network::getPathsToGarage(){
-	return pathsToGarage;
-}*/
 
 
 

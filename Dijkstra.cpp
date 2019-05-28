@@ -4,6 +4,7 @@
  */
 
 #include "Dijkstra.h"
+#include <iostream>
 
 
 //Constructors
@@ -13,7 +14,7 @@ Dijkstra::Dijkstra(const Graph &graph) : graph(graph) {}
 
 
 //Performs the search
-vector<unsigned> Dijkstra::perform(unsigned sourceId, unsigned destinyId) {
+vector<unsigned> Dijkstra::perform(unsigned sourceId) {
 	resetDataStructures();
 
 	pQueue.push(make_pair(sourceId, 0));
@@ -24,8 +25,6 @@ vector<unsigned> Dijkstra::perform(unsigned sourceId, unsigned destinyId) {
 		unsigned currentId = pQueue.top().first;
 		pQueue.top();
 
-		if(currentId == destinyId)					//can be removed to get path to all vertices (I think)
-			return getPath(sourceId, destinyId);
 
 		visitedVertices.insert(graph.getVertex(currentId));
 
@@ -51,22 +50,22 @@ vector<unsigned> Dijkstra::perform(unsigned sourceId, unsigned destinyId) {
 	return {};
 }
 
-vector<unsigned> Dijkstra::getPath(unsigned sourceId, unsigned destinyId) {
-	solution.clear();
+vector<unsigned> Dijkstra::getPath(unsigned sourceId, unsigned destinyId) const{
+	vector<unsigned> s = {};
 
 	unsigned currentId = destinyId;
-
 	while(currentId != sourceId) {
-		solution.push_back(currentId);
+		s.push_back(currentId);
 		currentId = paths.at(currentId);
 	}
 
-	reverse(solution.begin(), solution.end());
-	return solution;
+	reverse(s.begin(), s.end());
+	return s;
 }
 
 //SHOULD ONLY BE USED AFTER PERFORMING IN THE SOURCEID
-double Dijkstra::getDistance(unsigned sourceId, unsigned destinyId) const {
+double Dijkstra::getDistance(unsigned destinyId) const {
+	cout << "Dijkstra::getDistance(" << destinyId << ")"  <<endl;
 	if(distances.find(destinyId) == distances.end())
 		return INF;
 

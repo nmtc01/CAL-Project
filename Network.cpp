@@ -53,6 +53,7 @@ vector<Vertex>	Network::getChildrenVertices() {
 void Network::setSchool(unsigned id){
 	cout<<"a";
 	school = map.getVertexSet().at(id);
+	schools.push_back(map.getVertexSet().at(id));
 }
 
 void Network::setGarage(unsigned id){

@@ -462,6 +462,7 @@ void graphviewer_option() {
 					gv->setVertexColor(node.getId(), BLUE);
 				}
 
+		gv->setVertexLabel(node.getId(), to_string(node.getId()));
 		gv->addNode(node.getId(), node.getX()-xmin, node.getY()-ymin);
 
 		isSchool = false;

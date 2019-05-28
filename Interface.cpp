@@ -168,7 +168,7 @@ void graph_menu_interface() {
 		big_header("Graph Menu");
 		print_graph_menu();
 
-		switch(prompt_menu(1, 13)) {
+		switch(prompt_menu(1, 15)) {
 
 			case 1:
 			{
@@ -281,7 +281,7 @@ void graph_menu_interface() {
 					NN = NearestNeighbour(network->getMap(), network->getDijkstra());
 				}
 				start = clock();
-				NN.perform(network->getSchoolId(), network->getGarageId(), network->getChildrenIds());
+				NN.perform(network->getSchoolId(), network->getGarageId(), network->getChildrenIds(), network->getBusCapacity());
 				end = clock();
 				ms = ((double)1000*(end - start))/CLOCKS_PER_SEC;
 				cout << endl << "Calculated NearestNeighbour in " << ms << " miliseconds" << endl;

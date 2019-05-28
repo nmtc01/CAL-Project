@@ -69,12 +69,14 @@ void NearestNeighbour::performWithFW(unsigned school, unsigned garage, vector<un
 			visited[k]=true;
 			distance += dist;
 			path.push_back(addresses[k]);
+			number_of_children += 1;
 		}
 
 
 		cout << addresses.size() << endl;
 		for (size_t i = 0; i < addresses.size(); i++) {
 			cout << "2nd for" << endl;
+			if (number_of_children >= capacity) break;
 			dist = INF;
 			for (size_t j = 0; j < addresses.size(); j++){
 				cout << "forfor" << endl;
@@ -93,7 +95,7 @@ void NearestNeighbour::performWithFW(unsigned school, unsigned garage, vector<un
 			visited[k]=true;
 			distance += dist;
 			path.push_back(addresses[k]);
-			if (number_of_children >= capacity) break;
+			number_of_children+=1;
 
 		}
 		cout << "exited for"<< endl;

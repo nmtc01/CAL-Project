@@ -9,6 +9,7 @@
 //Constructor
 Network::Network() {
 	numberOfBus = 0;
+	busCapacity = NOT_FOUND;
 };
 
 
@@ -52,7 +53,6 @@ vector<Vertex>	Network::getChildrenVertices() {
 void Network::setSchool(unsigned id){
 	cout<<"a";
 	school = map.getVertexSet().at(id);
-	schools.push_back(map.getVertexSet().at(id));
 }
 
 void Network::setGarage(unsigned id){
@@ -68,7 +68,7 @@ void Network::insertAddress(unsigned id){
 
 bool Network::removeAddress(unsigned id){
 	vector<Vertex> newVector = {};
-	bool returnValue = false; //true if found the id, else false
+	bool returnValue = true; //true if found the id, else false
 	for (size_t i = 0; i < childrenVertices.size(); i++){
 		if (childrenVertices[i].getId() != id)
 			newVector.push_back(childrenVertices[i]);
@@ -121,6 +121,10 @@ unsigned Network::getGarageId(){
 	return garage.getId();
 }
 
+unsigned Network::getBusCapacity(){
+	return busCapacity;
+}
+
 vector<unsigned> Network::getChildrenIds(){
 	vector<unsigned> ids = {};
 	for (size_t i = 0; i < childrenVertices.size(); i++){
@@ -128,6 +132,11 @@ vector<unsigned> Network::getChildrenIds(){
 	}
 	return ids;
 }
+
+void Network::setBusCapacity(unsigned cap){
+	busCapacity = cap;
+}
+
 
 void Network::clearChildrenVertices(){
 	childrenVertices = {};

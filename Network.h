@@ -18,6 +18,7 @@ class Network {
 	vector<Vertex> schools;
 	vector<Vertex> childrenVertices;    // vertex set
 	unsigned int numberOfBus;
+	unsigned busCapacity;
 	FloydWarshall fw;
 	MultipleDijkstra dij;
 public:
@@ -41,6 +42,9 @@ public:
 
 	void insertAddress(unsigned id);
 	bool removeAddress(unsigned id);
+	unsigned getBusCapacity();
+	void setBusCapacity(unsigned cap);
+
 	unsigned int getNumberOfBus();
 	void setNumberOfBus();
 

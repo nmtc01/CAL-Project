@@ -158,7 +158,8 @@ void print_graph_menu() {
 	cout << "\t[10]: See the schools' list" << endl;
 	cout << "\t[11]: See the students houses list" << endl;
 	cout << "\t[12]: Calculate paths matrix" << endl;
-	cout << "\t[13]: Go back to the graph loading menu" << endl << endl;
+	cout << "\t[13]: Reset network" << endl;
+	cout << "\t[14]: Go back to the graph loading menu" << endl << endl;
 }
 
 void graph_menu_interface() {
@@ -179,17 +180,55 @@ void graph_menu_interface() {
 				cout << endl << endl << "Insert the id of the vertex for the students' house" << endl;
 				unsigned id = NOT_FOUND;
 				input_receiver(id);
-				network->insertAddress(id);
-				cout << "Successfuly inserted address " << id << endl;
+				clock_t start,end;
+				double ms;
+				if (network->getGarageId() == NOT_FOUND) {
+					cout << endl << endl << "Please, choose the garage address before inserting other addresses" << endl;
+					break;
+				}
+				if (!network->getFloydWarshall().alreadyPerformed()) {
+					cout << endl << endl << "Calculating FloydWarshall" << endl;
+					start = clock();
+					network->calculatePathMatrix();
+					end = clock();
+					ms = ((double)1000*(end - start))/CLOCKS_PER_SEC;
+					cout << endl << "Calculated FloydWarshall in " << ms << " miliseconds" << endl;
+				}
+				if (network->getFloydWarshall().alreadyPerformed()){
+					if (network->getFloydWarshall().getDistance(id,network->getGarage().getId()) != INF){
+						network->insertAddress(id);
+						cout << "Successfuly inserted address " << id << endl;
+					}
+					else cout << "Impossible to reach garage from the vertex " << id << ". Please try another vertex" << endl;
+
+				}
 				break;
 			}
 			case 3:
 			{
+
+				if (network->getGarageId() == NOT_FOUND) {
+					cout << endl << endl << "Please, choose the garage address before inserting other addresses" << endl;
+					break;
+				}
+				clock_t start,end;
+				double ms;
+				if (!network->getFloydWarshall().alreadyPerformed()) {
+					cout << endl << endl << "Calculating FloydWarshall" << endl;
+					start = clock();
+					network->calculatePathMatrix();
+					end = clock();
+					ms = ((double)1000*(end - start))/CLOCKS_PER_SEC;
+					cout << endl << "Calculated FloydWarshall in " << ms << " miliseconds" << endl;
+				}
 				cout << endl << endl << "Insert the id of the vertex for the school" << endl;
 				unsigned id = NOT_FOUND;
 				input_receiver(id);
-				network->setSchool(id);
-				cout << "Successfuly set school at address " << id << endl;
+				if (network->getFloydWarshall().getDistance(id,network->getGarageId()) != INF){
+					network->setSchool(id);
+					cout << "Successfuly set school at address " << id << endl;
+				}
+				else cout << "Impossible to reach garage from the vertex " << id << ". Please try another vertex" << endl;
 				break;
 			}
 			case 4:
@@ -245,12 +284,16 @@ void graph_menu_interface() {
 			case 7:
 			{
 
-				cout << endl << endl << "Calculating FloydWarshall" << endl;
-				clock_t start = clock();
-				network->calculatePathMatrix();
-				clock_t end = clock();
-			    double ms = 1000*(end - start)/CLOCKS_PER_SEC;
-				cout << endl << "Calculated FloydWarshall in " << ms << " miliseconds" << endl;
+				clock_t start,end;
+				double ms;
+				if (!network->getFloydWarshall().alreadyPerformed()) {
+					cout << endl << endl << "Calculating FloydWarshall" << endl;
+					start = clock();
+					network->calculatePathMatrix();
+					end = clock();
+					ms = ((double)1000*(end - start))/CLOCKS_PER_SEC;
+					cout << endl << "Calculated FloydWarshall in " << ms << " miliseconds" << endl;
+				}
 				cout << endl << endl << "Calculating with Branch and Bound algorithm" << endl;
 				BranchAndBound BB(network->getMap(), network->getFloydWarshall());
 				start = clock();
@@ -265,12 +308,16 @@ void graph_menu_interface() {
 			}
 			case 8:
 			{
-				cout << endl << endl << "Calculating FloydWarshall" << endl;
-				clock_t start = clock();
-				network->calculatePathMatrix();
-				clock_t end = clock();
-			    double ms = 1000*(end - start)/CLOCKS_PER_SEC;
-				cout << endl << "Calculated FloydWarshall in " << ms << " miliseconds" << endl;
+				clock_t start,end;
+				double ms;
+				if (!network->getFloydWarshall().alreadyPerformed()) {
+					cout << endl << endl << "Calculating FloydWarshall" << endl;
+					start = clock();
+					network->calculatePathMatrix();
+					end = clock();
+					ms = ((double)1000*(end - start))/CLOCKS_PER_SEC;
+					cout << endl << "Calculated FloydWarshall in " << ms << " miliseconds" << endl;
+				}
 				cout << endl << endl << "Calculating with Bellman-Held-Karp algorithm" << endl;
 				HeldKarp HK(network->getMap(), network->getFloydWarshall());
 				start = clock();
@@ -337,6 +384,13 @@ void graph_menu_interface() {
 				break;
 			}
 			case 13:
+			{
+				Graph g= network->getMap();
+				network = new Network();
+				network->loadMap(g);
+				break;
+			}
+			case 14:
 			{
 				return;
 			}

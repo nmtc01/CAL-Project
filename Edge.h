@@ -11,8 +11,6 @@ class Edge {
 	unsigned destinyId;
 	double weight;
 
-	bool selected;	//?
-
 public:
 	//Constructor
 	Edge(unsigned sourceId, unsigned destinyId, double weight);

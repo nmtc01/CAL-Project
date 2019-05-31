@@ -71,7 +71,6 @@ void HeldKarp::perform(unsigned school, unsigned garage, vector<unsigned> addres
 	}
 
 	path = answer.path;
-
 	distance = answer.distance;
 	performed = true;
 }

@@ -59,7 +59,6 @@ double BranchAndBound::Prim(vector<unsigned> addresses) {
 
 
 void BranchAndBound::recursion(unsigned start, unsigned garage, vector<unsigned> addresses, double distanceUntilNow, vector<unsigned> pathUntilNow) {
-	cout << "recursion" << endl;
 	if (addresses.size() == 0){
 		if (distanceUntilNow + fw.getDistance(start, garage) < bound){
 			bound = distanceUntilNow + fw.getDistance(start, garage);
@@ -110,6 +109,7 @@ void BranchAndBound::recursion(unsigned start, unsigned garage, vector<unsigned>
 		recursion(addresses[k], garage, addr_tmp, distanceUntilNow + fw.getDistance(start,addresses[k]), path_tmp);
 		now = clock();
 		if ((now-initial_time)/CLOCKS_PER_SEC > TIME_LIMIT) return;
+		checked[k] = true;
 
 	}
 	return;

@@ -11,7 +11,7 @@
 #include "FloydWarshall.h"
 #include "NearestNeighbour.h"
 
-#define TIME_LIMIT 5
+#define TIME_LIMIT 30
 
 class BranchAndBound {
 	clock_t initial_time;

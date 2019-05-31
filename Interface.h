@@ -60,9 +60,6 @@ void print_graph_menu();
 void graph_menu_interface();
 void graphviewer_option();
 
-
-/*** WORK IN PROGRESS ***/
-
 //School network menu
 void print_network_menu();
 void network_menu_interface();

@@ -5,9 +5,7 @@
 
 #include "Edge.h"
 
-Edge::Edge(unsigned sourceId, unsigned destinyId, double weight) : sourceId(sourceId), destinyId(destinyId), weight(weight) {
-	selected = false;
-}
+Edge::Edge(unsigned sourceId, unsigned destinyId, double weight) : sourceId(sourceId), destinyId(destinyId), weight(weight) {};
 
 unsigned Edge::getSourceId() const {
 	return sourceId;

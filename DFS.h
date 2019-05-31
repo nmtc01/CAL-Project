@@ -18,7 +18,7 @@ class DFS {
 
 public:
 	//Constructor
-	DFS(Graph &graph);
+	DFS(const Graph &graph);
 
 	//Explores all reachable vertexes from origin
 	VertexHashTable perform(const unsigned &originId);

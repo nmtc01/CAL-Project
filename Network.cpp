@@ -51,13 +51,11 @@ vector<Vertex>	Network::getChildrenVertices() {
 
 //Set methods
 void Network::setSchool(unsigned id){
-	cout<<"a";
 	school = map.getVertexSet().at(id);
 	schools.push_back(map.getVertexSet().at(id));
 }
 
 void Network::setGarage(unsigned id){
-	cout<<"b";
 	garage = map.getVertexSet().at(id);
 }
 
@@ -82,13 +80,13 @@ bool Network::removeAddress(unsigned id){
 
 //Path methods
 void Network::calculatePathMatrix(){
-	if (fw.alreadyPerformed()) return; //N�o � necessario executar o FloydWarshall mais de uma vez. Este if evita perda de tempo.
+	if (fw.alreadyPerformed()) return; //Não é necessario executar o FloydWarshall mais de uma vez. Este if evita perda de tempo.
 	unsigned v = map.getNumVertex();
 	unsigned e = map.getNumEdges();
 	//distances = {};
 	//paths = {};
 
-	if ((v+e)*log2((double)v)*childrenVertices.size() > pow(v, 3) || true){ //o true é só para testar
+	if ((v+e)*log2((double)v)*childrenVertices.size() > pow(v, 3) || true){ //o true Ã© sÃ³ para testar
 		//Neste caso calcular FloydWarshall
 		FloydWarshall FW = FloydWarshall(map);
 		FW.perform();
@@ -142,10 +140,4 @@ void Network::setBusCapacity(unsigned cap){
 void Network::clearChildrenVertices(){
 	childrenVertices = {};
 }
-
-
-
-
-
-
 

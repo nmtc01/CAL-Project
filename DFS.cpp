@@ -5,7 +5,7 @@
 
 #include "DFS.h"
 
-DFS::DFS(Graph &graph) {
+DFS::DFS(const Graph &graph) {
 	this->graph = graph;
 }
 

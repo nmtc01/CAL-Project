@@ -16,7 +16,10 @@ class NearestNeighbour {
 	Graph graph;
 	vector<bool> visited;
 	double distance;
+	vector<double> distances;
 	vector<unsigned> path;
+	vector<unsigned> complete_path;
+	vector<vector<unsigned>> paths;
 	bool performed;
 	bool withFW;
 	void performWithFW(unsigned school, unsigned garage, vector<unsigned> addresses, unsigned capacity = NOT_FOUND);
@@ -30,7 +33,9 @@ public:
 	void perform(unsigned school, unsigned garage, vector<unsigned> addresses, unsigned capacity = NOT_FOUND);
 	double getDistance();
 	vector<unsigned> getPath();
+	vector<unsigned> getCompletePath();
 	void printPath();
+	void printPaths();
 
 	virtual ~NearestNeighbour();
 };
